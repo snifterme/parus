@@ -1,0 +1,71 @@
+/*!
+ * @copyright Copyright &copy; Roman Korolov, 2016
+ * @version 1.0.0
+ */
+
+/*  Login Page  */
+
+body {
+    background-color: #f3f3f3;
+    color: #767676;
+    font-family: "Lato","Helvetica Neue",Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+}
+.wrapper-page {
+    margin: 5% auto;
+    position: relative;
+    width: 420px;
+}
+.login-box {
+    background-clip: padding-box;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 4px 0 rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+.login-logo {
+    display: block;
+    margin: 0px auto 30px;
+    color: #58c9c7;
+    text-align: center;
+    font-size: 70px;
+}
+.login-box-heading {
+    border: medium none !important;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+.login-box-body {
+   padding: 15px;
+}
+.login-box-button {
+    margin-top: 30px;
+    text-align: center;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+.btn-primary {
+    background-color: #31c0be;
+    border-color: #2cacaa;
+    color: #fff;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #279796;
+    border-color: #1f7b7a;
+    color: #fff;
+}
+.form-control::-moz-placeholder {
+    color: #999;
+}
+@media (max-width: 767px) {
+    .wrapper-page {
+        width: 90%;
+    }
+    .login-logo {
+        font-size: 40px;
+    }
+}

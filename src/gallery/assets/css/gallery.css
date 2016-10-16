@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 21, 2016, 10:37:08 AM
+    Author     : Rom
+*/
+
+.album-images-grid th {
+    color: #656d78;
+    font-weight: 600;
+}
+.album-images-grid tbody > tr > td  {
+    color: #666;
+    font-size: 12px;
+    padding: 3px 7px;
+    vertical-align: middle;
+}
+.album-images-grid .form-control {
+    margin-top: 15px;
+}
+.upload-image-area {
+    margin-bottom: 50px;
+}
+.gallery-head-toolbar {
+    margin-bottom: 10px;
+}

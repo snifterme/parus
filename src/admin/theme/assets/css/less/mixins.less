@@ -1,0 +1,135 @@
+/*!
+ * @copyright Copyright &copy; Roman Korolov, 2016
+ * @version 1.0.0
+ */
+
+//
+// Badges
+// --------------------------------------------------
+
+// Colors
+// Contextual variations (linked badges get darker on :hover)
+
+.badge-default {
+  .label-variant(@label-default-bg);
+}
+.badge-primary {
+  .label-variant(@label-primary-bg);
+}
+.badge-success {
+  .label-variant(@label-success-bg);
+}
+.badge-info {
+  .label-variant(@label-info-bg);
+}
+.badge-warning {
+  .label-variant(@label-warning-bg);
+}
+.badge-danger {
+  .label-variant(@label-danger-bg);
+}
+
+// Contextual backgrounds
+
+.bg-variant(@color) {
+  background-color: @color;
+  color: #fff;
+}
+
+.bg-primary {
+  .bg-variant(@brand-primary);
+}
+.bg-success {
+  .bg-variant(@brand-success);
+}
+.bg-info {
+  .bg-variant(@brand-info);
+}
+.bg-warning {
+  .bg-variant(@brand-warning);
+}
+.bg-danger {
+  .bg-variant(@brand-danger);
+}
+.bg-purple {
+  .bg-variant(@brand-purple);
+}
+.bg-purple-light {
+  .bg-variant(@brand-purple-light);
+}
+.bg-blue {
+  .bg-variant(@brand-blue);
+}
+.bg-orange {
+  .bg-variant(@brand-orange);
+}
+
+// Contextual colors
+.text-muted {
+  color: @text-muted;
+}
+.text-primary {
+  .text-emphasis-variant(@brand-primary);
+}
+.text-success {
+  .text-emphasis-variant(@brand-success);
+}
+.text-info {
+  .text-emphasis-variant(@brand-info);
+}
+.text-warning {
+  .text-emphasis-variant(@brand-warning);
+}
+.text-danger {
+  .text-emphasis-variant(@brand-danger);
+}
+.text-purple {
+  .text-emphasis-variant(@brand-purple);
+}
+.text-purple-light {
+  .text-emphasis-variant(@brand-purple-light);
+}
+.text-blue {
+  .text-emphasis-variant(@brand-blue);
+}
+.text-orange {
+  .text-emphasis-variant(@brand-orange);
+}
+
+//
+// Panels
+// --------------------------------------------------
+
+// Contextual variations
+
+.panel-primary-block {
+  .panel-variant(@panel-primary-border-block; @panel-primary-text-block; @panel-primary-heading-bg-block; @panel-primary-border-block);
+}
+.panel-success-block {
+  .panel-variant(@panel-success-border-block; @panel-success-text-block; @panel-success-heading-bg-block; @panel-success-border-block);
+}
+.panel-info-block {
+  .panel-variant(@panel-info-border-block; @panel-info-text-block; @panel-info-heading-bg-block; @panel-info-border-block);
+}
+.panel-warning-block {
+  .panel-variant(@panel-warning-border-block; @panel-warning-text-block; @panel-warning-heading-bg-block; @panel-warning-border-block);
+}
+.panel-danger-block {
+  .panel-variant(@panel-danger-border-block; @panel-danger-text-block; @panel-danger-heading-bg-block; @panel-danger-border-block);
+}
+.panel-purple-light-block {
+  .panel-variant(@panel-purple-light-border-block; @panel-purple-light-text-block; @panel-purple-light-heading-bg-block; @panel-purple-light-border-block);
+}
+
+//
+// Buttons
+// --------------------------------------------------
+
+.btn-gray {
+  .button-variant(@btn-gray-color; @btn-gray-bg; @btn-gray-border);
+}
+
+b,
+strong {
+  font-weight: 600;
+}

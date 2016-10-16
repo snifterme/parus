@@ -1,0 +1,39 @@
+{
+    "name": "rokorolov/parus",
+    "description": "CMS platform based on the Yii2 PHP Framework.",
+    "keywords": ["yii2","parus","admin","cms"],
+    "homepage": "https://github.com/rokorolov/parus",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "rokorolov",
+            "email": "rokorolov@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": ">=2.0.6",
+        "yiisoft/yii2-bootstrap": "*",
+        "yiisoft/yii2-swiftmailer": "*",
+        "rokorolov/yii2-fontawesome-asset": "*",
+        "rokorolov/yii2-helpers": "*",
+        "creocoder/yii2-nested-sets": "0.9.*",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "kartik-v/yii2-widget-datetimepicker": "*",
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "kartik-v/yii2-widget-switchinput": "*",
+        "kartik-v/bootstrap-fileinput": "@dev",
+        "bower-asset/magnific-popup": "*",
+        "bower-asset/jquery-slimscroll": "*",
+        "bower-asset/remarkable-bootstrap-notify": "*",
+        "intervention/image": "2.3.*",
+        "yii2tech/ar-position": "*",
+        "vova07/yii2-imperavi-widget": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "rokorolov\\parus\\": "src"
+        }
+    }
+}
