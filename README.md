@@ -26,7 +26,7 @@ Parus is a Content Management System application powered by [Yii 2](https://gith
     ]
 ]`
 
-* Add aliase and user module to console config:
+* Add aliase, user module and AuthManager component to console config:
  * ` 'modules' => [
     'user' => [
         'class' => 'rokorolov\parus\user\Module',
@@ -34,8 +34,14 @@ Parus is a Content Management System application powered by [Yii 2](https://gith
     ]
 ]`
  * `'aliases' => [
-    '@rokorolov/parus' => '@vendor/rokorolov/parus/src'
+        '@rokorolov/parus' => '@vendor/rokorolov/parus/src'
  ]`
+ * ` 'authManager' => [
+        'class' => 'rokorolov\parus\admin\components\AuthManager',
+        'itemFile' => '@rokorolov/parus/admin/rbac/items.php',
+        'ruleFile' => '@rokorolov/parus/admin/rbac/rules.php',
+        'assignmentFile' => '@rokorolov/parus/admin/rbac/assignments.php'
+],`
 
 * Run migrations:
  - `php yii migrate --migrationPath=@rokorolov/parus/language/migrations`
