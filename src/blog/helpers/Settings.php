@@ -41,6 +41,11 @@ class Settings
         return Yii::getAlias(self::getConfig()['post.introImageUploadSrc']);
     }
     
+    public static function postIntroImageAllowedExtensions()
+    {
+        return self::getConfig()['post.introImageAllowedExtensions'];
+    }
+    
     public static function postImageUploadPath()
     {
         return Yii::getAlias(self::getConfig()['post.imageUploadPath']);
@@ -84,6 +89,11 @@ class Settings
     public static function categoryIntroImageUploadSrc()
     {
         return Yii::getAlias(self::getConfig()['category.introImageUploadSrc']);
+    }
+    
+    public static function categoryIntroImageAllowedExtensions()
+    {
+        return self::getConfig()['category.introImageAllowedExtensions'];
     }
     
     public static function categoryImageUploadPath()
