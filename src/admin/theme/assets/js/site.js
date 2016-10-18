@@ -13,10 +13,6 @@ App = (function ($) {
             initDataMehod(this.clickableDataMehodSelector);
             initLanguageSwither();
         },
-
-        showAlert: function(alert) {
-            $('#system-messages').html(alert).stop().fadeIn().animate({opacity: 1.0}, 4000).fadeOut('slow');
-        },
         
         confirm: function(message) {
             return message == undefined || confirm (message);
