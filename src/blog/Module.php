@@ -3,7 +3,6 @@
 namespace rokorolov\parus\blog;
 
 use rokorolov\parus\blog\helpers\Settings;
-use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use Yii;
 
 /**
@@ -26,7 +25,6 @@ class Module extends \yii\base\Module
      * @var type
      */
     public $config = [];
-
 
     /**
      * @inheritdoc
