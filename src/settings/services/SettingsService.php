@@ -3,7 +3,7 @@
 namespace rokorolov\parus\settings\services;
 
 use rokorolov\parus\settings\repositories\SettingsReadRepository;
-use rokorolov\parus\settings\contracts\SettingsServiceComponentInterface;
+use rokorolov\parus\settings\contracts\SettingsServiceInterface;
 use rokorolov\parus\settings\commands\UpdateSettingCommand;
 use rokorolov\parus\settings\commands\CreateSettingCommand;
 use rokorolov\parus\settings\commands\DeleteSettingCommand;
@@ -14,7 +14,7 @@ use rokorolov\parus\admin\contracts\CommandBusInterface;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class SettingsService implements SettingsServiceComponentInterface
+class SettingsService implements SettingsServiceInterface
 {
     private $commandBus;
     protected $settingsRepository;

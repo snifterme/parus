@@ -2,7 +2,7 @@
 
 namespace rokorolov\parus\settings\components;
 
-use rokorolov\parus\settings\contracts\SettingsServiceComponentInterface;
+use rokorolov\parus\settings\contracts\SettingsServiceInterface;
 use rokorolov\parus\settings\helpers\Settings;
 use rokorolov\parus\admin\helpers\TagDependencyNamingHelper;
 use Yii;
@@ -41,7 +41,7 @@ class SettingsComponent extends Component
      * @inheritdoc
      */
     public function __construct(
-        SettingsServiceComponentInterface $service,
+        SettingsServiceInterface $service,
         $config = array()
     ) {
         $this->service = $service;
