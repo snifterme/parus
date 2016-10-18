@@ -155,7 +155,6 @@ class SettingsComponent extends Component
         if (null === $this->_data) {
             $cacheKey = $this->getCacheKey();
             if (false === $settings = Yii::$app->cache->get($cacheKey)) {
-                $settingsRepository = Yii::createObject('rokorolov\parus\settings\repositories\SettingsReadRepository');
                 if (null === $settings = $this->service->getSettings()) {
                     throw new NotFoundHttpException;
                 }
