@@ -4,6 +4,7 @@ namespace rokorolov\parus\admin;
 
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use Yii;
+use yii\base\InvalidConfigException;
 
 /**
  * This is the rokorolov\parus\admin\Module.
@@ -133,13 +134,10 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-        (new \rokorolov\parus\admin\components\Language())->init();
-                
         $this->config = array_replace(
             [
                 'app.name' => self::APP_NAME,
                 'bootstrapClass' => self::BOOTSTRAP_CLASS,
-                'panel.language' => isset($this->panelLanguages[Yii::$app->language]) ? Yii::$app->language : self::PANEL_DEFAULT_LANGUAGE,
                 'panel.defaultLanguage' => self::PANEL_DEFAULT_LANGUAGE,
                 'panel.languages' => $this->panelLanguages,
                 'panel.url' => self::PANEL_URL,
@@ -150,7 +148,17 @@ class Module extends \yii\base\Module
             ],
             $this->config
         );
-
+        
+        $panelDefaultLanguage = $this->config['panel.defaultLanguage'];
+        
+        if (!array_key_exists($panelDefaultLanguage, $this->config['panel.languages'])) {
+            throw new InvalidConfigException("Panel default language '$panelDefaultLanguage' does not match available languages.");
+        }
+        
+        $languageComponent = new \rokorolov\parus\admin\components\Language();
+        $languageComponent->defaultLanguage = $panelDefaultLanguage;
+        $languageComponent->init();
+        
         (new $this->config['bootstrapClass'])->init(Yii::$app);
         
         Yii::setAlias('@rokorolov/parus', dirname(__DIR__));
