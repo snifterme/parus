@@ -87,7 +87,7 @@ class PostForm extends Model
 
             ['published_at', 'default', 'value' => Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s')],
 
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => implode(',', Settings::postIntroImageAllowedExtensions())],
         ];
     }
 

@@ -20,7 +20,7 @@ class Bootstrap
         Yii::$container->set('StatusService', 'rokorolov\parus\admin\theme\widgets\statusaction\services\StatusService');
         
         // Settings Module dependencies
-        Yii::$container->set('rokorolov\parus\settings\contracts\SettingsServiceComponentInterface', 'rokorolov\parus\settings\services\SettingsService');
+        Yii::$container->set('rokorolov\parus\settings\contracts\SettingsServiceInterface', 'rokorolov\parus\settings\services\SettingsService');
         
         // Gallery Module dependencies
         Yii::$container->set('rokorolov\parus\gallery\contracts\GalleryServiceInterface', 'rokorolov\parus\gallery\services\GalleryService');

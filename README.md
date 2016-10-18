@@ -10,7 +10,7 @@ Parus is a Content Management System application powered by [Yii 2](https://gith
 * Needed PHP modules
     * GD PHP Extension
     * PDO PHP Extension
-    * INTL PHP Extension
+    * INTL PHP Extension (not required but recommended)
 
 ## Installation and configuration
 
@@ -22,7 +22,7 @@ Parus is a Content Management System application powered by [Yii 2](https://gith
 * Add module to config section:
  * ` 'modules' => [
     'admin' => [
-        'class' => 'rokorolov\admin\Module'
+        'class' => 'rokorolov\parus\admin\Module'
     ]
 ]`
 
@@ -41,7 +41,7 @@ Parus is a Content Management System application powered by [Yii 2](https://gith
         'itemFile' => '@rokorolov/parus/admin/rbac/items.php',
         'ruleFile' => '@rokorolov/parus/admin/rbac/rules.php',
         'assignmentFile' => '@rokorolov/parus/admin/rbac/assignments.php'
-],`
+]`
 
 * Run migrations:
  - `php yii migrate --migrationPath=@rokorolov/parus/language/migrations`
@@ -55,13 +55,24 @@ Parus is a Content Management System application powered by [Yii 2](https://gith
 *  Run RBAC command:
  * ` php yii user/rbac/init`
 
+* Also you need to configure filemanager module. By default it uses [responsivefilemanager](http://www.responsivefilemanager.com). Download it and place it somewhere in application Web root. For example you decided place it to '/plugins/responsivefilemanager', then configuration for module will be:
+ * `'modules' => [
+	'admin' => [
+            'class' => 'rokorolov\parus\admin\Module',
+            'fileManagerConfig' => [
+                'responsiveFileManagerSrc' => '/plugins/responsivefilemanager/dialog.php?type=0'
+            ]
+	]
+  ]`
+
 ## Admin login details
 
-- Url: sites-public-url/admin
+- Url: sites-public-url/admin/dashboard/dashboard/index (for this type of links you should enable pretty url)
 - Admin user is 'admin' with password 'password'.
 
 ## Demo
-- [Demo](http://avaliany.com/admin) ( username: 'admin', password: 'password')
+
+- [Demo](http://avaliany.com/admin) (username: 'admin', password: 'password')
 
 ## Current project status
 

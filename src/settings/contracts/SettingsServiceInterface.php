@@ -3,11 +3,11 @@
 namespace rokorolov\parus\settings\contracts;
 
 /**
- * SettingsServiceComponentInterface
+ * SettingsServiceInterface
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-interface SettingsServiceComponentInterface
+interface SettingsServiceInterface
 {
     public function getSettings();
     

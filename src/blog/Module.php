@@ -3,7 +3,6 @@
 namespace rokorolov\parus\blog;
 
 use rokorolov\parus\blog\helpers\Settings;
-use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use Yii;
 
 /**
@@ -27,7 +26,6 @@ class Module extends \yii\base\Module
      */
     public $config = [];
 
-
     /**
      * @inheritdoc
      */
@@ -41,6 +39,7 @@ class Module extends \yii\base\Module
                 'enableIntl' => true,
                 'post.introImageUploadPath' => '@webroot/uploads/post',
                 'post.introImageUploadSrc' => '@web/uploads/post',
+                'post.introImageAllowedExtensions' => ['jpg', 'jpeg', 'png'],
                 'post.imageUploadPath' => '@webroot/uploads/media',
                 'post.imageUploadSrc' => '@web/uploads/media',
                 'post.imageExtension' => 'jpg',
@@ -50,6 +49,7 @@ class Module extends \yii\base\Module
                 'post.managePageSize' => 10,
                 'category.introImageUploadPath' => '@webroot/uploads/category',
                 'category.introImageUploadSrc' => '@web/uploads/category',
+                'category.introImageAllowedExtensions' => ['jpg', 'jpeg', 'png'],
                 'category.imageUploadPath' => '@webroot/uploads/media',
                 'category.imageUploadSrc' => '@web/uploads/media',
                 'category.imageExtension' => 'jpg',

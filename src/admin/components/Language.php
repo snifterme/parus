@@ -35,7 +35,11 @@ class Language
      */
     public $redirectHome = false;
 
-
+    /**
+     * @var boolean
+     */
+    public $defaultLanguage;
+    
     /**
      * @inheritdoc
      */
@@ -63,6 +67,8 @@ class Language
             Yii::$app->language = Yii::$app->session->get($this->sessionParam);
         } elseif (Yii::$app->request->cookies->has($this->cookieParam)) {
             Yii::$app->language = Yii::$app->request->cookies->getValue($this->cookieParam);
+        } elseif (null !== $this->defaultLanguage) {
+            Yii::$app->language = $this->defaultLanguage;
         }
     }
 }

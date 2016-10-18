@@ -2,7 +2,7 @@
 
 namespace rokorolov\parus\settings\components;
 
-use rokorolov\parus\settings\contracts\SettingsServiceComponentInterface;
+use rokorolov\parus\settings\contracts\SettingsServiceInterface;
 use rokorolov\parus\settings\helpers\Settings;
 use rokorolov\parus\admin\helpers\TagDependencyNamingHelper;
 use Yii;
@@ -41,7 +41,7 @@ class SettingsComponent extends Component
      * @inheritdoc
      */
     public function __construct(
-        SettingsServiceComponentInterface $service,
+        SettingsServiceInterface $service,
         $config = array()
     ) {
         $this->service = $service;
@@ -155,7 +155,6 @@ class SettingsComponent extends Component
         if (null === $this->_data) {
             $cacheKey = $this->getCacheKey();
             if (false === $settings = Yii::$app->cache->get($cacheKey)) {
-                $settingsRepository = Yii::createObject('rokorolov\parus\settings\repositories\SettingsReadRepository');
                 if (null === $settings = $this->service->getSettings()) {
                     throw new NotFoundHttpException;
                 }

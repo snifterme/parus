@@ -11,7 +11,7 @@ use yii\web\AssetBundle;
  */
 class BootstrapNotifyAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/remarkable-bootstrap-notify/dist';
+    public $sourcePath = '@bower/remarkable-bootstrap-notify';
     public $js = [
         'bootstrap-notify.min.js'
     ];

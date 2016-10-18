@@ -26,7 +26,7 @@ class Bootstrap implements BootstrapInterface
         Yii::$container->set('SettingsService', 'rokorolov\parus\settings\services\SettingsService');
         Yii::$container->set('rokorolov\parus\settings\repositories\SettingsRepository', 'rokorolov\parus\settings\repositories\SettingsRepository');
         Yii::$container->set('rokorolov\parus\settings\repositories\SettingsReadRepository', 'rokorolov\parus\settings\repositories\SettingsReadRepository');
-        Yii::$container->set('rokorolov\parus\settings\contracts\SettingsServiceComponentInterface', 'rokorolov\parus\settings\services\SettingsService');
+        Yii::$container->set('rokorolov\parus\settings\contracts\SettingsServiceInterface', 'rokorolov\parus\settings\services\SettingsService');
     }
     
     protected function registerSettings($app)

@@ -24,7 +24,6 @@ class Module extends \yii\base\Module
      */
     public $config = [];
 
-
     /**
      * @inheritdoc
      */

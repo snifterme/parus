@@ -17,7 +17,7 @@ class Settings
     
     public static function panelLanguage()
     {
-        return self::getConfig()['panel.language'];
+        return isset(self::panelLanguages()[Yii::$app->language]) ? Yii::$app->language : self::panelDefaultLanguage();
     }
     
     public static function panelLanguages()

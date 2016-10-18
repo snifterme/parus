@@ -79,7 +79,7 @@ class CategoryForm extends Model
 
             [['description'], 'safe'],
 
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => implode(',', Settings::categoryIntroImageAllowedExtensions())],
         ];
     }
 

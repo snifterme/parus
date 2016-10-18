@@ -2,7 +2,6 @@
 
 namespace rokorolov\parus\gallery;
 
-use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use Yii;
 
 /**
