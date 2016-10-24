@@ -55,7 +55,7 @@ class Menu
                 $line = [
                     'label' => $item['title'],
                     'url' => $url,
-                    'active' => $url === '/' ? Yii::$app->request->url === $url : strpos(Yii::$app->request->url, $url) === 0
+                    'active' => Yii::$app->request->url === $url
                 ];
                 if (!empty($item['children'])) {
                     $line['items'] = $item['children'];
