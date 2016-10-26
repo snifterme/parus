@@ -54,7 +54,7 @@ class PhotoReadRepository extends BaseReadRepository implements HasPresenter
         return $photos;
     }
     
-    public function findTranslationsByPhotoId($id)
+    public function findTranslations($id)
     {
         $rows = (new Query())
             ->select('*')
@@ -110,7 +110,7 @@ class PhotoReadRepository extends BaseReadRepository implements HasPresenter
     
     protected function populateTranslations($album)
     {
-        $album->translations = $this->findTranslationsByPhotoId($album->id);
+        $album->translations = $this->findTranslations($album->id);
     }
     
     public function selectAttributesMap()
