@@ -19,6 +19,17 @@ class Bootstrap
         Yii::$container->set('rokorolov\parus\admin\theme\widgets\statusaction\contracts\StatusInterface', 'rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status');
         Yii::$container->set('StatusService', 'rokorolov\parus\admin\theme\widgets\statusaction\services\StatusService');
         
+        // Inject presenters to read repositories
+        Yii::$container->set('rokorolov\parus\menu\repositories\MenuReadRepository', ['presenter' => 'rokorolov\parus\menu\presenters\MenuPresenter']);
+        Yii::$container->set('rokorolov\parus\menu\repositories\MenuTypeReadRepository', ['presenter' => 'rokorolov\parus\menu\presenters\MenuTypePresenter']);
+        Yii::$container->set('rokorolov\parus\blog\repositories\PostReadRepository', ['presenter' => 'rokorolov\parus\blog\presenters\PostPresenter']);
+        Yii::$container->set('rokorolov\parus\blog\repositories\CategoryReadRepository', ['presenter' => 'rokorolov\parus\blog\presenters\CategoryPresenter']);
+        Yii::$container->set('rokorolov\parus\gallery\repositories\AlbumReadRepository', ['presenter' => 'rokorolov\parus\gallery\presenters\AlbumPresenter']);
+        Yii::$container->set('rokorolov\parus\gallery\repositories\PhotoReadRepository', ['presenter' => 'rokorolov\parus\gallery\presenters\PhotoPresenter']);
+        Yii::$container->set('rokorolov\parus\page\repositories\PageReadRepository', ['presenter' => 'rokorolov\parus\page\presenters\PagePresenter']);
+        Yii::$container->set('rokorolov\parus\user\repositories\UserReadRepository', ['presenter' => 'rokorolov\parus\user\presenters\UserPresenter']);
+        Yii::$container->set('rokorolov\parus\language\repositories\LanguageReadRepository', ['presenter' => 'rokorolov\parus\language\presenters\LanguagePresenter']);
+        
         // Settings Module dependencies
         Yii::$container->set('rokorolov\parus\settings\contracts\SettingsServiceInterface', 'rokorolov\parus\settings\services\SettingsService');
         
