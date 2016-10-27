@@ -34,12 +34,12 @@ class AlbumReadRepository extends BaseReadRepository implements HasPresenter
         return $this->findFirstBy('a.id', $id);
     }
     
-    public function findTranslations($id)
+    public function findTranslations($id = null)
     {
         $rows = (new Query())
             ->select('*')
             ->from(AlbumLang::tableName())
-            ->andWhere(['album_id' => $id])
+            ->andFilterWhere(['in', 'album_id', $id])
             ->all();
         
         $translations = [];

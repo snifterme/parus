@@ -54,12 +54,12 @@ class PhotoReadRepository extends BaseReadRepository implements HasPresenter
         return $photos;
     }
     
-    public function findTranslations($id)
+    public function findTranslations($id = null)
     {
         $rows = (new Query())
             ->select('*')
             ->from(PhotoLang::tableName())
-            ->andWhere(['photo_id' => $id])
+            ->andFilterWhere(['in', 'photo_id', $id])
             ->all();
         
         $translations = [];
