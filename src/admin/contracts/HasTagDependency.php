@@ -3,7 +3,7 @@
 namespace rokorolov\parus\admin\contracts;
 
 /**
- * HasPresenter
+ * HasTagDependency
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
