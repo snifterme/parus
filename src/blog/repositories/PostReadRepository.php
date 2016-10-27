@@ -6,7 +6,6 @@ use rokorolov\parus\blog\models\Post;
 use rokorolov\parus\blog\models\Category;
 use rokorolov\parus\blog\dto\PostDto;
 use rokorolov\parus\user\models\User;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use rokorolov\parus\admin\base\BaseReadRepository;
 use Yii;
 use yii\db\Query;
@@ -16,7 +15,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class PostReadRepository extends BaseReadRepository implements HasPresenter
+class PostReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_POST = 'p';
     
@@ -107,11 +106,6 @@ class PostReadRepository extends BaseReadRepository implements HasPresenter
         }
 
         return $this->query;
-    }
-    
-    public function presenter()
-    {
-        return 'rokorolov\parus\blog\presenters\PostPresenter';
     }
 
     public function populate(&$data, $prefix = true)

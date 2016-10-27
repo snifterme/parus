@@ -5,8 +5,7 @@ namespace rokorolov\parus\gallery\repositories;
 use rokorolov\parus\gallery\models\Photo;
 use rokorolov\parus\gallery\models\PhotoLang;
 use rokorolov\parus\gallery\dto\PhotoDto;
-use rokorolov\parus\gallery\dto\PhotoLangDto;
-use rokorolov\parus\admin\contracts\HasPresenter;	
+use rokorolov\parus\gallery\dto\PhotoLangDto;	
 use rokorolov\parus\admin\base\BaseReadRepository;
 use yii\db\Query;
 
@@ -15,7 +14,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class PhotoReadRepository extends BaseReadRepository implements HasPresenter
+class PhotoReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_PHOTO = 'p';
     const TABLE_SELECT_PREFIX_PHOTO_LANG = 'pl';
@@ -77,11 +76,6 @@ class PhotoReadRepository extends BaseReadRepository implements HasPresenter
         }
 
         return $this->query;
-    }
-    
-    public function presenter()
-    {
-        return 'rokorolov\parus\gallery\presenters\PhotoPresenter';
     }
     
     public function populate(&$data, $prefix = true)
