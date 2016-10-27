@@ -93,7 +93,7 @@ class CategorySearch extends Model
         ]);
 
         $dataProvider->setSort([
-            'defaultOrder' => 'lft',
+            'defaultOrder' => ['lft' => SORT_ASC],
             'attributes' => [
                 'id',
                 'title',
