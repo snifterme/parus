@@ -11,6 +11,17 @@ use Yii;
  */
 class PhotoRepository extends BaseRepository
 {
+    public function findTranslationsForNewLanguage($language = null)
+    {
+        $languageModel = $this->makePhotoLangModel();
+        
+        return $languageModel->find()
+            ->andFilterWhere(['language' => $language])
+            ->groupBy('photo_id')
+            ->asArray()
+            ->all();
+    }
+    
     public function makePhotoCreateModel()
     {
         return $this->getModel();

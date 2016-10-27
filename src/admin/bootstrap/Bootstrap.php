@@ -51,5 +51,15 @@ class Bootstrap
                 ]
             ]);
         }
+        
+        \yii\base\Event::on(\rokorolov\parus\language\models\Language::class, \rokorolov\parus\blog\models\Post::EVENT_AFTER_INSERT, function ($event) {
+            $commandBus = Yii::createObject('rokorolov\parus\admin\contracts\CommandBusInterface');
+            $commandBus->execute(new \rokorolov\parus\gallery\commands\CreateAlbumTranslationCommand(
+                $event->sender->lang_code
+            ));
+            $commandBus->execute(new \rokorolov\parus\gallery\commands\CreatePhotoTranslationCommand(
+                $event->sender->lang_code
+            ));
+        });
     }
 }

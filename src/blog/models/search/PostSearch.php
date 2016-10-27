@@ -95,7 +95,7 @@ class PostSearch extends Model
         ]);
 
         $dataProvider->setSort([
-            'defaultOrder' => ['created_at' => SORT_ASC],
+            'defaultOrder' => ['created_at' => SORT_DESC],
             'attributes' => [
                 'id',
                 'title',
