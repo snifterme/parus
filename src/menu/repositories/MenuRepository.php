@@ -13,6 +13,11 @@ use Yii;
  */
 class MenuRepository extends BaseRepository
 {
+    public function findChildren(Menu $menu)
+    {
+        return $menu->children()->all();
+    }
+    
     public function makeMenuCreateModel()
     {
         return $this->getModel();
