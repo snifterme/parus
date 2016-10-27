@@ -4,6 +4,7 @@ namespace rokorolov\parus\blog\commands;
 
 use rokorolov\parus\blog\repositories\CategoryRepository;
 use rokorolov\parus\admin\exceptions\LogicException;
+use Yii;
 
 /**
  * ChangeCategoryStatusHandler
@@ -26,9 +27,26 @@ class ChangeCategoryStatusHandler
             throw new LogicException('Category does not exist.');
         }
 
-        $category->status = $command->getStatus();
+        $status = $command->getStatus();
+        $category->status = $status;
+        $childrens = $this->categoryRepository->findChildren($category);
         
-        $this->categoryRepository->update($category);
+        $transaction = Yii::$app->db->beginTransaction();
+
+        try {
+            $this->categoryRepository->update($category);
+            
+            foreach($childrens as $children) {
+                if ($children->status !== $status) {
+                    $children->status = $status;
+                    $this->categoryRepository->update($children);
+                }
+            }
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
     }
 
 }
