@@ -6,7 +6,6 @@ use rokorolov\parus\page\models\Page;
 use rokorolov\parus\page\dto\PageDto;
 use rokorolov\parus\user\models\User;
 use rokorolov\parus\admin\base\BaseReadRepository;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use Yii;
 use yii\db\Query;
 
@@ -15,7 +14,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class PageReadRepository extends BaseReadRepository implements HasPresenter
+class PageReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_PAGE = 'p';
 
@@ -77,11 +76,6 @@ class PageReadRepository extends BaseReadRepository implements HasPresenter
         $this->reset();
         
         return $id;
-    }
-
-    public function presenter()
-    {
-        return 'rokorolov\parus\page\presenters\PagePresenter';
     }
     
     public function make()

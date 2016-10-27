@@ -5,7 +5,6 @@ namespace rokorolov\parus\menu\repositories;
 use rokorolov\parus\menu\models\MenuType;
 use rokorolov\parus\menu\dto\MenuTypeDto;
 use rokorolov\parus\admin\base\BaseReadRepository;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use yii\db\Query;
 
 /**
@@ -13,7 +12,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class MenuTypeReadRepository extends BaseReadRepository implements HasPresenter
+class MenuTypeReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_MENU_TYPE = 'mt';
 
@@ -78,11 +77,6 @@ class MenuTypeReadRepository extends BaseReadRepository implements HasPresenter
     public function selectAttributesMap()
     {
         return 'mt.id AS mt_id, mt.menu_type_aliase AS mt_menu_type_aliase, mt.title AS mt_title, mt.description AS mt_description';
-    }
-    
-    public function presenter()
-    {
-        return 'rokorolov\parus\menu\presenters\MenuTypePresenter';
     }
     
     public function make()

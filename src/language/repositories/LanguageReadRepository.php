@@ -4,8 +4,7 @@ namespace rokorolov\parus\language\repositories;
 
 use rokorolov\parus\language\models\Language;
 use rokorolov\parus\language\dto\LanguageDto;
-use rokorolov\parus\admin\base\BaseReadRepository;
-use rokorolov\parus\admin\contracts\HasPresenter;	
+use rokorolov\parus\admin\base\BaseReadRepository;	
 use yii\db\Query;
 
 /**
@@ -13,7 +12,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class LanguageReadRepository extends BaseReadRepository implements HasPresenter
+class LanguageReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_LANGUAGE = 'l';
     
@@ -61,11 +60,6 @@ class LanguageReadRepository extends BaseReadRepository implements HasPresenter
         }
 
         return $this->query;
-    }
-    
-    public function presenter()
-    {
-        return 'rokorolov\parus\language\presenters\LanguagePresenter';
     }
     
     public function populate(&$data, $prefix = true)

@@ -4,7 +4,6 @@ namespace rokorolov\parus\blog\repositories;
 
 use rokorolov\parus\blog\models\Category;
 use rokorolov\parus\blog\dto\CategoryDto;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use rokorolov\parus\user\repositories\UserReadRepository;
 use rokorolov\parus\user\models\User;
 use rokorolov\parus\admin\base\BaseReadRepository;
@@ -16,7 +15,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class CategoryReadRepository extends BaseReadRepository implements HasPresenter
+class CategoryReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_CATEGORY = 'c';
     
@@ -126,11 +125,6 @@ class CategoryReadRepository extends BaseReadRepository implements HasPresenter
             $this->query = (new Query())->from(Category::tableName() . ' c');
         }
         return $this->query;
-    }
-    
-    public function presenter()
-    {
-        return 'rokorolov\parus\blog\presenters\CategoryPresenter';
     }
     
     public function populate(&$data, $prefix = true)

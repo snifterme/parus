@@ -14,19 +14,14 @@ class BaseReadRepository
     const RELATION_MANY = 'many';
     const RELATION_ONE = 'one';
 
+    public $presenter;
+    
     protected $query;
-    protected $presenter;
     protected $skipPresenter = false;
     protected $relations = [];
     protected $resolvedRelations = [];
     protected $populatedRelations = [];
     protected $relationNameMap = [];
-
-
-    public function __construct()
-    {
-        $this->makePresenter();
-    }
     
     public function findFirstBy($key, $value)
     {
@@ -111,7 +106,7 @@ class BaseReadRepository
     
     public function setPresenter($presenter)
     {
-        $this->makePresenter($presenter);
+        $this->presenter = $presenter;
         return $this;
     }
     
@@ -119,11 +114,6 @@ class BaseReadRepository
     {
         $this->skipPresenter = $status;
         return $this;
-    }
-    
-    public function presenter()
-    {
-        return null;
     }
 
     protected function reset()
@@ -150,17 +140,6 @@ class BaseReadRepository
             }
             
             return $result;
-        }
-        return null;
-    }
-
-    protected function makePresenter($presenter = null)
-    {
-        $presenter = !is_null($presenter) ? $presenter : $this->presenter();
-        
-        if (!is_null($presenter)) {
-            $this->presenter = $presenter;
-            return $this->presenter;
         }
         return null;
     }

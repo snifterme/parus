@@ -6,7 +6,6 @@ use rokorolov\parus\gallery\models\Album;
 use rokorolov\parus\gallery\models\AlbumLang;
 use rokorolov\parus\gallery\dto\AlbumDto;
 use rokorolov\parus\gallery\dto\AlbumLangDto;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use rokorolov\parus\admin\base\BaseReadRepository;
 use Yii;
 use yii\db\Query;
@@ -16,7 +15,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class AlbumReadRepository extends BaseReadRepository implements HasPresenter
+class AlbumReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_ALBUM = 'a';
     const TABLE_SELECT_PREFIX_ALBUM_LANG = 'al';
@@ -68,11 +67,6 @@ class AlbumReadRepository extends BaseReadRepository implements HasPresenter
         }
 
         return $this->query;
-    }
-    
-    public function presenter()
-    {
-        return 'rokorolov\parus\gallery\presenters\AlbumPresenter';
     }
     
     public function populate(&$data, $prefix = true)
