@@ -13,6 +13,17 @@ use Yii;
  */
 class AlbumRepository extends BaseRepository
 {
+    public function findTranslationsForNewLanguage($language = null)
+    {
+        $languageModel = $this->makeAlbumLangModel();
+                
+        return $languageModel->find()
+            ->andFilterWhere(['language' => $language])
+            ->groupBy('album_id')
+            ->asArray()
+            ->all();
+    }
+    
     public function makeAlbumCreateModel()
     {
         return $this->getModel();
