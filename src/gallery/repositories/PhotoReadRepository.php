@@ -8,6 +8,7 @@ use rokorolov\parus\gallery\dto\PhotoDto;
 use rokorolov\parus\gallery\dto\PhotoLangDto;	
 use rokorolov\parus\admin\base\BaseReadRepository;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * PhotoReadRepository
@@ -32,20 +33,18 @@ class PhotoReadRepository extends BaseReadRepository
         return $this->findFirstBy('p.id', $id);
     }
     
-    public function findAllByAlbumId($id, array $with = [])
+    public function findByAlbumId($id, array $with = [])
     {
-        $this->applyRelations($with); 
-        
-        $query = $this->make()
-            ->select($this->selectAttributesMap())
-            ->andWhere(['p.album_id' => $id])
-            ->orderBy('p.order');
+        $photos = $this->orderBy('order')->findManyBy('album_id', $id);
 
-        $rows = $query->all();
-        $photos = [];
-        foreach ($rows as $row) {
-            $photo = $this->parserResult($row);
-            array_push($photos, $photo);
+        if (in_array('translations', $with)) {
+            $ids = ArrayHelper::getColumn($photos, 'id');
+            $translations = ArrayHelper::index($this->findTranslations($ids), null, 'photo_id');
+            foreach ($photos as $photo) {
+                if (isset($translations[$photo->id])) {
+                    $photo->translations = $translations[$photo->id];
+                }
+            }
         }
         
         $this->reset();

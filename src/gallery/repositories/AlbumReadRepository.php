@@ -20,6 +20,8 @@ class AlbumReadRepository extends BaseReadRepository
     const TABLE_SELECT_PREFIX_ALBUM = 'a';
     const TABLE_SELECT_PREFIX_ALBUM_LANG = 'al';
     
+    protected $photoReadRepository;
+    
     /**
      * Find by id
      *
@@ -79,6 +81,7 @@ class AlbumReadRepository extends BaseReadRepository
         return [
             'translation' => self::RELATION_ONE,
             'translations' => self::RELATION_MANY,
+            'photo' => self::RELATION_MANY,
             'photo.translations' => self::RELATION_MANY,
         ];
     }
@@ -97,6 +100,24 @@ class AlbumReadRepository extends BaseReadRepository
     protected function populateTranslations($album)
     {
         $album->translations = $this->findTranslations($album->id);
+    }
+    
+    protected function populatePhotoTranslations($album)
+    {
+        $album->photos = $this->getPhotoReadRepository()->findByAlbumId($album->id, ['translations']);
+    }
+    
+    protected function populatePhoto($album)
+    {
+        $album->photos = $this->getPhotoReadRepository()->findByAlbumId($album->id);
+    }
+
+    protected function getPhotoReadRepository()
+    {
+        if ($this->photoReadRepository === null) {
+            $this->photoReadRepository = Yii::createObject('rokorolov\parus\gallery\repositories\PhotoReadRepository');
+        }
+        return $this->photoReadRepository;
     }
     
     public function selectAttributesMap()

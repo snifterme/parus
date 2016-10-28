@@ -20,6 +20,8 @@ class PhotoDto
     public $photo_path;
     public $created_at;
     public $modified_at;
+    public $translation;
+    public $translations = [];
     
     public function __construct(array &$data, $prefix = null, $unset = true)
     {
