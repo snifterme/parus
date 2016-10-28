@@ -62,12 +62,12 @@ class MenuReadRepository extends BaseReadRepository
         return $rows;
     }
     
-    public function findAllMenuByAliaseAsArray($aliase, $conditions = [], $select = 'm.*')
+    public function findAllMenuByAliasAsArray($alias, $conditions = [], $select = 'm.*')
     {
         $rows = $this->make()
             ->select($select)
             ->leftJoin(MenuType::tableName() . ' mt', 'm.menu_type_id = mt.id')
-            ->andWhere(['menu_type_aliase' => $aliase])
+            ->andWhere(['menu_type_aliase' => $alias])
             ->andFilterWhere($conditions)
             ->orderBy('m.lft')
             ->all();

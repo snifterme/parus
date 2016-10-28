@@ -24,14 +24,14 @@ class UpdateMenuTypeHandler
 
     public function handle(UpdateMenuTypeCommand $command)
     {
-        $this->guardMenuTypeAliaseIsUnique($command->getMenuTypeAliase(), $command->getId());
+        $this->guardMenuTypeAliasIsUnique($command->getMenuTypeAlias(), $command->getId());
 
         if (null === $menuType = $this->menuTypeRepository->findById($command->getId())) {
             throw new LogicException('Menu Type does not exist.');
         }
 
         $menuType->title = $this->textPurify($command->getTitle());
-        $menuType->menu_type_aliase = $this->textPurify($command->getMenuTypeAliase());
+        $menuType->menu_type_aliase = $this->textPurify($command->getMenuTypeAlias());
         $menuType->description = $this->textPurify($command->getDescription());
 
         $this->menuTypeRepository->update($menuType);
@@ -39,10 +39,10 @@ class UpdateMenuTypeHandler
         $command->model = $menuType;
     }
 
-    private function guardMenuTypeAliaseIsUnique($menu_type_aliase, $id)
+    private function guardMenuTypeAliasIsUnique($menu_type_alias, $id)
     {
-        if ($this->menuTypeRepository->existsByMenuTypeAliase($menu_type_aliase, $id)) {
-            throw new LogicException('Menu type aliase already exists.');
+        if ($this->menuTypeRepository->existsByMenuTypeAlias($menu_type_alias, $id)) {
+            throw new LogicException('Menu type alias already exists.');
         }
     }
 }

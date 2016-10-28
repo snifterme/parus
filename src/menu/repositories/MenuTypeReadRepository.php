@@ -51,7 +51,7 @@ class MenuTypeReadRepository extends BaseReadRepository
         return $this->toMenuTypeDto($data, $prefix);
     }
     
-    public function existsByMenuTypeAliase($attribute, $id = null)
+    public function existsByMenuTypeAlias($attribute, $id = null)
     {
         $exist = (new Query())
             ->from(MenuType::tableName() . ' mt')
@@ -76,7 +76,7 @@ class MenuTypeReadRepository extends BaseReadRepository
 
     public function selectAttributesMap()
     {
-        return 'mt.id AS mt_id, mt.menu_type_aliase AS mt_menu_type_aliase, mt.title AS mt_title, mt.description AS mt_description';
+        return 'mt.id AS mt_id, mt.menu_type_aliase AS mt_menu_type_alias, mt.title AS mt_title, mt.description AS mt_description';
     }
     
     public function make()

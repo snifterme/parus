@@ -26,14 +26,14 @@ class UpdateAlbumHandler
     
     public function handle(UpdateAlbumCommand $command)
     {
-        $this->guardAlbumAliaseIsUnique($command->getAlbumAliase(), $command->getId());
+        $this->guardAlbumAliasIsUnique($command->getAlbumAlias(), $command->getId());
         
         if (null === $album = $this->albumRepository->findById($command->getId())) {
             throw new LogicException('Post does not exist.');
         }
         
         $album->status = $command->getStatus();
-        $album->album_aliase = $this->textPurify($command->getAlbumAliase());
+        $album->album_aliase = $this->textPurify($command->getAlbumAlias());
         $album->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
         
         $transaction = Yii::$app->db->beginTransaction();
@@ -72,10 +72,10 @@ class UpdateAlbumHandler
         $command->model = $album;
     }
 
-    private function guardAlbumAliaseIsUnique($album_aliase, $id)
+    private function guardAlbumAliasIsUnique($album_alias, $id)
     {
-        if ($this->albumRepository->existsByAlbumAliase($album_aliase, $id)) {
-            throw new LogicException('Album aliase already exists.');
+        if ($this->albumRepository->existsByAlbumAlias($album_alias, $id)) {
+            throw new LogicException('Album alias already exists.');
         }
     }
 }

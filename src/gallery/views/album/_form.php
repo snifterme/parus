@@ -47,7 +47,7 @@ $translations = $model->getTranslationVariations();
                         </div>
                     <?php endforeach; ?>
                     
-                    <?= $form->field($model, 'album_aliase')->textInput(['maxlength' => 128]) ?>
+                    <?= $form->field($model, 'album_alias')->textInput(['maxlength' => 128]) ?>
 
                     <?php foreach ($translations as $index => $translation): ?>
                         <div class="translatable-field lang-<?= $index ?>">

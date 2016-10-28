@@ -17,7 +17,7 @@ class MenuTypeRepository extends BaseRepository
         return $this->getModel();
     }
     
-    public function existsByMenuTypeAliase($attribute, $id = null)
+    public function existsByMenuTypeAlias($attribute, $id = null)
     {
         $exist = $this->make()
             ->where(['menu_type_aliase' => $attribute])

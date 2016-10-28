@@ -11,7 +11,7 @@ class MenuTypeDto
 {
     public $id;
     public $title;
-    public $menu_type_aliase;
+    public $menu_type_alias;
     public $description;
     public $menu;
     

@@ -11,7 +11,7 @@ class AlbumDto
 {
     public $id;
     public $status;
-    public $album_aliase;
+    public $album_alias;
     public $created_at;
     public $modified_at;
     public $photos;

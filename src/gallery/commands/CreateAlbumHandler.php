@@ -26,13 +26,13 @@ class CreateAlbumHandler
     
     public function handle(CreateAlbumCommand $command)
     {
-        $this->guardAlbumAliaseIsUnique($command->getAlbumAliase());
+        $this->guardAlbumAliasIsUnique($command->getAlbumAlias());
         
         $datetime = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
         
         $album = $this->albumRepository->makeAlbumCreateModel();
         $album->status = $command->getStatus();
-        $album->album_aliase = $this->textPurify($command->getAlbumAliase());
+        $album->album_aliase = $this->textPurify($command->getAlbumAlias());
         $album->created_at = $datetime;
         $album->modified_at = $datetime;
         
@@ -60,10 +60,10 @@ class CreateAlbumHandler
         $command->model = $album;
     }
 
-    private function guardAlbumAliaseIsUnique($album_aliase)
+    private function guardAlbumAliasIsUnique($album_alias)
     {
-        if ($this->albumRepository->existsByAlbumAliase($album_aliase)) {
-            throw new LogicException('Album aliase already exists.');
+        if ($this->albumRepository->existsByAlbumAlias($album_alias)) {
+            throw new LogicException('Album alias already exists.');
         }
     }
 }

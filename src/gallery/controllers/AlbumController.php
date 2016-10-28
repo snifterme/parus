@@ -135,7 +135,7 @@ class AlbumController extends Controller
                 $data = $form->getData();
                 $command = new CreateAlbumCommand(
                     $data['status'],
-                    $data['album_aliase'],
+                    $data['album_alias'],
                     $data['translations']
                 );
                 $this->commandBus->execute($command);
@@ -172,7 +172,7 @@ class AlbumController extends Controller
                 $this->commandBus->execute(new UpdateAlbumCommand(
                     $data['id'],
                     $data['status'],
-                    $data['album_aliase'],
+                    $data['album_alias'],
                     $data['translations']
                 ));
                 Yii::$app->session->setFlash('success', Module::t('gallery', 'Album is successfully updated!'));

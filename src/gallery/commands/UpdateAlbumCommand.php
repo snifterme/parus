@@ -13,14 +13,14 @@ class UpdateAlbumCommand
     
     private $id;
     private $status;
-    private $album_aliase;
+    private $album_alias;
     private $translations;
     
-    public function __construct($id, $status, $album_aliase, $translations)
+    public function __construct($id, $status, $album_alias, $translations)
     {
         $this->id = $id;
         $this->status = $status;
-        $this->album_aliase = $album_aliase;
+        $this->album_alias = $album_alias;
         $this->translations = $translations;
     }
     
@@ -29,9 +29,9 @@ class UpdateAlbumCommand
         return $this->status;
     }
     
-    public function getAlbumAliase()
+    public function getAlbumAlias()
     {
-        return $this->album_aliase;
+        return $this->album_alias;
     }
     
     public function getTranslations()

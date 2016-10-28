@@ -17,8 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Album aliase' => 'Псевдоним альбома',
-    'Album aliase "{value}" is already exists.' => 'Такой "{value}" псевдоним альбома уже занят.',
+    'Album alias' => 'Псевдоним альбома',
+    'Album alias "{value}" is already exists.' => 'Такой "{value}" псевдоним альбома уже занят.',
     'Actions' => 'Действия',
     'Add new album' => 'Добавить альбом',
     'Album' => 'Альбом',

@@ -15,7 +15,7 @@ use yii\base\Model;
 class MenuTypeForm extends Model
 {
     public $id;
-    public $menu_type_aliase;
+    public $menu_type_alias;
     public $title;
     public $description;
 
@@ -41,14 +41,14 @@ class MenuTypeForm extends Model
     public function rules()
     {
         return [
-            [['menu_type_aliase', 'title'], 'filter', 'filter' => 'trim'],
+            [['menu_type_alias', 'title'], 'filter', 'filter' => 'trim'],
 
             ['title', 'required'],
             ['title', 'string', 'max' => 128],
 
-            ['menu_type_aliase', 'required'],
-            ['menu_type_aliase', 'string', 'max' => 128],
-            ['menu_type_aliase', 'validateMenuTypeAliase'],
+            ['menu_type_alias', 'required'],
+            ['menu_type_alias', 'string', 'max' => 128],
+            ['menu_type_alias', 'validateMenuTypeAlias'],
 
             ['description', 'string', 'max' => 255],
         ];
@@ -61,7 +61,7 @@ class MenuTypeForm extends Model
     {
         return [
             'id',
-            'menu_type_aliase',
+            'menu_type_alias',
             'title',
             'description'
         ];
@@ -78,10 +78,10 @@ class MenuTypeForm extends Model
     /**
      * @inheritdoc
      */
-    public function validateMenuTypeAliase($attribute)
+    public function validateMenuTypeAlias($attribute)
     {
-        if ($this->menuTypeReadRepository->existsByMenuTypeAliase($this->$attribute, $this->id)) {
-            $this->addError($attribute,  Module::t('menu', 'This menutype aliase "{value}" is already exists.', ['value' => $this->$attribute]));
+        if ($this->menuTypeReadRepository->existsByMenuTypeAlias($this->$attribute, $this->id)) {
+            $this->addError($attribute,  Module::t('menu', 'This menutype alias "{value}" is already exists.', ['value' => $this->$attribute]));
         }
     }
 
@@ -115,7 +115,7 @@ class MenuTypeForm extends Model
             $this->isNewRecord = false;
             $this->wrappedObject = $data;
             $this->id = $this->wrappedObject->id;
-            $this->menu_type_aliase = $this->wrappedObject->menu_type_aliase;
+            $this->menu_type_alias = $this->wrappedObject->menu_type_alias;
             $this->title = $this->wrappedObject->title;
             $this->description = $this->wrappedObject->description;
         }

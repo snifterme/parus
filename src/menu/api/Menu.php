@@ -18,16 +18,16 @@ class Menu
 {
     public static $navItemsMap;
 
-    public static function navItems($menuAliase, $language = null, $cache = true)
+    public static function navItems($menuAlias, $language = null, $cache = true)
     {
-        return self::prepareNavItems(self::items($menuAliase, $language, $cache = true), 1);
+        return self::prepareNavItems(self::items($menuAlias, $language, $cache = true), 1);
     }
     
-    public static function items($menuAliase, $language = null, $cache = true)
+    public static function items($menuAlias, $language = null, $cache = true)
     {
-        $cacheKey = static::class . ':' . $menuAliase . 'language:' . $language;
+        $cacheKey = static::class . ':' . $menuAlias . 'language:' . $language;
         if (!$cache || false === $items = Yii::$app->cache->get($cacheKey)) {
-            $items = Yii::createObject('rokorolov\parus\menu\repositories\MenuReadRepository')->findAllMenuByAliaseAsArray($menuAliase, [
+            $items = Yii::createObject('rokorolov\parus\menu\repositories\MenuReadRepository')->findAllMenuByAliasAsArray($menuAlias, [
                 'language' => $language,
                 'status' => Status::STATUS_PUBLISHED
             ]);

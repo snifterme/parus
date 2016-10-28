@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
                         ]
                     ]); ?>
 
-                    <?= $form->field($model, 'menu_type_aliase')->textInput(['maxlength' => 128]) ?>
+                    <?= $form->field($model, 'menu_type_alias')->textInput(['maxlength' => 128]) ?>
                     <?= $form->field($model, 'description')->textInput(['maxlength' => 255]) ?>
 
                 </div>

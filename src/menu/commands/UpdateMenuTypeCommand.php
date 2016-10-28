@@ -13,14 +13,14 @@ class UpdateMenuTypeCommand
     
     private $id;
     private $title;
-    private $menu_type_aliase;
+    private $menu_type_alias;
     private $description;
     
-    public function __construct($id, $title, $menu_type_aliase, $description)
+    public function __construct($id, $title, $menu_type_alias, $description)
     {
         $this->id = $id;
         $this->title = $title;
-        $this->menu_type_aliase = $menu_type_aliase;
+        $this->menu_type_alias = $menu_type_alias;
         $this->description = $description;
     }
     
@@ -29,9 +29,9 @@ class UpdateMenuTypeCommand
         return $this->title;
     }
     
-    public function getMenuTypeAliase()
+    public function getMenuTypeAlias()
     {
-        return $this->menu_type_aliase;
+        return $this->menu_type_alias;
     }
     
     public function getDescription()

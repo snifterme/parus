@@ -32,7 +32,7 @@ class AlbumViewHelper extends ViewHelper
             'name' => Module::t('gallery', 'Name'),
             'description' => Module::t('gallery', 'Description'),
             'language' => Module::t('gallery', 'Language'),
-            'album_aliase' => Module::t('gallery', 'Album aliase'),
+            'album_alias' => Module::t('gallery', 'Album alias'),
         ];
     }
     

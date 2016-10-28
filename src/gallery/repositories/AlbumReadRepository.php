@@ -51,7 +51,7 @@ class AlbumReadRepository extends BaseReadRepository
         return $translations;
     }
     
-    public function existsByAlbumAliase($attribute, $id = null)
+    public function existsByAlbumAlias($attribute, $id = null)
     {
         $exist = (new Query())
             ->from(Album::tableName() . ' a')
@@ -122,7 +122,7 @@ class AlbumReadRepository extends BaseReadRepository
     
     public function selectAttributesMap()
     {
-        return 'a.id AS a_id, a.status AS a_status, a.album_aliase AS a_album_aliase, a.created_at AS a_created_at, a.modified_at AS a_modified_at';
+        return 'a.id AS a_id, a.status AS a_status, a.album_aliase AS a_album_alias, a.created_at AS a_created_at, a.modified_at AS a_modified_at';
     }
 
     public function selectAlbumLangAttributesMap()

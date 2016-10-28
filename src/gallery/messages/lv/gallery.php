@@ -17,8 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Album aliase' => 'Albuma aizstājvārds',
-    'Album aliase "{value}" is already exists.' => 'Albuma aizstājvārds "{value}" jau ir aizņemts.',
+    'Album alias' => 'Albuma aizstājvārds',
+    'Album alias "{value}" is already exists.' => 'Albuma aizstājvārds "{value}" jau ir aizņemts.',
     'Photo Path' => '',
     'Actions' => 'Darbības',
     'Add new album' => 'Izveidot jaunu albumu',

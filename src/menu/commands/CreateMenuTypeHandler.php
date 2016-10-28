@@ -24,11 +24,11 @@ class CreateMenuTypeHandler
 
     public function handle(CreateMenuTypeCommand $command)
     {
-        $this->guardMenuTypeAliaseIsUnique($command->getMenuTypeAliase());
+        $this->guardMenuTypeAliasIsUnique($command->getMenuTypeAlias());
 
         $menuType = $this->menuTypeRepository->makeMenuTypeCreateModel();
         $menuType->title = $this->textPurify($command->getTitle());
-        $menuType->menu_type_aliase = $this->textPurify($command->getMenuTypeAliase());
+        $menuType->menu_type_aliase = $this->textPurify($command->getMenuTypeAlias());
         $menuType->description = $this->textPurify($command->getDescription());
 
         $this->menuTypeRepository->add($menuType);
@@ -36,10 +36,10 @@ class CreateMenuTypeHandler
         $command->model = $menuType;
     }
 
-    private function guardMenuTypeAliaseIsUnique($menu_type_aliase)
+    private function guardMenuTypeAliasIsUnique($menu_type_alias)
     {
-        if ($this->menuTypeRepository->existsByMenuTypeAliase($menu_type_aliase)) {
-            throw new LogicException('Menu type aliase already exists.');
+        if ($this->menuTypeRepository->existsByMenuTypeAlias($menu_type_alias)) {
+            throw new LogicException('Menu type alias already exists.');
         }
     }
 }
