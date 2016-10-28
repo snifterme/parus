@@ -131,17 +131,19 @@ class BaseReadRepository
     protected function parserResult($row)
     {
         if (!empty($row)) {
-            
             $result = $this->populate($row);
             $this->populateRelations($result, $row);
-            
-            if (!$this->skipPresenter && !is_null($presenter = $this->presenter)) {
-                $result = Yii::createObject($presenter, [$result]);
-            }
-            
-            return $result;
+            return $this->applyPresenter($result);
         }
         return null;
+    }
+    
+    protected function applyPresenter($result)
+    {
+        if (!$this->skipPresenter && !is_null($presenter = $this->presenter)) {
+            $result = Yii::createObject($presenter, [$result]);
+        }
+        return $result;
     }
     
     protected function resolveRelations($query, $relations)
