@@ -147,7 +147,7 @@ class PostReadRepository extends BaseReadRepository
     protected function populateCreatedBy($post, &$data)
     {
         if (!in_array('modifiedBy', $this->populatedRelations)) {
-            $post->createdBy = $this->getUserReadRepository()->populate($data);
+            $post->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $post->createdBy = $this->getUserReadRepository()->findById($post->created_by);
         }
@@ -156,7 +156,7 @@ class PostReadRepository extends BaseReadRepository
     protected function populateModifiedBy($post, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $post->modifiedBy = $this->getUserReadRepository()->populate($data);
+            $post->modifiedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $post->modifiedBy = $this->getUserReadRepository()->findById($post->modified_by);
         }

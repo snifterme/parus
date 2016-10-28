@@ -125,7 +125,7 @@ class PageReadRepository extends BaseReadRepository
     protected function populateCreatedBy($page, &$data)
     {
         if (!in_array('modifiedBy', $this->populatedRelations)) {
-            $page->createdBy = $this->getUserReadRepository()->populate($data);
+            $page->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $page->createdBy = $this->getUserReadRepository()->findById($page->created_by);
         }
@@ -134,7 +134,7 @@ class PageReadRepository extends BaseReadRepository
     protected function populateModifiedBy($page, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $page->modifiedBy = $this->getUserReadRepository()->populate($data);
+            $page->modifiedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $page->modifiedBy = $this->getUserReadRepository()->findById($page->modified_by);
         }

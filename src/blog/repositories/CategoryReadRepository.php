@@ -159,7 +159,7 @@ class CategoryReadRepository extends BaseReadRepository
     protected function populateCreatedBy($category, &$data)
     {
         if (!in_array('modifiedBy', $this->populatedRelations)) {
-            $category->createdBy = UserReadRepository::toUserDto($data);
+            $category->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $category->createdBy = $this->getUserReadRepository()->findById($category->created_by);
         }
@@ -168,7 +168,7 @@ class CategoryReadRepository extends BaseReadRepository
     protected function populateModifiedBy($category, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $category->modifiedBy = UserReadRepository::toUserDto($data);
+            $category->modifiedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $category->modifiedBy = $this->getUserReadRepository()->findById($category->modified_by);
         }
