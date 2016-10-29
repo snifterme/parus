@@ -110,9 +110,9 @@ class BaseReadRepository
         return $this;
     }
 
-    public function orderBy($column, $direction = SORT_ASC)
+    public function orderBy($order)
     {
-        $this->make()->orderBy([$column => $direction]);
+        $this->make()->orderBy($order);
         return $this;
     }
 

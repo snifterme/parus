@@ -40,14 +40,14 @@ class PostReadRepository extends BaseReadRepository
     public function findPopularPost($limit)
     {
         return $this->limit($limit)
-            ->orderBy('p.hits', SORT_DESC)
+            ->orderBy(['p.hits' => SORT_DESC])
             ->findAll();
     }
     
     public function findLastAddedPost($limit)
     {
         return $this->limit($limit)
-            ->orderBy('p.created_at', SORT_DESC)
+            ->orderBy(['p.created_at' => SORT_DESC])
             ->findAll();
     }
     
