@@ -92,6 +92,24 @@ class BaseReadRepository
         return $this;
     }
 
+    public function filterWhere($conditions)
+    {
+        $this->make()->filterWhere($conditions);
+        return $this;
+    }
+    
+    public function andFilterWhere($conditions)
+    {
+        $this->make()->andFilterWhere($conditions);
+        return $this;
+    }
+    
+    public function orFilterWhere($conditions)
+    {
+        $this->make()->orFilterWhere($conditions);
+        return $this;
+    }
+
     public function orderBy($column, $direction = SORT_ASC)
     {
         $this->make()->orderBy([$column => $direction]);
