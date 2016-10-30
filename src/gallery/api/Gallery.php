@@ -25,6 +25,11 @@ class Gallery
         'with' => [],
     ];
     
+    public function get($options = [])
+    {
+        return $this->getAlbum('a.id', null, $options);
+    }
+    
     public function getById($id, $options = [])
     {
         return $this->getAlbum('a.id', $id, $options);
