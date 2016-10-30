@@ -80,6 +80,16 @@ class BaseReadRepository
         return $this->parserResult($query->one());
     }
 
+    public function findOne()
+    {
+        $query = $this->make()
+            ->addSelect($this->selectAttributesMap());
+
+        $this->reset();
+
+        return $this->parserResult($query->one());
+    }
+
     public function with(array $relations = [])
     {
         $this->applyRelations($relations);
