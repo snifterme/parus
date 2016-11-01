@@ -29,8 +29,6 @@ class BaseReadRepository
             ->addSelect($this->selectAttributesMap())
             ->andWhere([$key => $value]);
 
-        $this->reset();
-
         return $this->parserResult($query->one());
     }
 
@@ -40,8 +38,6 @@ class BaseReadRepository
             ->addSelect($this->selectAttributesMap())
             ->andWhere([$key => $value])
             ->all();
-
-        $this->reset();
 
         $models = [];
         foreach ($rows as $row) {
@@ -58,8 +54,6 @@ class BaseReadRepository
             ->addSelect($this->selectAttributesMap())
             ->all();
 
-        $this->reset();
-
         $models = [];
         foreach ($rows as $row) {
             if ($model = $this->parserResult($row)) {
@@ -75,8 +69,6 @@ class BaseReadRepository
             ->addSelect($this->selectAttributesMap())
             ->andFilterWhere([$key => $value]);
 
-        $this->reset();
-
         return $this->parserResult($query->one());
     }
 
@@ -85,9 +77,55 @@ class BaseReadRepository
         $query = $this->make()
             ->addSelect($this->selectAttributesMap());
 
+        return $this->parserResult($query->one());
+    }
+
+    public function exists()
+    {
+        $query = $this->make();
+
         $this->reset();
 
-        return $this->parserResult($query->one());
+        return $query->exists();
+    }
+
+    public function scalar()
+    {
+        $query = $this->make();
+
+        $this->reset();
+
+        return $query->scalar();
+    }
+
+    public function column()
+    {
+        $query = $this->make();
+
+        $this->reset();
+
+        return $query->column();
+    }
+
+    public function count()
+    {
+        $query = $this->make();
+
+        $this->reset();
+
+        return $query->count();
+    }
+    
+    public function select($attributes)
+    {
+        $query = $this->make()->select($attributes);
+        return $this;
+    }
+    
+    public function addSelect($attributes)
+    {
+        $query = $this->make()->addSelect($attributes);
+        return $this;
     }
 
     public function with(array $relations = [])
@@ -125,10 +163,28 @@ class BaseReadRepository
         $this->make()->orderBy($order);
         return $this;
     }
+    
+    public function groupBy($group)
+    {
+        $this->make()->groupBy($group);
+        return $this;
+    }
+    
+    public function indexBy($indexBy)
+    {
+        $this->make()->indexBy($indexBy);
+        return $this;
+    }
 
     public function limit($limit)
     {
         $this->make()->limit($limit);
+        return $this;
+    }
+    
+    public function offset($offset)
+    {
+        $this->make()->offset($offset);
         return $this;
     }
     
@@ -158,6 +214,8 @@ class BaseReadRepository
 
     protected function parserResult($row)
     {
+        $this->reset();
+        
         if (!empty($row)) {
             $result = $this->populate($row);
             $this->populateRelations($result, $row);
