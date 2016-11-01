@@ -3,8 +3,10 @@
 namespace rokorolov\parus\menu\repositories;
 
 use rokorolov\parus\menu\models\MenuType;
+use rokorolov\parus\menu\models\Menu;
 use rokorolov\parus\menu\dto\MenuTypeDto;
 use rokorolov\parus\admin\base\BaseReadRepository;
+use Yii;
 use yii\db\Query;
 
 /**
@@ -15,6 +17,8 @@ use yii\db\Query;
 class MenuTypeReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_MENU_TYPE = 'mt';
+    
+    protected $menuReadRepository;
 
     /**
      * Find by id
@@ -68,12 +72,20 @@ class MenuTypeReadRepository extends BaseReadRepository
             'menu' => self::RELATION_MANY,
         ];
     }
-
-    protected function populateMenu($menuType)
+    
+    protected function populateMenu($menuType, &$data)
     {
-        $menuType->menu = [];
+        $menuType->menu = $this->getMenuReadRepository()->findManyBy('menu_type_id', $menuType->id);
     }
-
+    
+    protected function getMenuReadRepository()
+    {
+        if ($this->menuReadRepository === null) {
+            $this->menuReadRepository = Yii::createObject('rokorolov\parus\menu\repositories\MenuReadRepository');
+        }
+        return $this->menuReadRepository;
+    }
+    
     public function selectAttributesMap()
     {
         return 'mt.id AS mt_id, mt.menu_type_aliase AS mt_menu_type_alias, mt.title AS mt_title, mt.description AS mt_description';
