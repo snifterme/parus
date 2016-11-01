@@ -28,6 +28,7 @@ class PageDto
     public $meta_keywords;
     public $meta_description;
     public $deleted_at;
+    public $author;
     public $createdBy;
     public $modifiedBy;
     
