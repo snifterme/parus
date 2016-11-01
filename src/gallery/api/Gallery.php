@@ -12,85 +12,96 @@ use Yii;
  */
 class Gallery
 {
-    const WITH_ALBUM_TRANSLATIONS = 'album.translations';
-    const WITH_PHOTOS = 'photos';
-    const WITH_PHOTOS_TRANSLATIONS = 'photos.translations';
+    const WITH_TRANSLATION = 'translations';
+    const WITH_PHOTO = 'photo';
+    const WITH_PHOTO_TRANSLATION = 'photo.translation';
     
     public $options = [
+        'id' => null,
+        'alias' => null,
         'album_status' => Status::STATUS_PUBLISHED,
         'album_order' => 'id',
-        'photo_with' => [],
         'photo_order' => 'order',
         'photo_status' => Status::STATUS_PUBLISHED,
         'with' => [],
     ];
     
-    public function get($options = [])
+    public function getAlbumBy($key, $value, $options = [])
     {
-        return $this->getAlbum('a.id', null, $options);
+        $this->options[$key] = $value;
+        
+        return $this->getAlbum($options);
     }
     
-    public function getById($id, $options = [])
-    {
-        return $this->getAlbum('a.id', $id, $options);
-    }
-    
-    public function getByAlias($alias, $options = [])
-    {
-        return $this->getAlbum('a.album_aliase', $alias, $options);
-    }
-    
-    protected function getAlbum($key, $value, $options)
+    public function getAlbum($options = [])
     {
         $options = array_replace($this->options, $options);
+        $with = $this->prepareRelations($options['with']);
         
         $album = Yii::createObject('rokorolov\parus\gallery\repositories\AlbumReadRepository')
-            ->andFilterWhere(['in', 'a.status', $options['album_status']])
-            ->andFilterWhere(['in', $key, $value])
-            ->orderBy($options['album_order']);
+            ->andFilterWhere(['and',
+                ['in', 'a.id', $options['id']],
+                ['in', 'a.album_aliase', $options['alias']],
+                ['in', 'a.status', $options['album_status']]])
+            ->orderBy('a.' . $options['album_order']);
         
-        if (in_array(self::WITH_ALBUM_TRANSLATIONS, $options['with'])) {
-            $album->with(['translations']);
+        if (isset($with[self::WITH_TRANSLATION])) {
+            $album->with([self::WITH_TRANSLATION]);
         }
             
-        if (is_array($value) || empty($value)) {
+        $collection = false;
+        
+        if (is_array($options['id']) || is_array($options['alias']) || empty($options['id']) && empty($options['alias'])) {
             if (empty($album = $album->findAll())) {
                 return [];
             }
+            $collection = true;
         } else {
             if (null === $album = $album->findOne()) {
                 return null;
             }
+            $album = [$album];
         }
         
-        if ($this->isPhotoRelation($options)) {
-            $this->populatePhotoRelation($album, $options);
+        if ($this->isPhotoRelation($with)) {
+            $this->populatePhotoRelation($album, $with, $options);
         }
 
-        return $album;
+        return $collection ? $album : array_shift($album);
     }
     
-    protected function isPhotoRelation($options)
+    protected function isPhotoRelation($with)
     {
-        return in_array(self::WITH_PHOTOS, $options['with']) || in_array(self::WITH_PHOTOS_TRANSLATIONS, $options['with']);
+        return isset($with[self::WITH_PHOTO]) || isset($with[self::WITH_PHOTO_TRANSLATION]);
     }
     
-    protected function populatePhotoRelation($albums, $options)
+    protected function populatePhotoRelation($albums, $with, $options)
     {
-        !is_array($albums) && $albums = [$albums];
-        
         foreach ($albums as $album) {
             $photoRepository = Yii::createObject('rokorolov\parus\gallery\repositories\PhotoReadRepository');
             $photos = $photoRepository
                 ->andFilterWhere(['in', 'p.status', $options['photo_status']])
-                ->orderBy($options['photo_order'])
+                ->orderBy('p.' . $options['photo_order'])
                 ->findManyBy('album_id', $album->id);
 
-            if (in_array(self::WITH_PHOTOS_TRANSLATIONS, $options['with'])) {
+            if (isset($with[self::WITH_PHOTO_TRANSLATION])) {
                 $photoRepository->eagerPopulateTranslations($photos);
             }
 
             $album->photos = $photos;
         }
+    }
+    
+    protected function prepareRelations($with)
+    {
+        $relations = [];
+        foreach($with as $key => $value) {
+            if (is_array($value)) {
+                $relations[$key] = $value;
+            } else {
+                $relations[$value] = [];
+            }
+        }
+        return $relations;
     }
 }

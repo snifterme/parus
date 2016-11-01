@@ -13,49 +13,67 @@ use Yii;
  */
 class Page
 {
-    const WITH_CREATED_BY = 'createdBy';
-    const WITH_MODIFIED_BY = 'modifiedBy';
+    const WITH_AUTHOR = 'author';
     
     public $options = [
-        'status' => Status::STATUS_PUBLISHED,
+        'id' => null,
+        'alias' => null,
+        'page_status' => Status::STATUS_PUBLISHED,
+        'language' => null,
+        'author' => null,
+        'group_by' => null,
+        'limit' => null,
+        'offset' => null,
         'order' => 'id',
+        'home' => null,
         'with' => [],
+        'where' => null,
     ];
     
-    public function get($options = [])
+    public function getPageBy($key, $value, $options = [])
     {
-        return $this->getPage('p.id', null, $options);
-    }
-    
-    public function getById($id, $options = [])
-    {
-        return $this->getPage('p.id', $id, $options);
-    }
-    
-    public function getByAlias($alias, $options = [])
-    {
-        return $this->getPage('p.slug', $alias, $options);
+        $this->options[$key] = $value;
+        
+        return $this->getPage($options);
     }
     
     public function getHomePage($options = [])
     {
-        return $this->getPage('p.home', Settings::homePageYesSign(), $options);
+        $this->options['home'] = Settings::homePageYesSign();
+        $this->options['limit'] = 1;
+        
+        return $this->getPage($options);
     }
     
-    protected function getPage($key, $value, $options)
+    public function getPage($options = [])
     {
         $options = array_replace($this->options, $options);
-        
+        $with = $this->prepareRelations($options['with']);
+
         $page = Yii::createObject('rokorolov\parus\page\repositories\PageReadRepository')
-            ->andFilterWhere(['in', 'p.status', $options['status']])
-            ->andFilterWhere(['in', $key, $value])
-            ->orderBy('p.' . $options['order']);
+            ->andFilterWhere(['and',
+                ['in', 'p.id', $options['id']],
+                ['in', 'p.slug', $options['alias']],
+                ['in', 'p.status', $options['page_status']],
+                ['in', 'p.created_by', $options['author']],
+                ['in', 'p.language', $options['language']],
+                ['p.home' => $options['home']]])
+            ->orderBy('p.' . $options['order'])
+            ->limit($options['limit']);
         
-        if (in_array(self::WITH_CREATED_BY, $options['with']) || in_array(self::WITH_MODIFIED_BY, $options['with'])) {
-            $page->with($options['with']);
+        !is_null($options['where']) && $page->where($options['where']);
+        !is_null($options['group_by']) && $page->groupBy('p.' . $options['group_by']);
+        !is_null($options['offset']) && $page->offset($options['offset']);
+        
+        $relations = [];
+        
+        if (isset($with[self::WITH_AUTHOR])) {
+            array_push($relations, self::WITH_AUTHOR);
         }
         
-        if (is_array($value) || empty($value)) {
+        !empty($relations) && $page->with($relations);
+        
+        if (null === $options['home'] && (is_array($options['id']) || is_array($options['alias']) || empty($options['id']) && empty($options['alias']))) {
             if (empty($page = $page->findAll())) {
                 return [];
             }
@@ -66,5 +84,18 @@ class Page
         }
 
         return $page;
+    }
+    
+    protected function prepareRelations($with)
+    {
+        $relations = [];
+        foreach($with as $key => $value) {
+            if (is_array($value)) {
+                $relations[$key] = $value;
+            } else {
+                $relations[$value] = [];
+            }
+        }
+        return $relations;
     }
 }
