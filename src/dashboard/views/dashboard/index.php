@@ -59,7 +59,7 @@ $this->title = Module::t('dashboard', 'Dashboard');
                                         echo Html::button(Html::icon($status['icon']), ['class' => 'disabled f10 btn-xs btn btn-' . $status['type']]);
                                     ?>
                                     <span class="strong ml5">
-                                        <?= Html::a(Html::encode($recentlyPost->title), $accessControl->canUpdatePost($recentlyPost) ? ['/admin/blog/post/update', 'id' => $popularPost->id] : '#') ?>
+                                        <?= Html::a(Html::encode($recentlyPost->title), $accessControl->canUpdatePost($recentlyPost) ? ['/admin/blog/post/update', 'id' => $recentlyPost->id] : '#') ?>
                                     </span>
                                 </div>
                                 <div class="col-sm-2">
