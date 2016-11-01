@@ -5,6 +5,7 @@ namespace rokorolov\parus\page\repositories;
 use rokorolov\parus\page\models\Page;
 use rokorolov\parus\page\dto\PageDto;
 use rokorolov\parus\user\models\User;
+use rokorolov\parus\user\models\Profile;
 use rokorolov\parus\admin\base\BaseReadRepository;
 use Yii;
 use yii\db\Query;
@@ -103,6 +104,7 @@ class PageReadRepository extends BaseReadRepository
         return [
             'createdBy' => self::RELATION_ONE,
             'modifiedBy' => self::RELATION_ONE,
+            'author' => self::RELATION_ONE,
         ];
     }
     
@@ -122,6 +124,14 @@ class PageReadRepository extends BaseReadRepository
         }
     }
     
+    public function resolveAuthor($query)
+    {
+        $userRepository = $this->getUserReadRepository();
+        $query->addSelect($userRepository->selectAttributesMap() . ', ' . $userRepository->selectProfileAttributesMap())
+            ->leftJoin(User::tableName() . ' u', 'p.created_by = u.id')
+            ->leftJoin(Profile::tableName() . ' up', 'up.user_id = u.id');
+    }
+    
     protected function populateCreatedBy($page, &$data)
     {
         if (!in_array('modifiedBy', $this->populatedRelations)) {
@@ -138,6 +148,11 @@ class PageReadRepository extends BaseReadRepository
         } else {
             $page->modifiedBy = $this->getUserReadRepository()->findById($page->modified_by);
         }
+    }
+    
+    protected function populateAuthor($post, &$data)
+    {
+        $post->author = $this->getUserReadRepository()->with(['profile'])->parserResult($data);
     }
     
     protected function getUserReadRepository()
