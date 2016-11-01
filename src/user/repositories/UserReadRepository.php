@@ -73,13 +73,13 @@ class UserReadRepository extends BaseReadRepository
         ];
     }
     
-    protected function resolveProfile($query)
+    public function resolveProfile($query)
     {
         $query->addSelect($this->selectProfileAttributesMap())
             ->leftJoin(Profile::tableName() . ' up', 'up.user_id = u.id');
     }
 
-    protected function populateProfile($user, $data)
+    public function populateProfile($user, $data)
     {
         $user->profile = $this->toProfileDto($data);
     }
