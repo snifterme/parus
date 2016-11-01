@@ -5,8 +5,8 @@ namespace rokorolov\parus\page\repositories;
 use rokorolov\parus\page\models\Page;
 use rokorolov\parus\page\dto\PageDto;
 use rokorolov\parus\user\models\User;
+use rokorolov\parus\user\models\Profile;
 use rokorolov\parus\admin\base\BaseReadRepository;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use Yii;
 use yii\db\Query;
 
@@ -15,7 +15,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class PageReadRepository extends BaseReadRepository implements HasPresenter
+class PageReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_PAGE = 'p';
 
@@ -78,11 +78,6 @@ class PageReadRepository extends BaseReadRepository implements HasPresenter
         
         return $id;
     }
-
-    public function presenter()
-    {
-        return 'rokorolov\parus\page\presenters\PagePresenter';
-    }
     
     public function make()
     {
@@ -109,6 +104,7 @@ class PageReadRepository extends BaseReadRepository implements HasPresenter
         return [
             'createdBy' => self::RELATION_ONE,
             'modifiedBy' => self::RELATION_ONE,
+            'author' => self::RELATION_ONE,
         ];
     }
     
@@ -128,10 +124,18 @@ class PageReadRepository extends BaseReadRepository implements HasPresenter
         }
     }
     
+    public function resolveAuthor($query)
+    {
+        $userRepository = $this->getUserReadRepository();
+        $query->addSelect($userRepository->selectAttributesMap() . ', ' . $userRepository->selectProfileAttributesMap())
+            ->leftJoin(User::tableName() . ' u', 'p.created_by = u.id')
+            ->leftJoin(Profile::tableName() . ' up', 'up.user_id = u.id');
+    }
+    
     protected function populateCreatedBy($page, &$data)
     {
         if (!in_array('modifiedBy', $this->populatedRelations)) {
-            $page->createdBy = $this->getUserReadRepository()->populate($data);
+            $page->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $page->createdBy = $this->getUserReadRepository()->findById($page->created_by);
         }
@@ -140,10 +144,15 @@ class PageReadRepository extends BaseReadRepository implements HasPresenter
     protected function populateModifiedBy($page, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $page->modifiedBy = $this->getUserReadRepository()->populate($data);
+            $page->modifiedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $page->modifiedBy = $this->getUserReadRepository()->findById($page->modified_by);
         }
+    }
+    
+    protected function populateAuthor($post, &$data)
+    {
+        $post->author = $this->getUserReadRepository()->with(['profile'])->parserResult($data);
     }
     
     protected function getUserReadRepository()

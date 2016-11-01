@@ -16,25 +16,51 @@ use yii\caching\TagDependency;
  */
 class Menu
 {
-    public static $navItemsMap;
-
-    public static function navItems($menuAliase, $language = null, $cache = true)
+    public $options = [
+        'id' => null,
+        'alias' => null,
+        'language' => null,
+        'order' => 'lft ASC',
+        'cache' => true,
+    ];
+    
+    public function getMenuBy($key, $value, $options = [])
     {
-        return self::prepareNavItems(self::items($menuAliase, $language, $cache = true), 1);
+        $this->options[$key] = $value;
+        
+        return $this->getMenu($options);
     }
     
-    public static function items($menuAliase, $language = null, $cache = true)
+    public function getNavBy($key, $value, $options = [])
     {
-        $cacheKey = static::class . ':' . $menuAliase . 'language:' . $language;
-        if (!$cache || false === $items = Yii::$app->cache->get($cacheKey)) {
-            $items = Yii::createObject('rokorolov\parus\menu\repositories\MenuReadRepository')->findAllMenuByAliaseAsArray($menuAliase, [
-                'language' => $language,
-                'status' => Status::STATUS_PUBLISHED
-            ]);
-            if (!empty($items)) {
+        $this->options[$key] = $value;
+        
+        return $this->prepareNavItems($this->getMenu($options)->menu);
+    }
+    
+    protected function getMenu($options = [])
+    {
+        $options = array_replace($this->options, $options);
+        $cacheKey = static::class . ':id' . $options['id'] . ':alias' . $options['alias'] . 'language:' . $options['language'];
+        
+        if (false === $options['cache'] || false === $menuType = Yii::$app->cache->get($cacheKey)) {
+            $menuType = Yii::createObject('rokorolov\parus\menu\repositories\MenuTypeReadRepository')
+                ->andFilterWhere(['and',
+                    ['in', 'mt.id', $options['id']],
+                    ['in', 'mt.menu_type_aliase', $options['alias']]])
+                ->findOne();
+
+            $menuType->menu = Yii::createObject('rokorolov\parus\menu\repositories\MenuReadRepository')
+                ->andFilterWhere(['and',
+                    ['m.status' => Status::STATUS_PUBLISHED],
+                    ['in', 'm.language', $options['language']]])
+                ->orderBy('m.' . $options['order'])
+                ->findManyBy('menu_type_id', $menuType->id);
+            
+            if (!empty($menuType)) {
                 Yii::$app->cache->set(
                     $cacheKey,
-                    $items,
+                    $menuType,
                     86400,
                     new TagDependency([
                         'tags' => TagDependencyNamingHelper::getCommonTag(Settings::menuDependencyTagName())
@@ -42,23 +68,24 @@ class Menu
                 );
             }
         }
-        return $items;
+        
+        return $menuType;
     }
-
-    public static function prepareNavItems($items, $parent)
+    
+    protected function prepareNavItems($menuItems, $parent = 1)
     {
         $navItems = [];
-        foreach ($items as $item) {
-            if ($item['parent_id'] == $parent) {
-                $item['children'] = self::prepareNavItems($items, $item['id']);
-                $url = UrlHelper::fromString($item['link']);
+        foreach ($menuItems as $menu) {
+            if ((int)$menu->parent_id === (int)$parent) {
+                $menu->children = self::prepareNavItems($menuItems, $menu->id);
+                $url = UrlHelper::fromString($menu->link);
                 $line = [
-                    'label' => $item['title'],
+                    'label' => $menu->title,
                     'url' => $url,
                     'active' => Yii::$app->request->url === $url
                 ];
-                if (!empty($item['children'])) {
-                    $line['items'] = $item['children'];
+                if (!empty($menu->children)) {
+                    $line['items'] = $menu->children;
                 }
                 $navItems[] = $line;
             }

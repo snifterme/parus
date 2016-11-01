@@ -11,10 +11,12 @@ class AlbumDto
 {
     public $id;
     public $status;
-    public $album_aliase;
+    public $album_alias;
     public $created_at;
     public $modified_at;
     public $photos;
+    public $translation;
+    public $translations = [];
     
     public function __construct(array &$data, $prefix = null, $unset = true)
     {

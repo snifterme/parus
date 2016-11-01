@@ -4,22 +4,23 @@ namespace rokorolov\parus\blog\repositories;
 
 use rokorolov\parus\blog\models\Category;
 use rokorolov\parus\blog\dto\CategoryDto;
-use rokorolov\parus\admin\contracts\HasPresenter;
-use rokorolov\parus\user\repositories\UserReadRepository;
 use rokorolov\parus\user\models\User;
+use rokorolov\parus\user\models\Profile;
 use rokorolov\parus\admin\base\BaseReadRepository;
 use Yii;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * UserReadRepository
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class CategoryReadRepository extends BaseReadRepository implements HasPresenter
+class CategoryReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_CATEGORY = 'c';
     
+    private $postReadRepository;
     private $userReadRepository;
     
     /**
@@ -128,11 +129,6 @@ class CategoryReadRepository extends BaseReadRepository implements HasPresenter
         return $this->query;
     }
     
-    public function presenter()
-    {
-        return 'rokorolov\parus\blog\presenters\CategoryPresenter';
-    }
-    
     public function populate(&$data, $prefix = true)
     {
         return $this->toCategoryDto($data, $prefix);
@@ -143,10 +139,11 @@ class CategoryReadRepository extends BaseReadRepository implements HasPresenter
         return [
             'createdBy' => self::RELATION_ONE,
             'modifiedBy' => self::RELATION_ONE,
+            'author' => self::RELATION_ONE,
         ];
     }
     
-    protected function resolveCreatedBy($query)
+    public function resolveCreatedBy($query)
     {
         if (!in_array('modifiedBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
@@ -154,18 +151,26 @@ class CategoryReadRepository extends BaseReadRepository implements HasPresenter
         }
     }
     
-    protected function resolveModifiedBy($query)
+    public function resolveModifiedBy($query)
     {
         if (!in_array('createdBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
                 ->leftJoin(User::tableName() . ' u', 'c.modified_by = u.id');
         }
     }
+    
+    public function resolveAuthor($query)
+    {
+        $userRepository = $this->getUserReadRepository();
+        $query->addSelect($userRepository->selectAttributesMap() . ', ' . $userRepository->selectProfileAttributesMap())
+            ->leftJoin(User::tableName() . ' u', 'c.created_by = u.id')
+            ->leftJoin(Profile::tableName() . ' up', 'up.user_id = u.id');
+    }
 
     protected function populateCreatedBy($category, &$data)
     {
         if (!in_array('modifiedBy', $this->populatedRelations)) {
-            $category->createdBy = UserReadRepository::toUserDto($data);
+            $category->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $category->createdBy = $this->getUserReadRepository()->findById($category->created_by);
         }
@@ -174,9 +179,26 @@ class CategoryReadRepository extends BaseReadRepository implements HasPresenter
     protected function populateModifiedBy($category, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $category->modifiedBy = UserReadRepository::toUserDto($data);
+            $category->modifiedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $category->modifiedBy = $this->getUserReadRepository()->findById($category->modified_by);
+        }
+    }
+    
+    protected function populateAuthor($category, &$data)
+    {
+        $category->author = $this->getUserReadRepository()->with(['profile'])->parserResult($data);
+    }
+    
+    public function eagerPopulatePost($categories)
+    {
+        $ids = ArrayHelper::getColumn($categories, 'id');
+        $post = ArrayHelper::index($this->getPostReadRepository()->where(['in', 'category_id', $ids])->findAll(), null, 'category_id');
+        
+        foreach ($categories as $category) {
+            if (isset($post[$category->id])) {
+                $category->posts = $post[$category->id];
+            }
         }
     }
     
@@ -186,6 +208,14 @@ class CategoryReadRepository extends BaseReadRepository implements HasPresenter
             $this->userReadRepository = Yii::createObject('rokorolov\parus\user\repositories\UserReadRepository');
         }
         return $this->userReadRepository;
+    }
+    
+    protected function getPostReadRepository()
+    {
+        if ($this->postReadRepository === null) {
+            $this->postReadRepository = Yii::createObject('rokorolov\parus\blog\repositories\PostReadRepository');
+        }
+        return $this->postReadRepository;
     }
 
     public function selectAttributesMap()

@@ -16,7 +16,7 @@ class MenuTypeViewHelper extends ViewHelper
     {
         return [
             'id' => Module::t('menu', 'Id'),
-            'menu_type_aliase' => Module::t('menu', 'Menu type aliase'),
+            'menu_type_alias' => Module::t('menu', 'Menu type alias'),
             'title' => Module::t('menu', 'Title'),
             'description' => Module::t('menu', 'Description'),
         ];

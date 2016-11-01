@@ -102,7 +102,7 @@ class MenuTypeController extends Controller
                 $data = $form->getData();
                 $command = new CreateMenuTypeCommand(
                     $data['title'],
-                    $data['menu_type_aliase'],
+                    $data['menu_type_alias'],
                     $data['description']
                 );
                 $this->commandBus->execute($command);
@@ -139,7 +139,7 @@ class MenuTypeController extends Controller
                 $this->commandBus->execute(new UpdateMenuTypeCommand(
                     $data['id'],
                     $data['title'],
-                    $data['menu_type_aliase'],
+                    $data['menu_type_alias'],
                     $data['description']
                 ));
                 Yii::$app->session->setFlash('success', Module::t('menu', 'Menu Type is successfuly updated!'));

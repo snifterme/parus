@@ -7,7 +7,6 @@ use rokorolov\parus\settings\contracts\SettingsServiceInterface;
 use rokorolov\parus\settings\commands\UpdateSettingCommand;
 use rokorolov\parus\settings\commands\CreateSettingCommand;
 use rokorolov\parus\settings\commands\DeleteSettingCommand;
-use rokorolov\parus\admin\contracts\CommandBusInterface;
 
 /**
  * SettingsService
@@ -16,14 +15,12 @@ use rokorolov\parus\admin\contracts\CommandBusInterface;
  */
 class SettingsService implements SettingsServiceInterface
 {
-    private $commandBus;
+    protected $commandBus;
     protected $settingsRepository;
     
     public function __construct(
-        CommandBusInterface $commandBus,
         SettingsReadRepository $settingsRepository
     ) {
-        $this->commandBus = $commandBus;
         $this->settingsRepository = $settingsRepository;
     }
     
@@ -40,12 +37,12 @@ class SettingsService implements SettingsServiceInterface
     /**
      * Set settings.
      * 
-     * @param string $key
+     * @param string $param
      * @param mixed $value
      */
     public function setSetting($param, $value)
     {
-        $this->commandBus->execute(new UpdateSettingCommand(
+        $this->getCommandBus()->execute(new UpdateSettingCommand(
             $param,
             $value
         ));
@@ -58,7 +55,7 @@ class SettingsService implements SettingsServiceInterface
      */
     public function addSetting(array $params)
     {
-        $this->commandBus->execute(new CreateSettingCommand(
+        $this->getCommandBus()->execute(new CreateSettingCommand(
             $params['param'],
             $params['value'],
             $params['type'],
@@ -74,8 +71,23 @@ class SettingsService implements SettingsServiceInterface
      */
     public function deleteSetting($param)
     {
-         $this->commandBus->execute(new DeleteSettingCommand(
+         $this->getCommandBus()->execute(new DeleteSettingCommand(
             $param
         ));
     }
+    
+    /**
+     * Get command bus.
+     * 
+     * @param string $param
+     */
+    protected function getCommandBus()
+    {
+        if (null === $this->commandBus) {
+            $this->commandBus = Yii::createObject('rokorolov\parus\admin\contracts\CommandBusInterface');
+        }
+        return $this->commandBus;
+    }
+    
+    
 }

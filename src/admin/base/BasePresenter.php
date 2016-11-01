@@ -54,6 +54,20 @@ abstract class BasePresenter
     }
 
     /**
+     * Check to see if there is a presenter
+     * property. If exist set it
+     *
+     * @param string $key
+     * @param string $value
+     */
+    public function __set($key, $value)
+    {
+        if (property_exists($this->wrappedObject, $key)) {
+            $this->wrappedObject->{$key} = $value;
+        }
+    }
+    
+    /**
      * Magic Method access for methods called against the presenter looks for a
      * method on the resource, or throws an exception if none is found.
      *

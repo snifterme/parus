@@ -20,6 +20,7 @@ class UserDto
     public $created_at;
     public $updated_at;
     public $profile;
+    public $posts;
     
     public function __construct(array &$data, $prefix = null, $unset = true)
     {

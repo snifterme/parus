@@ -6,7 +6,6 @@ use rokorolov\parus\menu\models\Menu;
 use rokorolov\parus\menu\models\MenuType;
 use rokorolov\parus\menu\dto\MenuDto;
 use rokorolov\parus\admin\base\BaseReadRepository;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use Yii;
 use yii\db\Query;
 
@@ -15,7 +14,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class MenuReadRepository extends BaseReadRepository implements HasPresenter
+class MenuReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_MENU = 'm';
     
@@ -63,12 +62,12 @@ class MenuReadRepository extends BaseReadRepository implements HasPresenter
         return $rows;
     }
     
-    public function findAllMenuByAliaseAsArray($aliase, $conditions = [], $select = 'm.*')
+    public function findAllMenuByAliasAsArray($alias, $conditions = [], $select = 'm.*')
     {
         $rows = $this->make()
             ->select($select)
             ->leftJoin(MenuType::tableName() . ' mt', 'm.menu_type_id = mt.id')
-            ->andWhere(['menu_type_aliase' => $aliase])
+            ->andWhere(['menu_type_aliase' => $alias])
             ->andFilterWhere($conditions)
             ->orderBy('m.lft')
             ->all();
@@ -76,11 +75,6 @@ class MenuReadRepository extends BaseReadRepository implements HasPresenter
         $this->reset();
         
         return $rows;
-    }
-    
-    public function presenter()
-    {
-        return 'rokorolov\parus\menu\presenters\MenuPresenter';
     }
     
     public function make()

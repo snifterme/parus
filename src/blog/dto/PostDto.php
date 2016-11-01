@@ -35,6 +35,7 @@ class PostDto
     public $meta_description;
     public $deleted_at;
     public $category;
+    public $author;
     public $createdBy;
     public $modifiedBy;
     

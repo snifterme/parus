@@ -12,6 +12,11 @@ use rokorolov\parus\admin\base\BaseRepository;
  */
 class CategoryRepository extends BaseRepository
 {
+    public function findChildren(Category $category)
+    {
+        return $category->children()->all();
+    }
+
     public function makeCategoryCreateModel()
     {
         return $this->getModel();
@@ -26,7 +31,7 @@ class CategoryRepository extends BaseRepository
 
         return $exist;
     }
-    
+
     public function model()
     {
         return Category::className();

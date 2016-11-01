@@ -34,7 +34,7 @@ class AlbumRepository extends BaseRepository
         return Yii::createObject('rokorolov\parus\gallery\models\AlbumLang');
     }
     
-    public function existsByAlbumAliase($attribute, $id = null)
+    public function existsByAlbumAlias($attribute, $id = null)
     {
         $exist = $this->make()
             ->where(['album_aliase' => $attribute])

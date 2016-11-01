@@ -3,9 +3,10 @@
 namespace rokorolov\parus\menu\repositories;
 
 use rokorolov\parus\menu\models\MenuType;
+use rokorolov\parus\menu\models\Menu;
 use rokorolov\parus\menu\dto\MenuTypeDto;
 use rokorolov\parus\admin\base\BaseReadRepository;
-use rokorolov\parus\admin\contracts\HasPresenter;
+use Yii;
 use yii\db\Query;
 
 /**
@@ -13,9 +14,11 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class MenuTypeReadRepository extends BaseReadRepository implements HasPresenter
+class MenuTypeReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_MENU_TYPE = 'mt';
+    
+    protected $menuReadRepository;
 
     /**
      * Find by id
@@ -52,7 +55,7 @@ class MenuTypeReadRepository extends BaseReadRepository implements HasPresenter
         return $this->toMenuTypeDto($data, $prefix);
     }
     
-    public function existsByMenuTypeAliase($attribute, $id = null)
+    public function existsByMenuTypeAlias($attribute, $id = null)
     {
         $exist = (new Query())
             ->from(MenuType::tableName() . ' mt')
@@ -69,20 +72,23 @@ class MenuTypeReadRepository extends BaseReadRepository implements HasPresenter
             'menu' => self::RELATION_MANY,
         ];
     }
-
-    protected function populateMenu($menuType)
+    
+    protected function populateMenu($menuType, &$data)
     {
-        $menuType->menu = [];
-    }
-
-    public function selectAttributesMap()
-    {
-        return 'mt.id AS mt_id, mt.menu_type_aliase AS mt_menu_type_aliase, mt.title AS mt_title, mt.description AS mt_description';
+        $menuType->menu = $this->getMenuReadRepository()->findManyBy('menu_type_id', $menuType->id);
     }
     
-    public function presenter()
+    protected function getMenuReadRepository()
     {
-        return 'rokorolov\parus\menu\presenters\MenuTypePresenter';
+        if ($this->menuReadRepository === null) {
+            $this->menuReadRepository = Yii::createObject('rokorolov\parus\menu\repositories\MenuReadRepository');
+        }
+        return $this->menuReadRepository;
+    }
+    
+    public function selectAttributesMap()
+    {
+        return 'mt.id AS mt_id, mt.menu_type_aliase AS mt_menu_type_alias, mt.title AS mt_title, mt.description AS mt_description';
     }
     
     public function make()

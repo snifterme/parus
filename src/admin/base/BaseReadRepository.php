@@ -14,27 +14,20 @@ class BaseReadRepository
     const RELATION_MANY = 'many';
     const RELATION_ONE = 'one';
 
+    public $presenter;
+    
     protected $query;
-    protected $presenter;
     protected $skipPresenter = false;
     protected $relations = [];
     protected $resolvedRelations = [];
     protected $populatedRelations = [];
     protected $relationNameMap = [];
-
-
-    public function __construct()
-    {
-        $this->makePresenter();
-    }
     
     public function findFirstBy($key, $value)
     {
         $query = $this->make()
             ->addSelect($this->selectAttributesMap())
             ->andWhere([$key => $value]);
-
-        $this->reset();
 
         return $this->parserResult($query->one());
     }
@@ -45,8 +38,6 @@ class BaseReadRepository
             ->addSelect($this->selectAttributesMap())
             ->andWhere([$key => $value])
             ->all();
-
-        $this->reset();
 
         $models = [];
         foreach ($rows as $row) {
@@ -63,8 +54,6 @@ class BaseReadRepository
             ->addSelect($this->selectAttributesMap())
             ->all();
 
-        $this->reset();
-
         $models = [];
         foreach ($rows as $row) {
             if ($model = $this->parserResult($row)) {
@@ -80,9 +69,63 @@ class BaseReadRepository
             ->addSelect($this->selectAttributesMap())
             ->andFilterWhere([$key => $value]);
 
-        $this->reset();
+        return $this->parserResult($query->one());
+    }
+
+    public function findOne()
+    {
+        $query = $this->make()
+            ->addSelect($this->selectAttributesMap());
 
         return $this->parserResult($query->one());
+    }
+
+    public function exists()
+    {
+        $query = $this->make();
+
+        $this->reset();
+
+        return $query->exists();
+    }
+
+    public function scalar()
+    {
+        $query = $this->make();
+
+        $this->reset();
+
+        return $query->scalar();
+    }
+
+    public function column()
+    {
+        $query = $this->make();
+
+        $this->reset();
+
+        return $query->column();
+    }
+
+    public function count()
+    {
+        $query = $this->make();
+
+        $this->reset();
+
+        return $query->count();
+    }
+    
+    public function select($attributes)
+    {
+        $query = $this->make()->select($attributes);
+        return $this;
+    }
+    
+    public function addSelect($attributes)
+    {
+        $query = $this->make()->addSelect($attributes);
+        return $this;
     }
 
     public function with(array $relations = [])
@@ -97,9 +140,39 @@ class BaseReadRepository
         return $this;
     }
 
-    public function orderBy($column, $direction = SORT_ASC)
+    public function filterWhere($conditions)
     {
-        $this->make()->orderBy([$column => $direction]);
+        $this->make()->filterWhere($conditions);
+        return $this;
+    }
+    
+    public function andFilterWhere($conditions)
+    {
+        $this->make()->andFilterWhere($conditions);
+        return $this;
+    }
+    
+    public function orFilterWhere($conditions)
+    {
+        $this->make()->orFilterWhere($conditions);
+        return $this;
+    }
+
+    public function orderBy($order)
+    {
+        $this->make()->orderBy($order);
+        return $this;
+    }
+    
+    public function groupBy($group)
+    {
+        $this->make()->groupBy($group);
+        return $this;
+    }
+    
+    public function indexBy($indexBy)
+    {
+        $this->make()->indexBy($indexBy);
         return $this;
     }
 
@@ -109,9 +182,15 @@ class BaseReadRepository
         return $this;
     }
     
+    public function offset($offset)
+    {
+        $this->make()->offset($offset);
+        return $this;
+    }
+    
     public function setPresenter($presenter)
     {
-        $this->makePresenter($presenter);
+        $this->presenter = $presenter;
         return $this;
     }
     
@@ -119,11 +198,6 @@ class BaseReadRepository
     {
         $this->skipPresenter = $status;
         return $this;
-    }
-    
-    public function presenter()
-    {
-        return null;
     }
 
     protected function reset()
@@ -140,29 +214,22 @@ class BaseReadRepository
 
     protected function parserResult($row)
     {
+        $this->reset();
+        
         if (!empty($row)) {
-            
             $result = $this->populate($row);
             $this->populateRelations($result, $row);
-            
-            if (!$this->skipPresenter && !is_null($presenter = $this->presenter)) {
-                $result = Yii::createObject($presenter, [$result]);
-            }
-            
-            return $result;
+            return $this->applyPresenter($result);
         }
         return null;
     }
-
-    protected function makePresenter($presenter = null)
+    
+    protected function applyPresenter($result)
     {
-        $presenter = !is_null($presenter) ? $presenter : $this->presenter();
-        
-        if (!is_null($presenter)) {
-            $this->presenter = $presenter;
-            return $this->presenter;
+        if (!$this->skipPresenter && !is_null($presenter = $this->presenter)) {
+            $result = Yii::createObject($presenter, [$result]);
         }
-        return null;
+        return $result;
     }
     
     protected function resolveRelations($query, $relations)

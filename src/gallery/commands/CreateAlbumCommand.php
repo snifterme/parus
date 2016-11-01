@@ -12,13 +12,13 @@ class CreateAlbumCommand
     public $model;
     
     private $status;
-    private $album_aliase;
+    private $album_alias;
     private $translations;
     
-    public function __construct($status, $album_aliase, $translations)
+    public function __construct($status, $album_alias, $translations)
     {
         $this->status = $status;
-        $this->album_aliase = $album_aliase;
+        $this->album_alias = $album_alias;
         $this->translations = $translations;
     }
     
@@ -27,9 +27,9 @@ class CreateAlbumCommand
         return $this->status;
     }
     
-    public function getAlbumAliase()
+    public function getAlbumAlias()
     {
-        return $this->album_aliase;
+        return $this->album_alias;
     }
     
     public function getTranslations()

@@ -6,7 +6,6 @@ use rokorolov\parus\gallery\models\Album;
 use rokorolov\parus\gallery\models\AlbumLang;
 use rokorolov\parus\gallery\dto\AlbumDto;
 use rokorolov\parus\gallery\dto\AlbumLangDto;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use rokorolov\parus\admin\base\BaseReadRepository;
 use Yii;
 use yii\db\Query;
@@ -16,10 +15,12 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class AlbumReadRepository extends BaseReadRepository implements HasPresenter
+class AlbumReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_ALBUM = 'a';
     const TABLE_SELECT_PREFIX_ALBUM_LANG = 'al';
+    
+    protected $photoReadRepository;
     
     /**
      * Find by id
@@ -50,7 +51,7 @@ class AlbumReadRepository extends BaseReadRepository implements HasPresenter
         return $translations;
     }
     
-    public function existsByAlbumAliase($attribute, $id = null)
+    public function existsByAlbumAlias($attribute, $id = null)
     {
         $exist = (new Query())
             ->from(Album::tableName() . ' a')
@@ -70,11 +71,6 @@ class AlbumReadRepository extends BaseReadRepository implements HasPresenter
         return $this->query;
     }
     
-    public function presenter()
-    {
-        return 'rokorolov\parus\gallery\presenters\AlbumPresenter';
-    }
-    
     public function populate(&$data, $prefix = true)
     {
         return $this->toAlbumDto($data, $prefix);
@@ -85,6 +81,7 @@ class AlbumReadRepository extends BaseReadRepository implements HasPresenter
         return [
             'translation' => self::RELATION_ONE,
             'translations' => self::RELATION_MANY,
+            'photo' => self::RELATION_MANY,
             'photo.translations' => self::RELATION_MANY,
         ];
     }
@@ -105,9 +102,27 @@ class AlbumReadRepository extends BaseReadRepository implements HasPresenter
         $album->translations = $this->findTranslations($album->id);
     }
     
+    protected function populatePhotoTranslations($album)
+    {
+        $album->photos = $this->getPhotoReadRepository()->findByAlbumId($album->id, ['translations']);
+    }
+    
+    protected function populatePhoto($album)
+    {
+        $album->photos = $this->getPhotoReadRepository()->findByAlbumId($album->id);
+    }
+
+    protected function getPhotoReadRepository()
+    {
+        if ($this->photoReadRepository === null) {
+            $this->photoReadRepository = Yii::createObject('rokorolov\parus\gallery\repositories\PhotoReadRepository');
+        }
+        return $this->photoReadRepository;
+    }
+    
     public function selectAttributesMap()
     {
-        return 'a.id AS a_id, a.status AS a_status, a.album_aliase AS a_album_aliase, a.created_at AS a_created_at, a.modified_at AS a_modified_at';
+        return 'a.id AS a_id, a.status AS a_status, a.album_aliase AS a_album_alias, a.created_at AS a_created_at, a.modified_at AS a_modified_at';
     }
 
     public function selectAlbumLangAttributesMap()

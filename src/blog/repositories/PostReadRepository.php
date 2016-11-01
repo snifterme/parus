@@ -6,7 +6,7 @@ use rokorolov\parus\blog\models\Post;
 use rokorolov\parus\blog\models\Category;
 use rokorolov\parus\blog\dto\PostDto;
 use rokorolov\parus\user\models\User;
-use rokorolov\parus\admin\contracts\HasPresenter;
+use rokorolov\parus\user\models\Profile;
 use rokorolov\parus\admin\base\BaseReadRepository;
 use Yii;
 use yii\db\Query;
@@ -16,7 +16,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class PostReadRepository extends BaseReadRepository implements HasPresenter
+class PostReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_POST = 'p';
     
@@ -41,14 +41,14 @@ class PostReadRepository extends BaseReadRepository implements HasPresenter
     public function findPopularPost($limit)
     {
         return $this->limit($limit)
-            ->orderBy('p.hits', SORT_DESC)
+            ->orderBy(['p.hits' => SORT_DESC])
             ->findAll();
     }
     
     public function findLastAddedPost($limit)
     {
         return $this->limit($limit)
-            ->orderBy('p.created_at', SORT_DESC)
+            ->orderBy(['p.created_at' => SORT_DESC])
             ->findAll();
     }
     
@@ -108,11 +108,6 @@ class PostReadRepository extends BaseReadRepository implements HasPresenter
 
         return $this->query;
     }
-    
-    public function presenter()
-    {
-        return 'rokorolov\parus\blog\presenters\PostPresenter';
-    }
 
     public function populate(&$data, $prefix = true)
     {
@@ -124,11 +119,12 @@ class PostReadRepository extends BaseReadRepository implements HasPresenter
         return [
             'createdBy' => self::RELATION_ONE,
             'modifiedBy' => self::RELATION_ONE,
+            'author' => self::RELATION_ONE,
             'category' => self::RELATION_ONE
         ];
     }
 
-    protected function resolveCreatedBy($query)
+    public function resolveCreatedBy($query)
     {
         if (!in_array('modifiedBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
@@ -136,15 +132,23 @@ class PostReadRepository extends BaseReadRepository implements HasPresenter
         }
     }
 
-    protected function resolveModifiedBy($query)
+    public function resolveModifiedBy($query)
     {
         if (!in_array('createdBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
                 ->leftJoin(User::tableName() . ' u', 'p.modified_by = u.id');
         }
     }
+    
+    public function resolveAuthor($query)
+    {
+        $userRepository = $this->getUserReadRepository();
+        $query->addSelect($userRepository->selectAttributesMap() . ', ' . $userRepository->selectProfileAttributesMap())
+            ->leftJoin(User::tableName() . ' u', 'p.created_by = u.id')
+            ->leftJoin(Profile::tableName() . ' up', 'up.user_id = u.id');
+    }
 
-    protected function resolveCategory($query)
+    public function resolveCategory($query)
     {
         $query->addSelect($this->getCategoryReadRepository()->selectAttributesMap())
             ->leftJoin(Category::tableName() . ' c', 'p.category_id = c.id');
@@ -153,7 +157,7 @@ class PostReadRepository extends BaseReadRepository implements HasPresenter
     protected function populateCreatedBy($post, &$data)
     {
         if (!in_array('modifiedBy', $this->populatedRelations)) {
-            $post->createdBy = $this->getUserReadRepository()->populate($data);
+            $post->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $post->createdBy = $this->getUserReadRepository()->findById($post->created_by);
         }
@@ -162,17 +166,22 @@ class PostReadRepository extends BaseReadRepository implements HasPresenter
     protected function populateModifiedBy($post, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $post->modifiedBy = $this->getUserReadRepository()->populate($data);
+            $post->modifiedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $post->modifiedBy = $this->getUserReadRepository()->findById($post->modified_by);
         }
+    }
+    
+    protected function populateAuthor($post, &$data)
+    {
+        $post->author = $this->getUserReadRepository()->with(['profile'])->parserResult($data);
     }
 
     protected function populateCategory($post, &$data)
     {
         $post->category = $this->getCategoryReadRepository()->populate($data);
     }
-
+    
     protected function getCategoryReadRepository()
     {
         if ($this->categoryReadRepository === null) {

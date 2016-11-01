@@ -3,6 +3,7 @@
 namespace rokorolov\parus\gallery\services;
 
 use rokorolov\parus\gallery\contracts\GalleryServiceInterface;
+use rokorolov\parus\gallery\helpers\Settings;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\InvalidParamException;
@@ -17,11 +18,12 @@ class GalleryService implements GalleryServiceInterface
 {
     public function getAlbumWithPhotos($id)
     {
-        $album = Yii::createObject('rokorolov\parus\gallery\repositories\AlbumReadRepository')->findById($id, ['translation']);
-        $photos = Yii::createObject('rokorolov\parus\gallery\repositories\PhotoReadRepository')->findAllByAlbumId($album->id, ['translations']);
+        $album = Yii::createObject('rokorolov\parus\gallery\repositories\AlbumReadRepository')
+            ->where(['al.language' => Settings::language()])
+            ->findById($id, ['translation', 'photo.translations']);
         
         $models = [];
-        foreach($photos as $photo) {
+        foreach($album->photos as $photo) {
             $models[$photo->id] = Yii::createObject('rokorolov\parus\gallery\models\form\PhotoForm')->setData($photo);
         }
         

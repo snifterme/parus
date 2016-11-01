@@ -22,7 +22,7 @@ class AlbumForm extends Model
 
     public $id;
     public $status;
-    public $album_aliase;
+    public $album_alias;
     public $created_at;
     public $modified_at;
     public $translations = [];
@@ -51,15 +51,15 @@ class AlbumForm extends Model
     public function rules()
     {
         return [
-            ['album_aliase', 'filter', 'filter' => 'trim'],
+            ['album_alias', 'filter', 'filter' => 'trim'],
             
             ['status', 'required'],
             ['status', 'in', 'range' => $this->viewHelper->getStatuses()],
             ['status', 'default', 'value' => $this->viewHelper->getDefaultStatus()],
             
-            ['album_aliase', 'required'],
-            ['album_aliase', 'string', 'max' => 128],
-            ['album_aliase', 'validateAlbumAliase'],
+            ['album_alias', 'required'],
+            ['album_alias', 'string', 'max' => 128],
+            ['album_alias', 'validateAlbumAlias'],
         ];
     }
 
@@ -71,7 +71,7 @@ class AlbumForm extends Model
         return [
             'id',
             'status',
-            'album_aliase'
+            'album_alias'
         ];
     }
 
@@ -115,10 +115,10 @@ class AlbumForm extends Model
         return $this->wrappedObject->modified_at();
     }
 
-    public function validateAlbumAliase($attribute)
+    public function validateAlbumAlias($attribute)
     {
-        if ($this->albumReadRepository->existsByAlbumAliase($this->$attribute, $this->id)) {
-            $this->addError($attribute,  Module::t('gallery', 'Album aliase "{value}" is already exists.', ['value' => $this->$attribute]));
+        if ($this->albumReadRepository->existsByAlbumAlias($this->$attribute, $this->id)) {
+            $this->addError($attribute,  Module::t('gallery', 'Album alias "{value}" is already exists.', ['value' => $this->$attribute]));
         }
     }
     
@@ -169,7 +169,7 @@ class AlbumForm extends Model
             $this->wrappedObject = $data;
             $this->id = $this->wrappedObject->id;
             $this->status = $this->wrappedObject->status;
-            $this->album_aliase = $this->wrappedObject->album_aliase;
+            $this->album_alias = $this->wrappedObject->album_alias;
             $this->created_at = $this->wrappedObject->created_at;
             $this->modified_at = $this->wrappedObject->modified_at;
 

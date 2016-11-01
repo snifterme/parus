@@ -8,7 +8,6 @@ use rokorolov\parus\user\dto\UserDto;
 use rokorolov\parus\user\dto\UserProfileDto;
 use rokorolov\parus\user\dto\UserSafeDto;
 use rokorolov\parus\admin\base\BaseReadRepository;
-use rokorolov\parus\admin\contracts\HasPresenter;
 use yii\db\Query;
 
 /**
@@ -16,7 +15,7 @@ use yii\db\Query;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class UserReadRepository extends BaseReadRepository implements HasPresenter
+class UserReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_USER = 'u';
     const TABLE_SELECT_PREFIX_PROFILE = 'up';
@@ -49,11 +48,6 @@ class UserReadRepository extends BaseReadRepository implements HasPresenter
         }
     }
     
-    public function presenter()
-    {
-        return 'rokorolov\parus\user\presenters\UserPresenter';
-    }
-    
     public function make()
     {
         if (null === $this->query) {
@@ -79,13 +73,13 @@ class UserReadRepository extends BaseReadRepository implements HasPresenter
         ];
     }
     
-    protected function resolveProfile($query)
+    public function resolveProfile($query)
     {
         $query->addSelect($this->selectProfileAttributesMap())
             ->leftJoin(Profile::tableName() . ' up', 'up.user_id = u.id');
     }
 
-    protected function populateProfile($user, $data)
+    public function populateProfile($user, $data)
     {
         $user->profile = $this->toProfileDto($data);
     }

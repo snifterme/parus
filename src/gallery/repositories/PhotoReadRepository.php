@@ -5,17 +5,17 @@ namespace rokorolov\parus\gallery\repositories;
 use rokorolov\parus\gallery\models\Photo;
 use rokorolov\parus\gallery\models\PhotoLang;
 use rokorolov\parus\gallery\dto\PhotoDto;
-use rokorolov\parus\gallery\dto\PhotoLangDto;
-use rokorolov\parus\admin\contracts\HasPresenter;	
+use rokorolov\parus\gallery\dto\PhotoLangDto;	
 use rokorolov\parus\admin\base\BaseReadRepository;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * PhotoReadRepository
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class PhotoReadRepository extends BaseReadRepository implements HasPresenter
+class PhotoReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_PHOTO = 'p';
     const TABLE_SELECT_PREFIX_PHOTO_LANG = 'pl';
@@ -33,23 +33,13 @@ class PhotoReadRepository extends BaseReadRepository implements HasPresenter
         return $this->findFirstBy('p.id', $id);
     }
     
-    public function findAllByAlbumId($id, array $with = [])
+    public function findByAlbumId($id, array $with = [])
     {
-        $this->applyRelations($with); 
+        $photos = $this->orderBy('order')->findManyBy('album_id', $id);
         
-        $query = $this->make()
-            ->select($this->selectAttributesMap())
-            ->andWhere(['p.album_id' => $id])
-            ->orderBy('p.order');
-
-        $rows = $query->all();
-        $photos = [];
-        foreach ($rows as $row) {
-            $photo = $this->parserResult($row);
-            array_push($photos, $photo);
+        if (in_array('translations', $with)) {
+            $this->eagerPopulateTranslations($photos);
         }
-        
-        $this->reset();
         
         return $photos;
     }
@@ -79,11 +69,6 @@ class PhotoReadRepository extends BaseReadRepository implements HasPresenter
         return $this->query;
     }
     
-    public function presenter()
-    {
-        return 'rokorolov\parus\gallery\presenters\PhotoPresenter';
-    }
-    
     public function populate(&$data, $prefix = true)
     {
         return $this->toPhotoDto($data, $prefix);
@@ -103,14 +88,25 @@ class PhotoReadRepository extends BaseReadRepository implements HasPresenter
             ->leftJoin(PhotoLang::tableName() . ' pl', 'pl.photo_id = p.id');
     }
     
-    protected function populateTranslation($album, &$data)
+    protected function populateTranslation($photo, &$data)
     {
-        $album->translation = new PhotoLangDto($data, self::TABLE_SELECT_PREFIX_PHOTO_LANG);
+        $photo->translation = new PhotoLangDto($data, self::TABLE_SELECT_PREFIX_PHOTO_LANG);
     }
     
-    protected function populateTranslations($album)
+    protected function populateTranslations($photo)
     {
-        $album->translations = $this->findTranslations($album->id);
+        $photo->translations = $this->findTranslations($photo->id);
+    }
+    
+    public function eagerPopulateTranslations($photos)
+    {
+        $ids = ArrayHelper::getColumn($photos, 'id');
+        $translations = ArrayHelper::index($this->findTranslations($ids), null, 'photo_id');
+        foreach ($photos as $photo) {
+            if (isset($translations[$photo->id])) {
+                $photo->translations = $translations[$photo->id];
+            }
+        }
     }
     
     public function selectAttributesMap()
