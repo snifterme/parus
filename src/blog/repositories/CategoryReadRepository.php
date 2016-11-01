@@ -4,11 +4,12 @@ namespace rokorolov\parus\blog\repositories;
 
 use rokorolov\parus\blog\models\Category;
 use rokorolov\parus\blog\dto\CategoryDto;
-use rokorolov\parus\user\repositories\UserReadRepository;
 use rokorolov\parus\user\models\User;
+use rokorolov\parus\user\models\Profile;
 use rokorolov\parus\admin\base\BaseReadRepository;
 use Yii;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * UserReadRepository
@@ -19,6 +20,7 @@ class CategoryReadRepository extends BaseReadRepository
 {
     const TABLE_SELECT_PREFIX_CATEGORY = 'c';
     
+    private $postReadRepository;
     private $userReadRepository;
     
     /**
@@ -137,10 +139,11 @@ class CategoryReadRepository extends BaseReadRepository
         return [
             'createdBy' => self::RELATION_ONE,
             'modifiedBy' => self::RELATION_ONE,
+            'author' => self::RELATION_ONE,
         ];
     }
     
-    protected function resolveCreatedBy($query)
+    public function resolveCreatedBy($query)
     {
         if (!in_array('modifiedBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
@@ -148,12 +151,20 @@ class CategoryReadRepository extends BaseReadRepository
         }
     }
     
-    protected function resolveModifiedBy($query)
+    public function resolveModifiedBy($query)
     {
         if (!in_array('createdBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
                 ->leftJoin(User::tableName() . ' u', 'c.modified_by = u.id');
         }
+    }
+    
+    public function resolveAuthor($query)
+    {
+        $userRepository = $this->getUserReadRepository();
+        $query->addSelect($userRepository->selectAttributesMap() . ', ' . $userRepository->selectProfileAttributesMap())
+            ->leftJoin(User::tableName() . ' u', 'c.created_by = u.id')
+            ->leftJoin(Profile::tableName() . ' up', 'up.user_id = u.id');
     }
 
     protected function populateCreatedBy($category, &$data)
@@ -174,12 +185,37 @@ class CategoryReadRepository extends BaseReadRepository
         }
     }
     
+    protected function populateAuthor($category, &$data)
+    {
+        $category->author = $this->getUserReadRepository()->with(['profile'])->parserResult($data);
+    }
+    
+    public function eagerPopulatePost($categories)
+    {
+        $ids = ArrayHelper::getColumn($categories, 'id');
+        $post = ArrayHelper::index($this->getPostReadRepository()->where(['in', 'category_id', $ids])->findAll(), null, 'category_id');
+        
+        foreach ($categories as $category) {
+            if (isset($post[$category->id])) {
+                $category->posts = $post[$category->id];
+            }
+        }
+    }
+    
     protected function getUserReadRepository()
     {
         if ($this->userReadRepository === null) {
             $this->userReadRepository = Yii::createObject('rokorolov\parus\user\repositories\UserReadRepository');
         }
         return $this->userReadRepository;
+    }
+    
+    protected function getPostReadRepository()
+    {
+        if ($this->postReadRepository === null) {
+            $this->postReadRepository = Yii::createObject('rokorolov\parus\blog\repositories\PostReadRepository');
+        }
+        return $this->postReadRepository;
     }
 
     public function selectAttributesMap()

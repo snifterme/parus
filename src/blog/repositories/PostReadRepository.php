@@ -6,6 +6,7 @@ use rokorolov\parus\blog\models\Post;
 use rokorolov\parus\blog\models\Category;
 use rokorolov\parus\blog\dto\PostDto;
 use rokorolov\parus\user\models\User;
+use rokorolov\parus\user\models\Profile;
 use rokorolov\parus\admin\base\BaseReadRepository;
 use Yii;
 use yii\db\Query;
@@ -118,11 +119,12 @@ class PostReadRepository extends BaseReadRepository
         return [
             'createdBy' => self::RELATION_ONE,
             'modifiedBy' => self::RELATION_ONE,
+            'author' => self::RELATION_ONE,
             'category' => self::RELATION_ONE
         ];
     }
 
-    protected function resolveCreatedBy($query)
+    public function resolveCreatedBy($query)
     {
         if (!in_array('modifiedBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
@@ -130,15 +132,23 @@ class PostReadRepository extends BaseReadRepository
         }
     }
 
-    protected function resolveModifiedBy($query)
+    public function resolveModifiedBy($query)
     {
         if (!in_array('createdBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
                 ->leftJoin(User::tableName() . ' u', 'p.modified_by = u.id');
         }
     }
+    
+    public function resolveAuthor($query)
+    {
+        $userRepository = $this->getUserReadRepository();
+        $query->addSelect($userRepository->selectAttributesMap() . ', ' . $userRepository->selectProfileAttributesMap())
+            ->leftJoin(User::tableName() . ' u', 'p.created_by = u.id')
+            ->leftJoin(Profile::tableName() . ' up', 'up.user_id = u.id');
+    }
 
-    protected function resolveCategory($query)
+    public function resolveCategory($query)
     {
         $query->addSelect($this->getCategoryReadRepository()->selectAttributesMap())
             ->leftJoin(Category::tableName() . ' c', 'p.category_id = c.id');
@@ -161,12 +171,17 @@ class PostReadRepository extends BaseReadRepository
             $post->modifiedBy = $this->getUserReadRepository()->findById($post->modified_by);
         }
     }
+    
+    protected function populateAuthor($post, &$data)
+    {
+        $post->author = $this->getUserReadRepository()->with(['profile'])->parserResult($data);
+    }
 
     protected function populateCategory($post, &$data)
     {
         $post->category = $this->getCategoryReadRepository()->populate($data);
     }
-
+    
     protected function getCategoryReadRepository()
     {
         if ($this->categoryReadRepository === null) {
