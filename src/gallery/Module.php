@@ -62,7 +62,7 @@ class Module extends \yii\base\Module
                     'uploadFileSrc' => '@web/uploads/gallery',
                     'nameFileCreator' => null,
                     'pathFileCreator' => null,
-                    'allowedExtensions' => ['jpg', 'gif', 'png', 'txt'],
+                    'allowedExtensions' => ['jpg', 'jpeg', 'gif', 'png', 'txt'],
                     'allowedFileTypes' => ['image', 'html', 'text', 'video', 'audio', 'flash', 'object'],
                     'allowedMimeTypes' => [],
                     'imagesTransformations' => [],
