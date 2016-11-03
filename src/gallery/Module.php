@@ -65,7 +65,7 @@ class Module extends \yii\base\Module
                     'allowedExtensions' => ['jpg', 'jpeg', 'gif', 'png', 'txt'],
                     'allowedFileTypes' => ['image', 'html', 'text', 'video', 'audio', 'flash', 'object'],
                     'allowedMimeTypes' => [],
-                    'imagesTransformations' => [],
+                    'allowedHtmlTags' => false,
                     'previewThumbDimensions' => [98, 98],
                     'previewThumbName' => 'preview-thumb',
                 ],
