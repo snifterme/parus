@@ -44,7 +44,7 @@ class DeletePhotoHandler
             null,
             null,
             Settings::uploadFilePath($album) . DIRECTORY_SEPARATOR . $album,
-            array_merge($config['imagesTransformations'], [
+            array_merge($config['imageTransformations'], [
                 [
                     'postfix' => $config['previewThumbName']
                 ]
