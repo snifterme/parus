@@ -28,7 +28,7 @@ class CategoryDto
     public $modified_by;
     public $modified_at;
     public $author;
-    public $posts;
+    public $posts = [];
     public $createdBy;
     public $modifiedBy;
     
