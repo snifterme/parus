@@ -35,6 +35,7 @@ class ImageManager
     public $imagePathCreator;
     public $fileTransformations = [];
     public $imageManagerDriver = 'gd';
+    public $defaultResizeMethod = self::METHOD_RESIZE;
 
     private $imageName;
     private $originalImageName;
@@ -80,8 +81,9 @@ class ImageManager
 
             !$withCanvas && $image->backup();
 
-            if (isset($option['method']) && ($option['width'] || $option['height'])) {
-                switch ($option['method']) {
+            if ($key !== self::ORIGIN_IMAGE_KEY && ($option['width'] || $option['height'])) {
+                $resizeMethod = isset($option['method']) ? $option['method'] : $this->defaultResizeMethod;
+                switch ($resizeMethod) {
                     case self::METHOD_CROP:
                         $image->fit($option['width'], $option['height']);
                         break;

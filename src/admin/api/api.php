@@ -36,6 +36,14 @@ function get_post($options = [])
     return (new rokorolov\parus\blog\api\Entry())->getPost($options);
 }
 
+function get_popular_post($limit = 10, $options = [])
+{
+    $options['limit'] = $limit;
+    $options['order'] = 'hits DESC';
+    
+    return (new rokorolov\parus\blog\api\Entry())->getPost($options);
+}
+
 function get_category_by($key, $value, $options = [])
 {
     return (new rokorolov\parus\blog\api\Entry())->getCategoryBy($key, $value, $options);
