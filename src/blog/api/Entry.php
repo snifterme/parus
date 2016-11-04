@@ -16,6 +16,7 @@ class Entry
     const WITH_CATEGORY = 'category';
     const WITH_POST = 'post';
     const WITH_AUTHOR = 'author';
+    const WITH_POST_COUNT = 'post_count';
     
     public $postOptions = [
         'id' => null,
@@ -46,6 +47,8 @@ class Entry
         'offset' => null,
         'category_status' => Status::STATUS_PUBLISHED,
         'post_group_limit' => null,
+        'with_root' => false,
+        'depth' => null,
         'with' => [],
         'where' => null,
     ];
@@ -123,16 +126,18 @@ class Entry
         $with = $this->prepareRelations($options['with']);
         
         $category = $this->getCategoryReadRepository()
-            ->where(['>', 'c.lft', 1])
             ->andFilterWhere(['and',
                 ['in', 'c.id', $options['id']],
                 ['in', 'c.slug', $options['alias']],
                 ['in', 'c.status', $options['category_status']],
                 ['in', 'c.created_by', $options['author']],
-                ['in', 'c.language', $options['language']]])
+                ['in', 'c.language', $options['language']],
+                ['c.depth' => $options['depth']]
+            ])
             ->orderBy('c.' . $options['order'])
             ->limit($options['limit']);
         
+        !$options['with_root'] && $category->where(['>', 'c.lft', 1]);
         !is_null($options['group_by']) && $category->groupBy('c.' . $options['group_by']);
         !is_null($options['offset']) && $category->offset($options['offset']);
         !is_null($options['where']) && $category->where($options['where']);
@@ -142,7 +147,23 @@ class Entry
         if (isset($with[self::WITH_AUTHOR])) {
             array_push($relations, self::WITH_AUTHOR);
         }
-
+        
+        if (isset($with[self::WITH_POST_COUNT])) {
+            
+            $postCount = (new \yii\db\Query)->select('COUNT(p.id)')
+                ->from(['node' => 'category', 'parent' => 'category', 'p' => 'post'])
+                ->where(['and',
+                    ['between', 'node.lft', new \yii\db\Expression('parent.lft'), new \yii\db\Expression('parent.rgt')],
+                    ['node.id' => new \yii\db\Expression('p.category_id')],
+                    ['parent.id' => new \yii\db\Expression('c.id')],
+                    ['in', 'p.status',  Status::STATUS_PUBLISHED]
+                ])
+                ->groupBy('parent.id')
+                ->orderBy('node.lft');
+            
+            $category->addSelect(['c_post_count' => $postCount]);
+        }
+        
         !empty($relations) && $category->with($relations);
 
         $collection = false;
@@ -158,7 +179,7 @@ class Entry
             }
             $category = [$category];
         }
-        
+
         if (isset($with[self::WITH_POST])) {
 
             $postOptions = array_replace($this->postOptions, $with[self::WITH_POST]);
@@ -183,6 +204,22 @@ class Entry
         }
 
         return $collection ? $category : array_shift($category);
+    }
+    
+    public function getCategoryChildrenIds($parent, $level = 1)
+    {
+        $options['where'] = ['and', ['>', 'c.lft', $parent->lft], ['<', 'c.rgt', $parent->rgt]];
+        $depth = $level === 1 ? $parent->depth + 1 : null;
+        
+        return $this->getCategoryReadRepository()->make()
+            ->select('id')
+            ->where(['and',
+                ['>', 'c.lft', $parent->lft],
+                ['<', 'c.rgt', $parent->rgt],
+                ['c.status' => Status::STATUS_PUBLISHED]
+            ])
+            ->andFilterWhere(['c.depth' => $depth])
+            ->all();
     }
     
     public function bindParamArray($prefix, $values, &$bindArray)
@@ -231,9 +268,9 @@ class Entry
         return $models;
     }
     
-    protected function prepareRelations($with)
+    protected function prepareRelations($with, $relations = [])
     {
-        $relations = [];
+        $with = (array)$with;
         foreach($with as $key => $value) {
             if (is_array($value)) {
                 $relations[$key] = $value;
