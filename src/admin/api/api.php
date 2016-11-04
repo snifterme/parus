@@ -54,6 +54,27 @@ function get_category($options = [])
     return (new rokorolov\parus\blog\api\Entry())->getCategory($options);
 }
 
+function get_category_root($options = [])
+{
+    $options['with_root'] = true;
+    $rootId = rokorolov\parus\blog\helpers\Settings::categoryRootId();
+    
+    return (new rokorolov\parus\blog\api\Entry())->getCategoryBy('id', $rootId, $options);
+}
+
+function get_category_children($parent, $level = 1, $options = [])
+{
+    $options['where'] = ['and', ['>', 'c.lft', $parent->lft], ['<', 'c.rgt', $parent->rgt]];
+    $options['depth'] = $level === 1 ? $parent->depth + 1 : null;
+
+    return (new rokorolov\parus\blog\api\Entry())->getCategory($options);
+}
+
+function get_category_children_ids($parent, $level = 1, $options = [])
+{
+    return \yii\helpers\ArrayHelper::getColumn((new rokorolov\parus\blog\api\Entry())->getCategoryChildrenIds($parent, $level, $options), 'id');
+}
+
 function get_page_by($key, $value, $options = [])
 {
     return (new rokorolov\parus\page\api\Page())->getPageBy($key, $value, $options);
