@@ -2,6 +2,7 @@
 
 namespace rokorolov\parus\settings\api;
 
+use rokorolov\parus\admin\base\BaseApi;
 use Yii;
 
 /**
@@ -9,7 +10,7 @@ use Yii;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class Settings
+class Settings extends BaseApi
 {
     public $settingsComponent;
     

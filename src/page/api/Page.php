@@ -4,6 +4,7 @@ namespace rokorolov\parus\page\api;
 
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use rokorolov\parus\page\helpers\Settings;
+use rokorolov\parus\admin\base\BaseApi;
 use Yii;
 
 /**
@@ -11,7 +12,7 @@ use Yii;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class Page
+class Page extends BaseApi
 {
     const WITH_AUTHOR = 'author';
     

@@ -3,6 +3,7 @@
 namespace rokorolov\parus\blog\api;
 
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
+use rokorolov\parus\admin\base\BaseApi;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -11,7 +12,7 @@ use yii\helpers\ArrayHelper;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class Entry
+class Entry extends BaseApi
 {
     const WITH_CATEGORY = 'category';
     const WITH_POST = 'post';

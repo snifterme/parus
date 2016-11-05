@@ -6,6 +6,7 @@ use rokorolov\parus\admin\helpers\UrlHelper;
 use rokorolov\parus\menu\helpers\Settings;
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use rokorolov\parus\admin\helpers\TagDependencyNamingHelper;
+use rokorolov\parus\admin\base\BaseApi;
 use Yii;
 use yii\caching\TagDependency;
 
@@ -14,7 +15,7 @@ use yii\caching\TagDependency;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class Menu
+class Menu extends BaseApi
 {
     public $options = [
         'id' => null,

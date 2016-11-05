@@ -3,6 +3,7 @@
 namespace rokorolov\parus\language\api;
 
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
+use rokorolov\parus\admin\base\BaseApi;
 use Yii;
 
 /**
@@ -10,7 +11,7 @@ use Yii;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class Language
+class Language extends BaseApi
 {
     const WITH_AUTHOR = 'author';
     
