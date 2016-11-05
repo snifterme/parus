@@ -49,6 +49,7 @@ class Entry
         'post_group_limit' => null,
         'with_root' => false,
         'depth' => null,
+        'exclude' => [],
         'with' => [],
         'where' => null,
     ];
@@ -83,7 +84,8 @@ class Entry
                 ['in', 'p.category_id', $options['category']],
                 ['in', 'p.created_by', $options['author']],
                 ['in', 'p.language', $options['language']],
-                ['in', 'c.slug', $options['category_alias']]])
+                ['in', 'c.slug', $options['category_alias']]
+            ])
             ->orderBy('p.' . $options['order'])
             ->limit($options['limit']);
         
@@ -132,6 +134,8 @@ class Entry
                 ['in', 'c.status', $options['category_status']],
                 ['in', 'c.created_by', $options['author']],
                 ['in', 'c.language', $options['language']],
+                ['not in', 'c.id', $options['exclude']],
+                ['not in', 'c.slug', $options['exclude']],
                 ['c.depth' => $options['depth']]
             ])
             ->orderBy('c.' . $options['order'])
