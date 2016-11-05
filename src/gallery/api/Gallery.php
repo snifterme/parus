@@ -92,17 +92,4 @@ class Gallery extends BaseApi
             $album->photos = $photos;
         }
     }
-    
-    protected function prepareRelations($with)
-    {
-        $relations = [];
-        foreach($with as $key => $value) {
-            if (is_array($value)) {
-                $relations[$key] = $value;
-            } else {
-                $relations[$value] = [];
-            }
-        }
-        return $relations;
-    }
 }

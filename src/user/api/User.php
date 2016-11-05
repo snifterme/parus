@@ -106,19 +106,6 @@ class User extends BaseApi
         return $collection ? $user : array_shift($user);
     }
     
-    protected function prepareRelations($with)
-    {
-        $relations = [];
-        foreach($with as $key => $value) {
-            if (is_array($value)) {
-                $relations[$key] = $value;
-            } else {
-                $relations[$value] = [];
-            }
-        }
-        return $relations;
-    }
-    
     protected function getUserReadRepository()
     {
         if (null === $this->userReadRepository) {

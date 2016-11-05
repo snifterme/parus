@@ -273,19 +273,6 @@ class Entry extends BaseApi
         return $models;
     }
     
-    protected function prepareRelations($with, $relations = [])
-    {
-        $with = (array)$with;
-        foreach($with as $key => $value) {
-            if (is_array($value)) {
-                $relations[$key] = $value;
-            } else {
-                $relations[$value] = [];
-            }
-        }
-        return $relations;
-    }
-    
     protected function getPostReadRepository()
     {
         if (null === $this->postReadRepository) {
