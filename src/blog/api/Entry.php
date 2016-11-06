@@ -211,9 +211,24 @@ class Entry extends BaseApi
         return $collection ? $category : array_shift($category);
     }
     
+    public function getCategoryParentIds($category, $level = 1)
+    {
+        $depth = $level === 1 ? $category->depth - 1 : null;
+        
+        return $this->getCategoryReadRepository()->make()
+            ->select('id')
+            ->where(['and',
+                ['>', 'c.lft', 1],
+                ['<', 'c.lft', $category->lft],
+                ['>', 'c.rgt', $category->rgt],
+                ['c.status' => Status::STATUS_PUBLISHED]
+            ])
+            ->andFilterWhere(['c.depth' => $depth])
+            ->all();
+    }
+    
     public function getCategoryChildrenIds($parent, $level = 1)
     {
-        $options['where'] = ['and', ['>', 'c.lft', $parent->lft], ['<', 'c.rgt', $parent->rgt]];
         $depth = $level === 1 ? $parent->depth + 1 : null;
         
         return $this->getCategoryReadRepository()->make()
@@ -267,7 +282,7 @@ class Entry extends BaseApi
         $models = [];
         foreach ($rows as $row) {
             if ($model = $this->getPostReadRepository()->populate($row, false)) {
-                array_push($models, $model);
+                array_push($models, $this->getPostReadRepository()->applyPresenter($model));
             }
         }
         return $models;
