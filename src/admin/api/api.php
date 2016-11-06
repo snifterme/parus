@@ -135,9 +135,9 @@ function get_setting($key)
     return (new \rokorolov\parus\settings\api\Settings())->getByKey($key);
 }
 
-function get_settings()
+function get_settings(array $keys = [])
 {
-    return (new \rokorolov\parus\settings\api\Settings())->getAll();
+    return (new \rokorolov\parus\settings\api\Settings())->getAll($keys);
 }
 
 function get_user_by($key, $value, $options = [])

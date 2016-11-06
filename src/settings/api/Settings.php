@@ -19,9 +19,15 @@ class Settings extends BaseApi
         return $this->getSettingsComponent()->get($key);
     }
     
-    public function getAll()
+    public function getAll(array $keys = [])
     {
-        return $this->getSettingsComponent()->getAll();
+        $settings = $this->getSettingsComponent()->getAll();
+        
+        if (!empty($keys)) {
+            return array_intersect_key($settings, array_flip($keys));
+        }
+        
+        return $settings;
     }
     
     public function getSettingsComponent()
