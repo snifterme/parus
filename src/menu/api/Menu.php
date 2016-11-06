@@ -41,6 +41,7 @@ class Menu extends BaseApi
     
     protected function getMenu($options = [])
     {
+        $menuType = null;
         $options = array_replace($this->options, $options);
         $cacheKey = static::class . ':id' . $options['id'] . ':alias' . $options['alias'] . 'language:' . $options['language'];
         
@@ -51,22 +52,24 @@ class Menu extends BaseApi
                     ['in', 'mt.menu_type_aliase', $options['alias']]])
                 ->findOne();
 
-            $menuType->menu = Yii::createObject('rokorolov\parus\menu\repositories\MenuReadRepository')
-                ->andFilterWhere(['and',
-                    ['m.status' => Status::STATUS_PUBLISHED],
-                    ['in', 'm.language', $options['language']]])
-                ->orderBy('m.' . $options['order'])
-                ->findManyBy('menu_type_id', $menuType->id);
-            
-            if (!empty($menuType)) {
-                Yii::$app->cache->set(
-                    $cacheKey,
-                    $menuType,
-                    86400,
-                    new TagDependency([
-                        'tags' => TagDependencyNamingHelper::getCommonTag(Settings::menuDependencyTagName())
-                    ])
-                );
+            if ($menuType) {
+                $menuType->menu = Yii::createObject('rokorolov\parus\menu\repositories\MenuReadRepository')
+                    ->andFilterWhere(['and',
+                        ['m.status' => Status::STATUS_PUBLISHED],
+                        ['in', 'm.language', $options['language']]])
+                    ->orderBy('m.' . $options['order'])
+                    ->findManyBy('menu_type_id', $menuType->id);
+
+                if ($menuType) {
+                    Yii::$app->cache->set(
+                        $cacheKey,
+                        $menuType,
+                        86400,
+                        new TagDependency([
+                            'tags' => TagDependencyNamingHelper::getCommonTag(Settings::menuDependencyTagName())
+                        ])
+                    );
+                }
             }
         }
         
