@@ -3,10 +3,13 @@
 use rokorolov\parus\gallery\Module;
 use rokorolov\parus\admin\theme\widgets\translatable\TranslatableSwithButton;
 use rokorolov\parus\admin\theme\widgets\toolbar\Toolbar;
+use rokorolov\parus\gallery\helpers\Settings;
 use rokorolov\helpers\Html;
 use kartik\select2\Select2;
+use kartik\file\FileInput;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
@@ -20,13 +23,16 @@ $translations = $model->getTranslationVariations();
                 <a href="#tab-details" data-toggle="tab"><?= Html::icon('pencil') ?> <span class="hidden-xs"><?= Module::t('gallery', 'Album') ?></a>
             </li>
             <li>
+                <a href="#tab-image" data-toggle="tab"><?= Html::icon('cloud-upload') ?> <span class="hidden-xs"><?= Module::t('gallery', 'Media') ?></span></a>
+            </li>
+            <li>
                 <a href="#tab-meta" data-toggle="tab"><?= Html::icon('flag') ?> <span class="hidden-xs"><?= Module::t('gallery', 'Meta') ?></span></a>
             </li>
         </ul>
 
         <?php $form = ActiveForm::begin([
             'id' => $this->context->id . '-form',
-            'options' => ['class' => Toolbar::FORM_SELECTOR]
+            'options' => ['enctype' => 'multipart/form-data', 'class' => Toolbar::FORM_SELECTOR]
         ]); ?>
 
         <div class="album-form tab-content-area">
@@ -55,6 +61,19 @@ $translations = $model->getTranslationVariations();
                         </div>
                     <?php endforeach; ?>
 
+                </div>
+                <div id="tab-image" class="tab-pane">
+                    <?= $form->field($model, 'imageFile')->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*'],
+                        'language' => Settings::language(),
+                        'pluginOptions' => [
+                            'initialPreview' => [
+                                $model->getImageOriginal(),
+                            ],
+                            'initialPreviewAsData' => true,
+                            'showUpload' => false,
+                        ]
+                    ])->label(false);?>
                 </div>
                 <div id="tab-meta" class="tab-pane">
                     <div class="form-horizontal">
@@ -140,3 +159,18 @@ $translations = $model->getTranslationVariations();
     </aside>
 </div>
 <?php ActiveForm::end(); ?>
+
+<?php
+
+$canRemoveImage = json_encode(!$model->isNewRecord && !empty($model->getImageOriginal()));
+$url = Url::to(['remove-intro-image', 'id' => $model->id]);
+
+$this->registerJs("
+    $('.fileinput-remove-button').on('click', function(event) {
+        if ($canRemoveImage) {
+            $.post('$url', function(data) {
+                App.notifyAll(data.messages);
+            }, 'json');
+        }
+    });
+");

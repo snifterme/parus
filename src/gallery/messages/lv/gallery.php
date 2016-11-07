@@ -47,6 +47,7 @@ return [
     'Language' => 'Valoda',
     'Last edited on' => 'Rediģēts',
     'Meta' => 'Meta',
+    'Media' => 'Media',
     'Name' => 'Nosaukums',
     'Not set' => 'Nav uzstādīts',
     'Photo Extension' => 'Bildēs  paplašinājums',

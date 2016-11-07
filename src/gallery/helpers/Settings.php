@@ -59,6 +59,36 @@ class Settings
         return self::getConfig()['album.managePageSize'];
     }
     
+    public static function albumIntroImageUploadPath()
+    {
+        return Yii::getAlias(self::getConfig()['album.introImageUploadPath']);
+    }
+    
+    public static function albumIntroImageUploadSrc()
+    {
+        return Yii::getAlias(self::getConfig()['album.introImageUploadSrc']);
+    }
+    
+    public static function albumIntroImageAllowedExtensions()
+    {
+        return self::getConfig()['album.introImageAllowedExtensions'];
+    }
+    
+    public static function albumImageExtension()
+    {
+        return self::getConfig()['album.imageExtension'];
+    }
+    
+    public static function albumImageTransformations()
+    {
+        return self::getConfig()['album.imageTransformations'];
+    }
+    
+    public static function albumIntroImageDir()
+    {
+        return self::getConfig()['album.albumIntroImageDir'];
+    }
+    
     public static function photoStatuses()
     {
         return self::getConfig()['photo.statuses'];

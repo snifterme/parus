@@ -9,6 +9,7 @@ use rokorolov\parus\gallery\repositories\AlbumReadRepository;
 use rokorolov\parus\admin\traits\TranslatableFormTrait;
 use rokorolov\helpers\Html;
 use Yii;
+use yii\web\UploadedFile;
 use yii\base\Model;
 
 /**
@@ -25,6 +26,7 @@ class AlbumForm extends Model
     public $album_alias;
     public $created_at;
     public $modified_at;
+    public $imageFile;
     public $translations = [];
 
     public $isNewRecord = true;
@@ -60,6 +62,8 @@ class AlbumForm extends Model
             ['album_alias', 'required'],
             ['album_alias', 'string', 'max' => 128],
             ['album_alias', 'validateAlbumAlias'],
+            
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => implode(',', Settings::albumIntroImageAllowedExtensions())],
         ];
     }
 
@@ -71,7 +75,8 @@ class AlbumForm extends Model
         return [
             'id',
             'status',
-            'album_alias'
+            'album_alias',
+            'imageFile'
         ];
     }
 
@@ -94,6 +99,14 @@ class AlbumForm extends Model
             return Html::a(Html::icon('circle text-info') . ' ' . Module::t('gallery', 'Not set'), ['create', '#' => 'tab-meta'], ['data-toggle' => 'tab']);
         }
         return Html::a(Html::icon('circle text-' . $this->viewHelper->getStatusHtmlType($this->status)) . ' <strong>' . $this->viewHelper->getStatusName($this->status) . '</strong>', ['create', '#' => 'tab-meta'], ['data-toggle' => 'tab']);
+    }
+
+    public function getImageOriginal()
+    {
+        if (!$this->isNewRecord && null !== $image = $this->wrappedObject->image_original()) {
+            return $image;
+        }
+        return null;
     }
     
     public function getSavedOn()
@@ -192,6 +205,7 @@ class AlbumForm extends Model
 
     protected function reverseTransform()
     {
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
         return array_merge($this->getAttributes(), ['translations' => $this->reverseTranslations()]);
     }
 

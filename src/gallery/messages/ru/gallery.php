@@ -46,6 +46,7 @@ return [
     'Language' => 'Язык',
     'Last edited on' => 'Последнее редактирование',
     'Meta' => 'Мета',
+    'Media' => 'Медиа',
     'Name' => 'Название',
     'Not set' => 'Не задано',
     'Photo Extension' => 'Расширение картинки',
