@@ -32,7 +32,7 @@ class CreateAlbumHandler
         
         $album = $this->albumRepository->makeAlbumCreateModel();
         $album->status = $command->getStatus();
-        $album->album_aliase = $this->textPurify($command->getAlbumAlias());
+        $album->album_alias = $this->textPurify($command->getAlbumAlias());
         $album->created_at = $datetime;
         $album->modified_at = $datetime;
         

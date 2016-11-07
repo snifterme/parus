@@ -33,7 +33,7 @@ class UpdateAlbumHandler
         }
         
         $album->status = $command->getStatus();
-        $album->album_aliase = $this->textPurify($command->getAlbumAlias());
+        $album->album_alias = $this->textPurify($command->getAlbumAlias());
         $album->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
         
         $transaction = Yii::$app->db->beginTransaction();

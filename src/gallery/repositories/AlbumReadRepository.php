@@ -55,7 +55,7 @@ class AlbumReadRepository extends BaseReadRepository
     {
         $exist = (new Query())
             ->from(Album::tableName() . ' a')
-            ->where(['album_aliase' => $attribute])
+            ->where(['album_alias' => $attribute])
             ->andFilterWhere(['!=', 'id', $id])
             ->exists();
 
@@ -122,7 +122,7 @@ class AlbumReadRepository extends BaseReadRepository
     
     public function selectAttributesMap()
     {
-        return 'a.id AS a_id, a.status AS a_status, a.album_aliase AS a_album_alias, a.created_at AS a_created_at, a.modified_at AS a_modified_at';
+        return 'a.id AS a_id, a.status AS a_status, a.album_alias AS a_album_alias, a.created_at AS a_created_at, a.modified_at AS a_modified_at';
     }
 
     public function selectAlbumLangAttributesMap()

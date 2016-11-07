@@ -42,7 +42,7 @@ class Gallery extends BaseApi
         $album = Yii::createObject('rokorolov\parus\gallery\repositories\AlbumReadRepository')
             ->andFilterWhere(['and',
                 ['in', 'a.id', $options['id']],
-                ['in', 'a.album_aliase', $options['alias']],
+                ['in', 'a.album_alias', $options['alias']],
                 ['in', 'a.status', $options['album_status']]])
             ->orderBy('a.' . $options['album_order']);
         
