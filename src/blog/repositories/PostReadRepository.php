@@ -179,7 +179,7 @@ class PostReadRepository extends BaseReadRepository
 
     protected function populateCategory($post, &$data)
     {
-        $post->category = $this->getCategoryReadRepository()->populate($data);
+        $post->category = $this->getCategoryReadRepository()->parserResult($data);
     }
     
     protected function getCategoryReadRepository()
