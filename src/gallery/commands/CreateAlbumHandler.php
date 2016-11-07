@@ -74,7 +74,7 @@ class CreateAlbumHandler
         $command->model = $album;
         
         if ($newImage) {
-            $imageManager->setUploadPath(Settings::albumIntroImageUploadPath() . DIRECTORY_SEPARATOR . $album->id . Settings::albumIntroImageDir());
+            $imageManager->setUploadPath(Settings::albumIntroImageUploadPath() . DIRECTORY_SEPARATOR . $album->id . DIRECTORY_SEPARATOR . Settings::albumIntroImageDir());
             $imageManager->save();
         }
     }
