@@ -59,6 +59,14 @@ class AlbumPresenter extends BasePresenter
         return Html::bsBadge(Html::encode($this->wrappedObject->photo_count), Html::TYPE_INFO);
     }
     
+    public function image_original()
+    {
+        if (!empty($this->image)) {
+            return Settings::albumIntroImageUploadSrc() . '/' . $this->wrappedObject->id  . '/' . Settings::albumIntroImageDir() . '/' . $this->wrappedObject->image . '.' . Settings::albumImageExtension();
+        }
+        return null;
+    }
+    
     public function translate($language = null)
     {
         if (empty($this->wrappedObject->translations)) {

@@ -77,13 +77,13 @@ class GalleryService implements GalleryServiceInterface
         $model = new DynamicModel(compact('imageFile'));
 
         $rules['allowedExtensions'] && $model->addRule('imageFile', 'file', ['extensions' => $rules['allowedExtensions']]);
-        $rules['allowedMimeTypes'] && $model->addRule('mimeTypes', 'file', ['extensions' => $rules['allowedMimeTypes']]);
+        $rules['allowedMimeTypes'] && $model->addRule('mimeTypes', 'file', ['mimeTypes' => $rules['allowedMimeTypes']]);
         $rules['maxFileSize'] && $model->addRule('imageFile', 'file', ['maxSize' => $rules['maxFileSize']]);
-        $rules['maxImageWidth'] && $model->addRule('imageFile', 'file', ['maxWidth' => $rules['maxWidth']]);
-        $rules['maxImageHeight'] && $model->addRule('imageFile', 'file', ['maxHeight' => $rules['maxHeight']]);
         $rules['minFileSize'] && $model->addRule('imageFile', 'file', ['minSize' => $rules['minFileSize']]);
-        $rules['minImageWidth'] && $model->addRule('imageFile', 'file', ['minWidth' => $rules['minWidth']]);
-        $rules['minImageHeight'] && $model->addRule('imageFile', 'file', ['minHeight' => $rules['minHeight']]);
+        $rules['maxImageWidth'] && $model->addRule('imageFile', 'image', ['maxWidth' => $rules['maxImageWidth']]);
+        $rules['maxImageHeight'] && $model->addRule('imageFile', 'image', ['maxHeight' => $rules['maxImageHeight']]);
+        $rules['minImageWidth'] && $model->addRule('imageFile', 'image', ['minWidth' => $rules['minImageWidth']]);
+        $rules['minImageHeight'] && $model->addRule('imageFile', 'image', ['minHeight' => $rules['minImageHeight']]);
 
         $model->validate();
 

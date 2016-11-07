@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
  * @author Roman Korolov <rokorolov@gmail.com>
  *
  * @property integer $id
- * @property string $menu_type_aliase
+ * @property string $menu_type_alias
  * @property string $title
  * @property string $description
  */

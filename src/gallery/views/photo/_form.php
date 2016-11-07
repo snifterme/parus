@@ -72,14 +72,14 @@ MagnificPopupAsset::register($this);
                             <td>
                                 <?php foreach ($translations as $index => $language): ?>
                                     <div class="translatable-field lang-<?= $index ?>">
-                                        <?= $form->field($photo->translate($index), "[{$photo->id}][{$index}]caption")->textInput(['maxlength' => true])->label(false); ?>
+                                        <?= $form->field($photo->translate($index), "[{$photo->id}][{$index}]caption")->textarea(['rows' => '1', 'maxlength' => true])->label(false); ?>
                                     </div>
                                 <?php endforeach; ?>
                             </td>
                             <td>
                                 <?php foreach ($translations as $index => $language): ?>
                                     <div class="translatable-field lang-<?= $index ?>">
-                                        <?= $form->field($photo->translate($index), "[{$photo->id}][{$index}]description")->textInput(['maxlength' => true])->label(false); ?>
+                                        <?= $form->field($photo->translate($index), "[{$photo->id}][{$index}]description")->textarea(['rows' => '1', 'maxlength' => true])->label(false); ?>
                                     </div>
                                 <?php endforeach; ?>
                             </td>

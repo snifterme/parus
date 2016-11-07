@@ -4,6 +4,7 @@ namespace rokorolov\parus\gallery\commands;
 
 use rokorolov\parus\gallery\repositories\PhotoRepository;
 use rokorolov\parus\admin\traits\PurifierTrait;
+use rokorolov\parus\gallery\helpers\Settings;
 use rokorolov\parus\admin\exceptions\LogicException;
 use Yii;
 
@@ -30,6 +31,7 @@ class UpdatePhotoHandler
             throw new LogicException('Photo does not exist.');
         }
 
+        $config = Settings::uploadAlbumConfig($photo->album_id);
         $photo->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
         
         $transaction = Yii::$app->db->beginTransaction();
@@ -53,8 +55,8 @@ class UpdatePhotoHandler
                     $photoLanguage->language = $translation['language'];
                 }
                 
-                $photoLanguage->caption = $this->textPurify($translation['caption']);
-                $photoLanguage->description = $this->textPurify($translation['description']);
+                $photoLanguage->caption = $config['allowedHtmlTags'] ? $this->purify($translation['caption']) : $this->textPurify($translation['caption']);
+                $photoLanguage->description = $config['allowedHtmlTags'] ? $this->purify($translation['description']) : $this->textPurify($translation['description']);
 
                 $this->photoRepository->update($photoLanguage);
             }

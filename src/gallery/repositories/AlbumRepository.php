@@ -37,7 +37,7 @@ class AlbumRepository extends BaseRepository
     public function existsByAlbumAlias($attribute, $id = null)
     {
         $exist = $this->make()
-            ->where(['album_aliase' => $attribute])
+            ->where(['album_alias' => $attribute])
             ->andFilterWhere(['!=', 'id', $id])
             ->exists();
 

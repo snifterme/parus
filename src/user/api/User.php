@@ -3,6 +3,7 @@
 namespace rokorolov\parus\user\api;
 
 use rokorolov\parus\blog\api\Post;
+use rokorolov\parus\admin\base\BaseApi;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -11,7 +12,7 @@ use yii\helpers\ArrayHelper;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class User
+class User extends BaseApi
 {
     const WITH_PROFILE = 'profile';
     const WITH_POST = 'post';
@@ -103,19 +104,6 @@ class User
         }
 
         return $collection ? $user : array_shift($user);
-    }
-    
-    protected function prepareRelations($with)
-    {
-        $relations = [];
-        foreach($with as $key => $value) {
-            if (is_array($value)) {
-                $relations[$key] = $value;
-            } else {
-                $relations[$value] = [];
-            }
-        }
-        return $relations;
     }
     
     protected function getUserReadRepository()

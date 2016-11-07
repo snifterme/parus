@@ -24,7 +24,7 @@ class PostRepository extends BaseRepository
         return $this->withTrashed()->all();
     }
 
-    private function withTrashed()
+    public function withTrashed()
     {
         return $this->getModel()->withTrashed();
     }

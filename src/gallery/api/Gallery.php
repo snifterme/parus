@@ -3,6 +3,7 @@
 namespace rokorolov\parus\gallery\api;
 
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
+use rokorolov\parus\admin\base\BaseApi;
 use Yii;
 
 /**
@@ -10,7 +11,7 @@ use Yii;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class Gallery
+class Gallery extends BaseApi
 {
     const WITH_TRANSLATION = 'translations';
     const WITH_PHOTO = 'photo';
@@ -41,7 +42,7 @@ class Gallery
         $album = Yii::createObject('rokorolov\parus\gallery\repositories\AlbumReadRepository')
             ->andFilterWhere(['and',
                 ['in', 'a.id', $options['id']],
-                ['in', 'a.album_aliase', $options['alias']],
+                ['in', 'a.album_alias', $options['alias']],
                 ['in', 'a.status', $options['album_status']]])
             ->orderBy('a.' . $options['album_order']);
         
@@ -90,18 +91,5 @@ class Gallery
 
             $album->photos = $photos;
         }
-    }
-    
-    protected function prepareRelations($with)
-    {
-        $relations = [];
-        foreach($with as $key => $value) {
-            if (is_array($value)) {
-                $relations[$key] = $value;
-            } else {
-                $relations[$value] = [];
-            }
-        }
-        return $relations;
     }
 }

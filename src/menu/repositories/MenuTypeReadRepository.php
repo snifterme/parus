@@ -59,7 +59,7 @@ class MenuTypeReadRepository extends BaseReadRepository
     {
         $exist = (new Query())
             ->from(MenuType::tableName() . ' mt')
-            ->where(['menu_type_aliase' => $attribute])
+            ->where(['menu_type_alias' => $attribute])
             ->andFilterWhere(['!=', 'id', $id])
             ->exists();
 
@@ -88,7 +88,7 @@ class MenuTypeReadRepository extends BaseReadRepository
     
     public function selectAttributesMap()
     {
-        return 'mt.id AS mt_id, mt.menu_type_aliase AS mt_menu_type_alias, mt.title AS mt_title, mt.description AS mt_description';
+        return 'mt.id AS mt_id, mt.menu_type_alias AS mt_menu_type_alias, mt.title AS mt_title, mt.description AS mt_description';
     }
     
     public function make()

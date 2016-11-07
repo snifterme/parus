@@ -46,7 +46,7 @@ class CreatePhotoHandler
             $imageFile->getBaseName(),
             $imageFile->tempName,
             Settings::uploadFilePath($command->getAlbumId()) . DIRECTORY_SEPARATOR . $command->getAlbumId(),
-            array_merge($config['imagesTransformations'], [
+            $tra = array_merge($config['imageTransformations'], [
                 [
                     'width' => $config['previewThumbDimensions'][0],
                     'height' => $config['previewThumbDimensions'][1],

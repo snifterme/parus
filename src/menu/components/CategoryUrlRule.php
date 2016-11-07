@@ -17,7 +17,7 @@ class CategoryUrlRule implements UrlRuleInterface
 {
     public static $map;
     public static $mapId;
-    
+
     public $adminPanelPath = 'admin';
 
     protected $categoryReadRepository;
@@ -43,12 +43,12 @@ class CategoryUrlRule implements UrlRuleInterface
     public function parseRequest($manager, $request)
     {
         $pathInfo = $request->getPathInfo();
-        
+
         if (strpos($pathInfo, $this->adminPanelPath) !== 0) {
             $pathSplit = explode('/', $pathInfo);
             $slug = array_pop($pathSplit);
             if ($categoryId = $this->getIdBySlug($slug)) {
-                return ['blog/index', ['id' => $categoryId]];
+                return ['entry/index', ['id' => $categoryId]];
             }
         }
         return false;

@@ -3,6 +3,8 @@
 namespace rokorolov\parus\blog\api;
 
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
+use rokorolov\parus\admin\base\BaseApi;
+use rokorolov\parus\blog\models\Post;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -11,11 +13,12 @@ use yii\helpers\ArrayHelper;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class Entry
+class Entry extends BaseApi
 {
     const WITH_CATEGORY = 'category';
     const WITH_POST = 'post';
     const WITH_AUTHOR = 'author';
+    const WITH_POST_COUNT = 'post_count';
     
     public $postOptions = [
         'id' => null,
@@ -46,6 +49,9 @@ class Entry
         'offset' => null,
         'category_status' => Status::STATUS_PUBLISHED,
         'post_group_limit' => null,
+        'with_root' => false,
+        'depth' => null,
+        'exclude' => [],
         'with' => [],
         'where' => null,
     ];
@@ -80,7 +86,8 @@ class Entry
                 ['in', 'p.category_id', $options['category']],
                 ['in', 'p.created_by', $options['author']],
                 ['in', 'p.language', $options['language']],
-                ['in', 'c.slug', $options['category_alias']]])
+                ['in', 'c.slug', $options['category_alias']]
+            ])
             ->orderBy('p.' . $options['order'])
             ->limit($options['limit']);
         
@@ -123,16 +130,20 @@ class Entry
         $with = $this->prepareRelations($options['with']);
         
         $category = $this->getCategoryReadRepository()
-            ->where(['>', 'c.lft', 1])
             ->andFilterWhere(['and',
                 ['in', 'c.id', $options['id']],
                 ['in', 'c.slug', $options['alias']],
                 ['in', 'c.status', $options['category_status']],
                 ['in', 'c.created_by', $options['author']],
-                ['in', 'c.language', $options['language']]])
+                ['in', 'c.language', $options['language']],
+                ['not in', 'c.id', $options['exclude']],
+                ['not in', 'c.slug', $options['exclude']],
+                ['c.depth' => $options['depth']]
+            ])
             ->orderBy('c.' . $options['order'])
             ->limit($options['limit']);
         
+        !$options['with_root'] && $category->where(['>', 'c.lft', 1]);
         !is_null($options['group_by']) && $category->groupBy('c.' . $options['group_by']);
         !is_null($options['offset']) && $category->offset($options['offset']);
         !is_null($options['where']) && $category->where($options['where']);
@@ -142,7 +153,23 @@ class Entry
         if (isset($with[self::WITH_AUTHOR])) {
             array_push($relations, self::WITH_AUTHOR);
         }
-
+        
+        if (isset($with[self::WITH_POST_COUNT])) {
+            
+            $postCount = (new \yii\db\Query)->select('COUNT(p.id)')
+                ->from(['node' => 'category', 'parent' => 'category', 'p' => 'post'])
+                ->where(['and',
+                    ['between', 'node.lft', new \yii\db\Expression('parent.lft'), new \yii\db\Expression('parent.rgt')],
+                    ['node.id' => new \yii\db\Expression('p.category_id')],
+                    ['parent.id' => new \yii\db\Expression('c.id')],
+                    ['in', 'p.status',  Status::STATUS_PUBLISHED]
+                ])
+                ->groupBy('parent.id')
+                ->orderBy('node.lft');
+            
+            $category->addSelect(['c_post_count' => $postCount]);
+        }
+        
         !empty($relations) && $category->with($relations);
 
         $collection = false;
@@ -158,7 +185,7 @@ class Entry
             }
             $category = [$category];
         }
-        
+
         if (isset($with[self::WITH_POST])) {
 
             $postOptions = array_replace($this->postOptions, $with[self::WITH_POST]);
@@ -183,6 +210,45 @@ class Entry
         }
 
         return $collection ? $category : array_shift($category);
+    }
+    
+    public function getCategoryParentIds($category, $level = 1)
+    {
+        $depth = $level === 1 ? $category->depth - 1 : null;
+        
+        return $this->getCategoryReadRepository()->make()
+            ->select('id')
+            ->where(['and',
+                ['>', 'c.lft', 1],
+                ['<', 'c.lft', $category->lft],
+                ['>', 'c.rgt', $category->rgt],
+                ['c.status' => Status::STATUS_PUBLISHED]
+            ])
+            ->andFilterWhere(['c.depth' => $depth])
+            ->all();
+    }
+    
+    public function getCategoryChildrenIds($parent, $level = 1)
+    {
+        $depth = $level === 1 ? $parent->depth + 1 : null;
+        
+        return $this->getCategoryReadRepository()->make()
+            ->select('id')
+            ->where(['and',
+                ['>', 'c.lft', $parent->lft],
+                ['<', 'c.rgt', $parent->rgt],
+                ['c.status' => Status::STATUS_PUBLISHED]
+            ])
+            ->andFilterWhere(['c.depth' => $depth])
+            ->all();
+    }
+    
+    public function updatePostCounter($id, $count = 1)
+    {
+        Yii::$app->db->createCommand()
+            ->update(Post::tableName(), ['hits' => new \yii\db\Expression('hits + :hits')], ['id' => $id])
+            ->bindValues([':hits' => $count])
+            ->execute(); 
     }
     
     public function bindParamArray($prefix, $values, &$bindArray)
@@ -225,23 +291,10 @@ class Entry
         $models = [];
         foreach ($rows as $row) {
             if ($model = $this->getPostReadRepository()->populate($row, false)) {
-                array_push($models, $model);
+                array_push($models, $this->getPostReadRepository()->applyPresenter($model));
             }
         }
         return $models;
-    }
-    
-    protected function prepareRelations($with)
-    {
-        $relations = [];
-        foreach($with as $key => $value) {
-            if (is_array($value)) {
-                $relations[$key] = $value;
-            } else {
-                $relations[$value] = [];
-            }
-        }
-        return $relations;
     }
     
     protected function getPostReadRepository()

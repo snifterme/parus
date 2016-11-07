@@ -2,6 +2,7 @@
 
 namespace rokorolov\parus\settings\api;
 
+use rokorolov\parus\admin\base\BaseApi;
 use Yii;
 
 /**
@@ -9,7 +10,7 @@ use Yii;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class Settings
+class Settings extends BaseApi
 {
     public $settingsComponent;
     
@@ -18,9 +19,15 @@ class Settings
         return $this->getSettingsComponent()->get($key);
     }
     
-    public function getAll()
+    public function getAll(array $keys = [])
     {
-        return $this->getSettingsComponent()->getAll();
+        $settings = $this->getSettingsComponent()->getAll();
+        
+        if (!empty($keys)) {
+            return array_intersect_key($settings, array_flip($keys));
+        }
+        
+        return $settings;
     }
     
     public function getSettingsComponent()

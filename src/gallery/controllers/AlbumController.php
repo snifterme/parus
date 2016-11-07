@@ -8,6 +8,7 @@ use rokorolov\parus\gallery\commands\CreateAlbumCommand;
 use rokorolov\parus\gallery\commands\UpdateAlbumCommand;
 use rokorolov\parus\gallery\commands\ChangeAlbumStatusCommand;
 use rokorolov\parus\gallery\commands\DeleteAlbumCommand;
+use rokorolov\parus\gallery\commands\DeleteAlbumIntroImageCommand;
 use rokorolov\parus\gallery\Module;
 use rokorolov\parus\admin\contracts\CommandBusInterface;
 use rokorolov\parus\admin\traits\TaskRedirectTrait;
@@ -74,7 +75,7 @@ class AlbumController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['update', 'newstatus'],
+                        'actions' => ['update', 'newstatus', 'remove-intro-image'],
                         'matchCallback' => function($rule, $action) {
                             return $this->accessControl->canUpdateAlbum();
                         }
@@ -136,7 +137,8 @@ class AlbumController extends Controller
                 $command = new CreateAlbumCommand(
                     $data['status'],
                     $data['album_alias'],
-                    $data['translations']
+                    $data['translations'],
+                    $data['imageFile']
                 );
                 $this->commandBus->execute($command);
                 Yii::$app->session->setFlash('success', Module::t('gallery', 'Album is successfully created!'));
@@ -173,7 +175,8 @@ class AlbumController extends Controller
                     $data['id'],
                     $data['status'],
                     $data['album_alias'],
-                    $data['translations']
+                    $data['translations'],
+                    $data['imageFile']
                 ));
                 Yii::$app->session->setFlash('success', Module::t('gallery', 'Album is successfully updated!'));
             } catch (LogicException $e) {
@@ -228,6 +231,30 @@ class AlbumController extends Controller
         try {
             $this->commandBus->execute(new ChangeAlbumStatusCommand($id, $status));
             Yii::$app->session->setFlash('success', Module::t('gallery', 'Changed status successfully!'));
+        } catch (LogicException $e) {
+            Yii::warning($e, 'logic') && $result = 'error';
+            Yii::$app->session->setFlash('danger', Module::t('gallery', 'An error has occurred ({error})', ['error' => $e->getMessage()]));
+        }
+
+        if (Yii::$app->request->isAjax) {
+            return Json::encode(['result' => $result]);
+        } else {
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+    
+    /**
+     *
+     * @param type $id
+     * @return type
+     */
+    public function actionRemoveIntroImage($id)
+    {
+        $result = 'success';
+        
+        try {
+            $this->commandBus->execute(new DeleteAlbumIntroImageCommand($id));
+            Yii::$app->session->setFlash('success', Module::t('gallery', 'Removed image successfully!'));
         } catch (LogicException $e) {
             Yii::warning($e, 'logic') && $result = 'error';
             Yii::$app->session->setFlash('danger', Module::t('gallery', 'An error has occurred ({error})', ['error' => $e->getMessage()]));

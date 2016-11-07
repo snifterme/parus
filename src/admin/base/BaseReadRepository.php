@@ -199,7 +199,15 @@ class BaseReadRepository
         $this->skipPresenter = $status;
         return $this;
     }
-
+    
+    public function applyPresenter($result)
+    {
+        if (!$this->skipPresenter && !is_null($presenter = $this->presenter)) {
+            $result = Yii::createObject($presenter, [$result]);
+        }
+        return $result;
+    }
+    
     protected function reset()
     {
         $this->query = null;
@@ -222,14 +230,6 @@ class BaseReadRepository
             return $this->applyPresenter($result);
         }
         return null;
-    }
-    
-    protected function applyPresenter($result)
-    {
-        if (!$this->skipPresenter && !is_null($presenter = $this->presenter)) {
-            $result = Yii::createObject($presenter, [$result]);
-        }
-        return $result;
     }
     
     protected function resolveRelations($query, $relations)

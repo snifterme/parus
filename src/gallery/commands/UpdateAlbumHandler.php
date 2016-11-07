@@ -3,6 +3,7 @@
 namespace rokorolov\parus\gallery\commands;
 
 use rokorolov\parus\gallery\repositories\AlbumRepository;
+use rokorolov\parus\gallery\helpers\Settings;
 use rokorolov\parus\admin\traits\PurifierTrait;
 use rokorolov\parus\admin\exceptions\LogicException;
 use Yii;
@@ -33,8 +34,23 @@ class UpdateAlbumHandler
         }
         
         $album->status = $command->getStatus();
-        $album->album_aliase = $this->textPurify($command->getAlbumAlias());
+        $album->album_alias = $this->textPurify($command->getAlbumAlias());
         $album->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
+        $oldImageName = $album->image;
+        
+        $newImage = false;
+        $imageFile = $command->getImageFile();
+        if ($imageFile && !$imageFile->getHasError()) {
+            $imageManager = Yii::createObject('rokorolov\parus\admin\services\ImageManager', [
+                $imageFile->getBaseName(),
+                $imageFile->tempName,
+                Settings::albumIntroImageUploadPath() . DIRECTORY_SEPARATOR . $album->id . DIRECTORY_SEPARATOR . Settings::albumIntroImageDir(),
+                Settings::albumImageTransformations()
+            ]);
+            $imageManager->extension = Settings::albumImageExtension();
+            $album->image = $imageManager->getOriginalImageName();
+            $newImage = true;
+        }
         
         $transaction = Yii::$app->db->beginTransaction();
         
@@ -70,6 +86,11 @@ class UpdateAlbumHandler
         }
         
         $command->model = $album;
+        
+        if ($newImage) {
+            $imageManager->deleteAll();
+            $imageManager->save();
+        }
     }
 
     private function guardAlbumAliasIsUnique($album_alias, $id)
