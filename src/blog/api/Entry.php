@@ -4,6 +4,7 @@ namespace rokorolov\parus\blog\api;
 
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use rokorolov\parus\admin\base\BaseApi;
+use rokorolov\parus\blog\models\Post;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -240,6 +241,14 @@ class Entry extends BaseApi
             ])
             ->andFilterWhere(['c.depth' => $depth])
             ->all();
+    }
+    
+    public function updatePostCounter($id, $count = 1)
+    {
+        Yii::$app->db->createCommand()
+            ->update(Post::tableName(), ['hits' => new \yii\db\Expression('hits + :hits')], ['id' => $id])
+            ->bindValues([':hits' => $count])
+            ->execute(); 
     }
     
     public function bindParamArray($prefix, $values, &$bindArray)
