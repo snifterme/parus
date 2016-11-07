@@ -17,7 +17,7 @@ class SampleDataInstall
     {
         Yii::$app->db->createCommand()->insert(models\MenuType::tableName(), [
             'id' => 2,
-            'menu_type_aliase' => 'main_menu',
+            'menu_type_alias' => 'main_menu',
             'title' => 'Main Menu',
             'description' => ''
         ])->execute();

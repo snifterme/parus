@@ -49,7 +49,7 @@ class Menu extends BaseApi
             $menuType = Yii::createObject('rokorolov\parus\menu\repositories\MenuTypeReadRepository')
                 ->andFilterWhere(['and',
                     ['in', 'mt.id', $options['id']],
-                    ['in', 'mt.menu_type_aliase', $options['alias']]])
+                    ['in', 'mt.menu_type_alias', $options['alias']]])
                 ->findOne();
 
             if ($menuType) {

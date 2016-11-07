@@ -67,7 +67,7 @@ class MenuReadRepository extends BaseReadRepository
         $rows = $this->make()
             ->select($select)
             ->leftJoin(MenuType::tableName() . ' mt', 'm.menu_type_id = mt.id')
-            ->andWhere(['menu_type_aliase' => $alias])
+            ->andWhere(['menu_type_alias' => $alias])
             ->andFilterWhere($conditions)
             ->orderBy('m.lft')
             ->all();

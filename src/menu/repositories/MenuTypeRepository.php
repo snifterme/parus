@@ -20,7 +20,7 @@ class MenuTypeRepository extends BaseRepository
     public function existsByMenuTypeAlias($attribute, $id = null)
     {
         $exist = $this->make()
-            ->where(['menu_type_aliase' => $attribute])
+            ->where(['menu_type_alias' => $attribute])
             ->andFilterWhere(['!=', 'id', $id])
             ->exists();
 

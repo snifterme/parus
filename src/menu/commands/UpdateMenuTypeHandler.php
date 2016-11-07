@@ -31,7 +31,7 @@ class UpdateMenuTypeHandler
         }
 
         $menuType->title = $this->textPurify($command->getTitle());
-        $menuType->menu_type_aliase = $this->textPurify($command->getMenuTypeAlias());
+        $menuType->menu_type_alias = $this->textPurify($command->getMenuTypeAlias());
         $menuType->description = $this->textPurify($command->getDescription());
 
         $this->menuTypeRepository->update($menuType);

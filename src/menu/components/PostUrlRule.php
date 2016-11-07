@@ -17,11 +17,11 @@ class PostUrlRule implements UrlRuleInterface
 {
     public static $mapId;
     public static $mapSlug;
-    
+
     public $adminPanelPath = 'admin';
-    
+
     protected $postReadRepository;
-    
+
     /**
      * @inheritdoc
      */
@@ -47,7 +47,7 @@ class PostUrlRule implements UrlRuleInterface
             $pathSplit = explode('/', $pathInfo);
             $slug = array_pop($pathSplit);
             if ($postId = $this->getIdBySlug($slug)) {
-                return ['blog/post', ['id' => $postId]];
+                return ['entry/post', ['id' => $postId]];
             }
         }
         return false;
@@ -77,7 +77,7 @@ class PostUrlRule implements UrlRuleInterface
         }
         return static::$mapSlug[$mapKey];
     }
-    
+
     public function getIdBySlug($slug)
     {
         $mapKey = $slug;
@@ -103,7 +103,7 @@ class PostUrlRule implements UrlRuleInterface
         }
         return static::$mapId[$mapKey];
     }
-    
+
     public function postReadRepository()
     {
         if (null === $this->postReadRepository) {
