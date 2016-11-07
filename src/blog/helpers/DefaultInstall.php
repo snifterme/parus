@@ -36,7 +36,7 @@ class DefaultInstall implements DefaultInstallInterface
     public function getCategoryParams()
     {
         $userId = Yii::createObject('rokorolov\parus\user\helpers\DefaultInstall')->getSystemId();
-        $datetime = (new \DateTime())->format('Y-m-d H:i:s');
+        $datetime = (new \DateTime());
         
         return [
             [
@@ -48,9 +48,9 @@ class DefaultInstall implements DefaultInstallInterface
                 'slug' => 'root',
                 'description' => '',
                 'created_by' => $userId,
-                'created_at' => $datetime,
+                'created_at' => $datetime->modify('+60 seconds')->format('Y-m-d H:i:s'),
                 'modified_by' => $userId,
-                'modified_at' => $datetime,
+                'modified_at' => $datetime->modify('+60 seconds')->format('Y-m-d H:i:s'),
                 'depth' => 0,
                 'lft' => 1,
                 'rgt' => 4,
@@ -69,9 +69,9 @@ class DefaultInstall implements DefaultInstallInterface
                 'slug' => 'uncategorised',
                 'description' => '',
                 'created_by' => $userId,
-                'created_at' => $datetime,
+                'created_at' => $datetime->modify('+60 seconds')->format('Y-m-d H:i:s'),
                 'modified_by' => $userId,
-                'modified_at' => $datetime,
+                'modified_at' => $datetime->modify('+60 seconds')->format('Y-m-d H:i:s'),
                 'depth' => 1,
                 'lft' => 2,
                 'rgt' => 3,
