@@ -34,7 +34,7 @@ class DeleteCategoryHandler
             throw new LogicException('Category does not exist.');
         }
 
-        $posts = $this->postRepository->findManyBy('category_id', $category->id);
+        $posts = $this->postRepository->withTrashed()->where(['category_id' => $category->id])->all();
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
