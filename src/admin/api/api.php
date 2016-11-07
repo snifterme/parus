@@ -36,6 +36,11 @@ function get_post($options = [])
     return (new \rokorolov\parus\blog\api\Entry())->getPost($options);
 }
 
+function update_post_counter($id, $count = 1)
+{
+    return (new \rokorolov\parus\blog\api\Entry())->updatePostCounter($id, $count);
+}
+
 function get_popular_post($limit = 10, $options = [])
 {
     $options['limit'] = $limit;
