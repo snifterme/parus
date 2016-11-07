@@ -151,11 +151,23 @@ class ImageManager
         return true;
     }
 
-    public function deleteAll()
+    public function deleteAll($path = null)
     {
-        if (is_dir($path = $this->uploadPath)) {
-            array_map('unlink', glob($path . '/*'));
-            rmdir($path);
+        $dir = $path ? $path : $this->uploadPath;
+        
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir."/".$object) == "dir") {
+                        $this->deleteAll($dir."/".$object);
+                    } else {
+                        unlink ($dir."/".$object);
+                    }
+                }
+            }
+            reset($objects);
+            rmdir($dir);
         }
     }
 
@@ -201,7 +213,7 @@ class ImageManager
             if ($this->imageNameCreator instanceof Closure) {
                 $name = call_user_func($this->imageNameCreator, $name, $this);
             } else {
-                $name = Inflector::slug(preg_replace("/[\s_]/", "-", strtolower($name)));
+                $name = Inflector::slug(preg_replace("/[\s_]/", "-", $name));
                 if ($this->ensureUnique) {
                     $name = $this->makeFileNameUnique($name);
                 }
