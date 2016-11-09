@@ -61,32 +61,72 @@ class Settings
     
     public static function albumIntroImageUploadPath()
     {
-        return Yii::getAlias(self::getConfig()['album.introImageUploadPath']);
+        return Yii::getAlias(self::albumIntroImageConfig()['uploadPath']);
     }
     
     public static function albumIntroImageUploadSrc()
     {
-        return Yii::getAlias(self::getConfig()['album.introImageUploadSrc']);
+        return Yii::getAlias(self::albumIntroImageConfig()['uploadSrc']);
     }
     
     public static function albumIntroImageAllowedExtensions()
     {
-        return self::getConfig()['album.introImageAllowedExtensions'];
+        return self::albumIntroImageConfig()['allowedExtensions'];
     }
     
-    public static function albumImageExtension()
+    public static function albumIntroImageAllowedMimeTypes()
     {
-        return self::getConfig()['album.imageExtension'];
+        return self::albumIntroImageConfig()['allowedMimeTypes'];
     }
     
-    public static function albumImageTransformations()
+    public static function albumIntroImageExtension()
     {
-        return self::getConfig()['album.imageTransformations'];
+        return self::albumIntroImageConfig()['extension'];
+    }
+    
+    public static function albumIntroImageMinSize()
+    {
+        return self::albumIntroImageConfig()['minSize'];
+    }
+    
+    public static function albumIntroImageMaxSize()
+    {
+        return self::albumIntroImageConfig()['maxSize'];
+    }
+    
+    public static function albumIntroImageMinWidth()
+    {
+        return self::albumIntroImageConfig()['minWidth'];
+    }
+    
+    public static function albumIntroImageMaxWidth()
+    {
+        return self::albumIntroImageConfig()['maxWidth'];
+    }
+    
+    public static function albumIntroImageMinHeight()
+    {
+        return self::albumIntroImageConfig()['minHeight'];
+    }
+    
+    public static function albumIntroImageMaxHeight()
+    {
+        return self::albumIntroImageConfig()['maxHeight'];
+    }
+    
+    public static function albumIntroImageTransformations()
+    {
+        return self::albumIntroImageConfig()['transformations'];
     }
     
     public static function albumIntroImageDir()
     {
-        return self::getConfig()['album.albumIntroImageDir'];
+        return self::albumIntroImageConfig()['dir'];
+    }
+    
+    public static function albumIntroImageConfig()
+    {
+        return self::getConfig()['album.introImageConfig'];
     }
     
     public static function photoStatuses()

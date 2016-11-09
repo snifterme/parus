@@ -62,7 +62,7 @@ class AlbumPresenter extends BasePresenter
     public function image_original()
     {
         if (!empty($this->image)) {
-            return Settings::albumIntroImageUploadSrc() . '/' . $this->wrappedObject->id  . '/' . Settings::albumIntroImageDir() . '/' . $this->wrappedObject->image . '.' . Settings::albumImageExtension();
+            return Settings::albumIntroImageUploadSrc() . '/' . $this->wrappedObject->id  . '/' . Settings::albumIntroImageDir() . '/' . $this->wrappedObject->image . '.' . Settings::albumIntroImageExtension();
         }
         return null;
     }

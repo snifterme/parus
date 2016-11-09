@@ -44,7 +44,7 @@ class CreateAlbumHandler
                 $imageFile->getBaseName(),
                 $imageFile->tempName,
                 null,
-                Settings::albumImageTransformations()
+                Settings::albumIntroImageTransformations()
             ]);
             $album->image = $imageManager->getOriginalImageName();
             $newImage = true;
