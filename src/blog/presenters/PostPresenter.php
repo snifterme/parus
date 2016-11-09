@@ -96,7 +96,7 @@ class PostPresenter extends BasePresenter
     public function image_original()
     {
         if (!empty($this->image)) {
-            return Settings::postIntroImageUploadSrc() . '/' . $this->wrappedObject->id  . '/' . $this->wrappedObject->image . '.' . Settings::postImageExtension();
+            return Settings::postIntroImageUploadSrc() . '/' . $this->wrappedObject->id  . '/' . $this->wrappedObject->image . '.' . Settings::postIntroImageExtension();
         }
         return null;
     }

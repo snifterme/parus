@@ -4,6 +4,7 @@ namespace rokorolov\parus\blog;
 
 use rokorolov\parus\blog\helpers\Settings;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the rokorolov\parus\blog\Module.
@@ -31,36 +32,62 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
+        $this->config['post.introImageConfig'] = array_replace(
+            [
+                'uploadPath' => '@webroot/uploads/post',
+                'uploadSrc' => '@web/uploads/post',
+                'allowedExtensions' => ['jpg', 'jpeg', 'png'],
+                'allowedMimeTypes' => ['image/*'],
+                'minSize' => null,
+                'maxSize' => null,
+                'minWidth' => null,
+                'maxWidth' => null,
+                'minHeight' => null,
+                'maxHeight' => null,
+                'extension' => 'jpg',
+                'transformations' => [],
+            ], ArrayHelper::getValue($this->config, 'post.introImageConfig', [])
+        );
+        
+        $this->config['category.introImageConfig'] = array_replace(
+            [
+                'uploadPath' => '@webroot/uploads/category',
+                'uploadSrc' => '@web/uploads/category',
+                'allowedExtensions' => ['jpg', 'jpeg', 'png'],
+                'allowedMimeTypes' => ['image/*'],
+                'minSize' => null,
+                'maxSize' => null,
+                'minWidth' => null,
+                'maxWidth' => null,
+                'minHeight' => null,
+                'maxHeight' => null,
+                'extension' => 'jpg',
+                'transformations' => [],
+            ], ArrayHelper::getValue($this->config, 'category.introImageConfig', [])
+        );
+        
         $this->config = array_replace(
             [
                 'language' => 'en',
                 'languages' => ['en' => 'English'],
                 'defaultLanguage' => 'en',
                 'enableIntl' => true,
-                'post.introImageUploadPath' => '@webroot/uploads/post',
-                'post.introImageUploadSrc' => '@web/uploads/post',
-                'post.introImageAllowedExtensions' => ['jpg', 'jpeg', 'png'],
+                'post.introImageConfig' => [],
                 'post.imageUploadPath' => '@webroot/uploads/media',
                 'post.imageUploadSrc' => '@web/uploads/media',
-                'post.imageExtension' => 'jpg',
-                'post.imageTransformations' => [],
                 'post.statuses' => [],
                 'post.defaultStatus' => null,
                 'post.managePageSize' => 10,
-                'category.introImageUploadPath' => '@webroot/uploads/category',
-                'category.introImageUploadSrc' => '@web/uploads/category',
-                'category.introImageAllowedExtensions' => ['jpg', 'jpeg', 'png'],
+                'category.introImageConfig' => [],
                 'category.imageUploadPath' => '@webroot/uploads/media',
                 'category.imageUploadSrc' => '@web/uploads/media',
-                'category.imageExtension' => 'jpg',
-                'category.imageTransformations' => [],
                 'category.statuses' => [],
                 'category.defaultStatus' => null,
                 'category.managePageSize' => 10,
             ],
             $this->config
         );
-
+        
         \yii\base\Event::on(\rokorolov\parus\blog\models\Post::class, \rokorolov\parus\blog\models\Post::EVENT_AFTER_DELETE, function ($event) {
             if (!empty($event->sender->image)) {
                 $imageManager = Yii::createObject('rokorolov\parus\admin\services\ImageManager', [

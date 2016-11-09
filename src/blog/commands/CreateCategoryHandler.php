@@ -57,7 +57,7 @@ class CreateCategoryHandler
                 $imageFile->getBaseName(),
                 $imageFile->tempName,
                 null,
-                Settings::categoryImageTransformations()
+                Settings::categoryIntroImageTransformations()
             ]);
             $category->image = $imageManager->getOriginalImageName();
             $newImage = true;

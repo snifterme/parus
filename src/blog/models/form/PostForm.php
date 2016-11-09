@@ -86,8 +86,20 @@ class PostForm extends Model
             [['publish_up', 'publish_down'], 'default', 'value' => null],
 
             ['published_at', 'default', 'value' => Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s')],
-
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => implode(',', Settings::postIntroImageAllowedExtensions())],
+            
+            ['imageFile', 'file', 'skipOnEmpty' => true,
+                'extensions' => implode(',', Settings::postIntroImageAllowedExtensions()),
+                'mimeTypes' => implode(',', Settings::postIntroImageAllowedMimeTypes()),
+                'minSize' => Settings::postIntroImageMinSize(),
+                'maxSize' => Settings::postIntroImageMaxSize()
+            ],
+            
+            ['imageFile', 'image', 'skipOnEmpty' => true,
+                'minWidth' => Settings::postIntroImageMinWidth(),
+                'maxWidth' => Settings::postIntroImageMaxWidth(),
+                'minHeight' => Settings::postIntroImageMinHeight(),
+                'maxHeight' => Settings::postIntroImageMaxHeight()
+            ],
         ];
     }
 

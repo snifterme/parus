@@ -57,7 +57,7 @@ class CategoryPresenter extends BasePresenter
     public function image_original()
     {
         if (!empty($this->image)) {
-            return Settings::categoryIntroImageUploadSrc() . '/' . $this->wrappedObject->id  . '/' . $this->wrappedObject->image . '.' . Settings::categoryImageExtension();
+            return Settings::categoryIntroImageUploadSrc() . '/' . $this->wrappedObject->id  . '/' . $this->wrappedObject->image . '.' . Settings::categoryIntroImageExtension();
         }
         return null;
     }
