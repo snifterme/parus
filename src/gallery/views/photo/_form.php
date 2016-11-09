@@ -33,12 +33,12 @@ MagnificPopupAsset::register($this);
     echo '<fieldset disabled>';
 } ?>
 
-<?php $form = ActiveForm::begin([
-    'id' => $this->context->id . '-form',
-    'options' => ['class' => Toolbar::FORM_SELECTOR]
-]); ?>
-
 <div class="gallery-form tab-content-area">
+    <?php $form = ActiveForm::begin([
+        'id' => $this->context->id . '-form',
+        'options' => ['class' => Toolbar::FORM_SELECTOR]
+    ]); ?>
+
     <div class="tab-content tab-content-form">
 
         <?= $form->errorSummary($album->photos); ?>
@@ -131,11 +131,11 @@ MagnificPopupAsset::register($this);
             <?php Pjax::end(); ?>
         </div>
     </div>
+    <?php ActiveForm::end(); ?>
     <div class="form-toolbar">
         <?= $toolbar ?>
     </div>
 </div>
-<?php ActiveForm::end(); ?>
 <?php if (!$accessControl->canUpdatePhoto()) {
     echo '</fieldset>';
 } ?>

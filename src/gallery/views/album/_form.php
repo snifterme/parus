@@ -30,12 +30,12 @@ $translations = $model->getTranslationVariations();
             </li>
         </ul>
 
-        <?php $form = ActiveForm::begin([
-            'id' => $this->context->id . '-form',
-            'options' => ['enctype' => 'multipart/form-data', 'class' => Toolbar::FORM_SELECTOR]
-        ]); ?>
-
         <div class="album-form tab-content-area">
+            <?php $form = ActiveForm::begin([
+                'id' => $this->context->id . '-form',
+                'options' => ['enctype' => 'multipart/form-data', 'class' => Toolbar::FORM_SELECTOR]
+            ]); ?>
+
             <div class="tab-content tab-content-form">
 
                 <?= $form->errorSummary($model); ?>
@@ -101,8 +101,10 @@ $translations = $model->getTranslationVariations();
                     </div>
                 </div>
             </div>
+            <?php ActiveForm::end(); ?>
             <div class="form-toolbar">
                 <?= $toolbar ?>
+                <p><?= Module::t('gallery', 'Saved on') . ': ' . $model->getSavedOn() ?></p>
             </div>
         </div>
     </div>
@@ -158,7 +160,6 @@ $translations = $model->getTranslationVariations();
         <?php endif; ?>
     </aside>
 </div>
-<?php ActiveForm::end(); ?>
 
 <?php
 

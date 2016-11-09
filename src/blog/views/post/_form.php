@@ -28,11 +28,11 @@ use yii\helpers\Url;
             <li><a href="#tab-meta" data-toggle="tab"><?= Html::icon('flag') ?> <span class="hidden-xs"><?= Module::t('blog', 'Meta') ?></span></a></li>
         </ul>
 
-        <?php $form = ActiveForm::begin([
-            'id' => $this->context->id . '-form',
-            'options' => ['enctype' => 'multipart/form-data', 'class' => Toolbar::FORM_SELECTOR . ' form-label-left']
-        ]); ?>
         <div class="post-form tab-content-area">
+            <?php $form = ActiveForm::begin([
+                'id' => $this->context->id . '-form',
+                'options' => ['enctype' => 'multipart/form-data', 'class' => Toolbar::FORM_SELECTOR . ' form-label-left']
+            ]); ?>
             <div class="tab-content tab-content-form">
 
                 <?= $form->errorSummary($model); ?>
@@ -164,12 +164,12 @@ use yii\helpers\Url;
                     </div>
                 </div>
             </div>
-            <div class="form-toolbar">
-                <?= $toolbar ?>
-                <p><?= Module::t('blog', 'Saved on') . ': ' . $model->getSavedOn() ?></p>
-            </div>
-        </div>
         <?php ActiveForm::end(); ?>
+        <div class="form-toolbar">
+            <?= $toolbar ?>
+            <p><?= Module::t('blog', 'Saved on') . ': ' . $model->getSavedOn() ?></p>
+        </div>
+    </div>
     </div>
     <aside class="col-md-4">
         <div class="">
