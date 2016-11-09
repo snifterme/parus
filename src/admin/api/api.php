@@ -125,6 +125,11 @@ function get_page($options = [])
     return (new \rokorolov\parus\page\api\Page())->getPage($options);
 }
 
+function update_page_counter($id, $count = 1)
+{
+    return (new \rokorolov\parus\page\api\Page())->updatePageCounter($id, $count);
+}
+
 function get_language_by($key, $value, $options = [])
 {
     return (new \rokorolov\parus\language\api\Language())->getLanguageBy($key, $value, $options);
