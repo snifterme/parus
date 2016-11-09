@@ -44,16 +44,16 @@ class ImageManager
     private $uploadPath;
 
     public function __construct(
-      $imageName,
-      $imagePath,
-      $uploadPath,
-     array $fileTransformations = []
+        $imageName,
+        $imagePath,
+        $uploadPath,
+        array $fileTransformations = []
      ) {
         if ($imagePath && !file_exists($imagePath)) {
             throw new ImageManagerException("The image directory '$imagePath' does not exist");
         }
         
-        if (empty(getimagesize($imagePath))) {
+        if ($imagePath && empty(getimagesize($imagePath))) {
             throw new ImageManagerException("The uploaded file doesn't seem to be an image.");
         }
 
