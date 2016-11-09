@@ -8,6 +8,7 @@ use Yii;
 use yii\helpers\Inflector;
 use yii\helpers\FileHelper;
 use yii\base\InvalidParamException;
+use rokorolov\parus\admin\exceptions\ImageManagerException;
 
 /**
  * ImageManager
@@ -49,7 +50,11 @@ class ImageManager
      array $fileTransformations = []
      ) {
         if ($imagePath && !file_exists($imagePath)) {
-            throw new InvalidParamException("The image directory '$imagePath' does not exist");
+            throw new ImageManagerException("The image directory '$imagePath' does not exist");
+        }
+        
+        if (empty(getimagesize($imagePath))) {
+            throw new ImageManagerException("The uploaded file doesn't seem to be an image.");
         }
 
         $this->imageName = $imageName;
@@ -64,7 +69,7 @@ class ImageManager
         if (empty($fileTransformations = $this->getFileTransformations())) {
             return;
         }
-
+         
         $responseData = [];
         $this->createDirectory($this->uploadPath);
         $imageName = $this->getOriginalImageName();
@@ -81,23 +86,30 @@ class ImageManager
 
             !$withCanvas && $image->backup();
 
-            if ($key !== self::ORIGIN_IMAGE_KEY && ($option['width'] || $option['height'])) {
+            $width = isset($option['width']) ? $option['width'] : null;
+            $height = isset($option['height']) ? $option['height'] : null;
+
+            if ($key !== self::ORIGIN_IMAGE_KEY && ($width || $height)) {
                 $resizeMethod = isset($option['method']) ? $option['method'] : $this->defaultResizeMethod;
                 switch ($resizeMethod) {
                     case self::METHOD_CROP:
-                        $image->fit($option['width'], $option['height']);
+                        $image->fit($width, $height);
                         break;
                     case self::METHOD_RESIZE:
                         if ($image->width() >= $image->height()) {
-                            $image->resize($option['width'], null, function($constraint) use ($upSize) {
-                                $constraint->aspectRatio();
-                                $upSize && $constraint->upsize();
-                            });
+                            if (!is_null($width)) {
+                                $image->resize($width, null, function($constraint) use ($upSize) {
+                                    $constraint->aspectRatio();
+                                    $upSize && $constraint->upsize();
+                                });
+                            }
                         } else {
-                            $image->resize(null, $option['height'], function($constraint) use ($upSize) {
-                                $constraint->aspectRatio();
-                                $upSize && $constraint->upsize();
-                            });
+                            if (!is_null($height)) {
+                                $image->resize(null, $height, function($constraint) use ($upSize) {
+                                    $constraint->aspectRatio();
+                                    $upSize && $constraint->upsize();
+                                });
+                            }
                         }
                         break;
                 }
