@@ -44,6 +44,13 @@ class Bootstrap
             'mode' => 'custom',
         ]);
         
+        // Image Manager
+        if (!Yii::$container->has('ImageManipulationManager')) {
+            Yii::$container->set('ImageManipulationManager', function() {
+                return new \Intervention\Image\ImageManager(['driver' => 'gd']);
+            });
+        }
+        
         if (!Yii::$container->has(\rokorolov\parus\admin\theme\widgets\Redactor::class)) {
             Yii::$container->set('rokorolov\parus\admin\theme\widgets\Redactor', 'vova07\imperavi\Widget');
             Yii::$container->set('vova07\imperavi\Widget', [

@@ -27,8 +27,7 @@ class User extends BaseApi
         'user_status' => null,
         'post_group_limit' => null,
         'with' => [],
-        'where' => null,
-        'user_options' => []
+        'where' => null
     ];
     
     protected $userReadRepository;

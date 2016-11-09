@@ -58,7 +58,7 @@ class UpdatePostHandler
                 $imageFile->getBaseName(),
                 $imageFile->tempName,
                 Settings::postIntroImageUploadPath() . DIRECTORY_SEPARATOR . $post->id,
-                Settings::postImageTransformations()
+                Settings::postIntroImageTransformations()
             ]);
             $post->image = $imageManager->getOriginalImageName();
             $newImage = true;

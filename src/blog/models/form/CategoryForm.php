@@ -79,7 +79,19 @@ class CategoryForm extends Model
 
             [['description'], 'safe'],
 
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => implode(',', Settings::categoryIntroImageAllowedExtensions())],
+            ['imageFile', 'file', 'skipOnEmpty' => true,
+                'extensions' => implode(',', Settings::categoryIntroImageAllowedExtensions()),
+                'mimeTypes' => implode(',', Settings::categoryIntroImageAllowedMimeTypes()),
+                'minSize' => Settings::categoryIntroImageMinSize(),
+                'maxSize' => Settings::categoryIntroImageMaxSize()
+            ],
+            
+            ['imageFile', 'image', 'skipOnEmpty' => true,
+                'minWidth' => Settings::categoryIntroImageMinWidth(),
+                'maxWidth' => Settings::categoryIntroImageMaxWidth(),
+                'minHeight' => Settings::categoryIntroImageMinHeight(),
+                'maxHeight' => Settings::categoryIntroImageMaxHeight()
+            ],
         ];
     }
 

@@ -63,7 +63,19 @@ class AlbumForm extends Model
             ['album_alias', 'string', 'max' => 128],
             ['album_alias', 'validateAlbumAlias'],
             
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => implode(',', Settings::albumIntroImageAllowedExtensions())],
+            ['imageFile', 'file', 'skipOnEmpty' => true,
+                'extensions' => implode(',', Settings::albumIntroImageAllowedExtensions()),
+                'mimeTypes' => implode(',', Settings::albumIntroImageAllowedMimeTypes()),
+                'minSize' => Settings::albumIntroImageMinSize(),
+                'maxSize' => Settings::albumIntroImageMaxSize()
+            ],
+            
+            ['imageFile', 'image', 'skipOnEmpty' => true,
+                'minWidth' => Settings::albumIntroImageMinWidth(),
+                'maxWidth' => Settings::albumIntroImageMaxWidth(),
+                'minHeight' => Settings::albumIntroImageMinHeight(),
+                'maxHeight' => Settings::albumIntroImageMaxHeight()
+            ],
         ];
     }
 

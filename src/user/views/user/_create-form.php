@@ -19,11 +19,11 @@ use yii\bootstrap\ActiveForm;
             <!--<li><a href="#tab-meta" data-toggle="tab"><?php // Html::icon('flag') ?> <span class="hidden-xs"><?php // Module::t('user', 'Meta') ?></span></a></li>-->
         </ul>
 
-        <?php $form = ActiveForm::begin([
-            'id' => 'form-' . $this->context->id,
-            'options' => ['class' => Toolbar::FORM_SELECTOR],
-        ]); ?>
         <div class="user-form tab-content-area">
+            <?php $form = ActiveForm::begin([
+                'id' => 'form-' . $this->context->id,
+                'options' => ['class' => Toolbar::FORM_SELECTOR],
+            ]); ?>
             <div class="tab-content tab-content-form">
 
                 <?= $form->errorSummary($model); ?>
@@ -60,12 +60,12 @@ use yii\bootstrap\ActiveForm;
                 </div>
 
             </div>
+            <?php ActiveForm::end(); ?>
             <div class="form-toolbar">
                 <?= $toolbar ?>
                 <p><?= Module::t('user', 'Saved on') . ': ' . $model->getSavedOn() ?></p>
             </div>
         </div>
-        <?php ActiveForm::end(); ?>
     </div>
     <aside class="col-md-4">
         <div class="">

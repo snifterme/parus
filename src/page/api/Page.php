@@ -2,6 +2,7 @@
 
 namespace rokorolov\parus\page\api;
 
+use rokorolov\parus\page\models\Page as PageModel;
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use rokorolov\parus\page\helpers\Settings;
 use rokorolov\parus\admin\base\BaseApi;
@@ -85,5 +86,13 @@ class Page extends BaseApi
         }
 
         return $page;
+    }
+    
+    public function updatePageCounter($id, $count = 1)
+    {
+        Yii::$app->db->createCommand()
+            ->update(PageModel::tableName(), ['hits' => new \yii\db\Expression('hits + :hits')], ['id' => $id])
+            ->bindValues([':hits' => $count])
+            ->execute(); 
     }
 }

@@ -23,11 +23,11 @@ use yii\widgets\DetailView;
             <li><a href="#tab-meta" data-toggle="tab"><?= Html::icon('flag') ?> <span class="hidden-xs"><?= Module::t('page', 'Meta') ?></span></a></li>
         </ul>
 
-        <?php $form = ActiveForm::begin([
-            'id' => $this->context->id . '-form',
-            'options' => ['class' => Toolbar::FORM_SELECTOR . ' form-label-left']
-        ]); ?>
         <div class="page-form tab-content-area">
+            <?php $form = ActiveForm::begin([
+                'id' => $this->context->id . '-form',
+                'options' => ['class' => Toolbar::FORM_SELECTOR . ' form-label-left']
+            ]); ?>
             <div class="tab-content tab-content-form">
 
                 <?= $form->errorSummary($model); ?>
@@ -113,12 +113,12 @@ use yii\widgets\DetailView;
                     </div>
                 </div>
             </div>
+            <?php ActiveForm::end(); ?>
             <div class="form-toolbar">
                 <?= $toolbar ?>
                 <p><?= Module::t('page', 'Saved on') . ': ' . $model->getSavedOn() ?></p>
             </div>
         </div>
-        <?php ActiveForm::end(); ?>
     </div>
     <aside class="col-md-4">
         <div class="">

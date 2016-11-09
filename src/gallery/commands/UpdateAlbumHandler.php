@@ -45,9 +45,9 @@ class UpdateAlbumHandler
                 $imageFile->getBaseName(),
                 $imageFile->tempName,
                 Settings::albumIntroImageUploadPath() . DIRECTORY_SEPARATOR . $album->id . DIRECTORY_SEPARATOR . Settings::albumIntroImageDir(),
-                Settings::albumImageTransformations()
+                Settings::albumIntroImageTransformations()
             ]);
-            $imageManager->extension = Settings::albumImageExtension();
+            $imageManager->extension = Settings::albumIntroImageExtension();
             $album->image = $imageManager->getOriginalImageName();
             $newImage = true;
         }

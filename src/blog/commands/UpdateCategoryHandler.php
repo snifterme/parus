@@ -60,7 +60,7 @@ class UpdateCategoryHandler
                 $imageFile->getBaseName(),
                 $imageFile->tempName,
                 Settings::categoryIntroImageUploadPath() . DIRECTORY_SEPARATOR . $category->id,
-                Settings::categoryImageTransformations()
+                Settings::categoryIntroImageTransformations()
             ]);
             $category->image = $imageManager->getOriginalImageName();
             $newImage = true;

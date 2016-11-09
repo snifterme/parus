@@ -2,13 +2,13 @@
 
 namespace rokorolov\parus\admin\services;
 
+use rokorolov\parus\admin\exceptions\ImageManagerException;
 use Intervention\Image\ImageManager as Manager;
 use Closure;
 use Yii;
 use yii\helpers\Inflector;
 use yii\helpers\FileHelper;
 use yii\base\InvalidParamException;
-use rokorolov\parus\admin\exceptions\ImageManagerException;
 
 /**
  * ImageManager
@@ -44,16 +44,16 @@ class ImageManager
     private $uploadPath;
 
     public function __construct(
-      $imageName,
-      $imagePath,
-      $uploadPath,
-     array $fileTransformations = []
+        $imageName,
+        $imagePath,
+        $uploadPath,
+        array $fileTransformations = []
      ) {
         if ($imagePath && !file_exists($imagePath)) {
             throw new ImageManagerException("The image directory '$imagePath' does not exist");
         }
         
-        if (empty(getimagesize($imagePath))) {
+        if ($imagePath && empty(getimagesize($imagePath))) {
             throw new ImageManagerException("The uploaded file doesn't seem to be an image.");
         }
 
@@ -61,7 +61,7 @@ class ImageManager
         $this->imagePath = $imagePath;
         $this->uploadPath = $uploadPath;
         $this->fileTransformations = $fileTransformations;
-        $this->manager = new Manager(['driver' => $this->imageManagerDriver]);
+        $this->manager = Yii::createObject('ImageManipulationManager');
     }
 
     public function save()

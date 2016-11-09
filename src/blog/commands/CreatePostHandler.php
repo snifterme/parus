@@ -60,7 +60,7 @@ class CreatePostHandler
                 $imageFile->getBaseName(),
                 $imageFile->tempName,
                 null,
-                Settings::postImageTransformations()
+                Settings::postIntroImageTransformations()
             ]);
             $post->image = $imageManager->getOriginalImageName();
             $newImage = true;

@@ -33,17 +33,67 @@ class Settings
                         
     public static function postIntroImageUploadPath()
     {
-        return Yii::getAlias(self::getConfig()['post.introImageUploadPath']);
+        return Yii::getAlias(self::postIntroImageConfig()['uploadPath']);
     }
     
     public static function postIntroImageUploadSrc()
     {
-        return Yii::getAlias(self::getConfig()['post.introImageUploadSrc']);
+        return Yii::getAlias(self::postIntroImageConfig()['uploadSrc']);
     }
     
     public static function postIntroImageAllowedExtensions()
     {
-        return self::getConfig()['post.introImageAllowedExtensions'];
+        return self::postIntroImageConfig()['allowedExtensions'];
+    }
+    
+    public static function postIntroImageAllowedMimeTypes()
+    {
+        return self::postIntroImageConfig()['allowedMimeTypes'];
+    }
+    
+    public static function postIntroImageExtension()
+    {
+        return self::postIntroImageConfig()['extension'];
+    }
+    
+    public static function postIntroImageMinSize()
+    {
+        return self::postIntroImageConfig()['minSize'];
+    }
+    
+    public static function postIntroImageMaxSize()
+    {
+        return self::postIntroImageConfig()['maxSize'];
+    }
+    
+    public static function postIntroImageMinWidth()
+    {
+        return self::postIntroImageConfig()['minWidth'];
+    }
+    
+    public static function postIntroImageMaxWidth()
+    {
+        return self::postIntroImageConfig()['maxWidth'];
+    }
+    
+    public static function postIntroImageMinHeight()
+    {
+        return self::postIntroImageConfig()['minHeight'];
+    }
+    
+    public static function postIntroImageMaxHeight()
+    {
+        return self::postIntroImageConfig()['maxHeight'];
+    }
+    
+    public static function postIntroImageTransformations()
+    {
+        return self::postIntroImageConfig()['transformations'];
+    }
+    
+    public static function postIntroImageConfig()
+    {
+        return self::getConfig()['post.introImageConfig'];
     }
     
     public static function postImageUploadPath()
@@ -54,16 +104,6 @@ class Settings
     public static function postImageUploadSrc()
     {
         return Yii::getAlias(self::getConfig()['post.imageUploadSrc']);
-    }
-    
-    public static function postImageExtension()
-    {
-        return self::getConfig()['post.imageExtension'];
-    }
-    
-    public static function postImageTransformations()
-    {
-        return self::getConfig()['post.imageTransformations'];
     }
     
     public static function postStatuses()
@@ -80,22 +120,7 @@ class Settings
     {
         return self::getConfig()['post.managePageSize'];
     }
-    
-    public static function categoryIntroImageUploadPath()
-    {
-        return Yii::getAlias(self::getConfig()['category.introImageUploadPath']);
-    }
-    
-    public static function categoryIntroImageUploadSrc()
-    {
-        return Yii::getAlias(self::getConfig()['category.introImageUploadSrc']);
-    }
-    
-    public static function categoryIntroImageAllowedExtensions()
-    {
-        return self::getConfig()['category.introImageAllowedExtensions'];
-    }
-    
+
     public static function categoryImageUploadPath()
     {
         return Yii::getAlias(self::getConfig()['category.imageUploadPath']);
@@ -105,17 +130,71 @@ class Settings
     {
         return Yii::getAlias(self::getConfig()['category.imageUploadSrc']);
     }
-    
-    public static function categoryImageExtension()
+    public static function categoryIntroImageUploadPath()
     {
-        return self::getConfig()['category.imageExtension'];
+        return Yii::getAlias(self::categoryIntroImageConfig()['uploadPath']);
     }
     
-    public static function categoryImageTransformations()
+    public static function categoryIntroImageUploadSrc()
     {
-        return self::getConfig()['category.imageTransformations'];
+        return Yii::getAlias(self::categoryIntroImageConfig()['uploadSrc']);
     }
     
+    public static function categoryIntroImageAllowedExtensions()
+    {
+        return self::categoryIntroImageConfig()['allowedExtensions'];
+    }
+    
+    public static function categoryIntroImageAllowedMimeTypes()
+    {
+        return self::categoryIntroImageConfig()['allowedMimeTypes'];
+    }
+    
+    public static function categoryIntroImageExtension()
+    {
+        return self::categoryIntroImageConfig()['extension'];
+    }
+    
+    public static function categoryIntroImageMinSize()
+    {
+        return self::categoryIntroImageConfig()['minSize'];
+    }
+    
+    public static function categoryIntroImageMaxSize()
+    {
+        return self::categoryIntroImageConfig()['maxSize'];
+    }
+    
+    public static function categoryIntroImageMinWidth()
+    {
+        return self::categoryIntroImageConfig()['minWidth'];
+    }
+    
+    public static function categoryIntroImageMaxWidth()
+    {
+        return self::categoryIntroImageConfig()['maxWidth'];
+    }
+    
+    public static function categoryIntroImageMinHeight()
+    {
+        return self::categoryIntroImageConfig()['minHeight'];
+    }
+    
+    public static function categoryIntroImageMaxHeight()
+    {
+        return self::categoryIntroImageConfig()['maxHeight'];
+    }
+    
+    public static function categoryIntroImageTransformations()
+    {
+        return self::categoryIntroImageConfig()['transformations'];
+    }
+    
+    public static function categoryIntroImageConfig()
+    {
+        return self::getConfig()['category.introImageConfig'];
+    }
+
     public static function categoryStatuses()
     {
         return self::getConfig()['category.statuses'];

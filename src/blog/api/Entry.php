@@ -159,6 +159,7 @@ class Entry extends BaseApi
             $postCount = (new \yii\db\Query)->select('COUNT(p.id)')
                 ->from(['node' => 'category', 'parent' => 'category', 'p' => 'post'])
                 ->where(['and',
+                    ['p.deleted_at' => null],
                     ['between', 'node.lft', new \yii\db\Expression('parent.lft'), new \yii\db\Expression('parent.rgt')],
                     ['node.id' => new \yii\db\Expression('p.category_id')],
                     ['parent.id' => new \yii\db\Expression('c.id')],
@@ -264,13 +265,14 @@ class Entry extends BaseApi
     public function getGroupPost($group, $groupIds, $options)
     {
         $bindValues = [':limit' => $options['limit']];
+        $order = isset($options['order']) ? $group . ', ' . $options['order'] : $group;
         $bindCategories = $this->bindParamArray($group, $groupIds, $bindValues);
 
         $sql = "SELECT * FROM 
                 (select post.*, @rank := IF(@group=$group, @rank+1, 1) AS rank, @group := $group as grp
-                FROM post, (select @rank := 0, @group := 0) AS vars
-                ORDER BY $group
-                ) AS category WHERE rank <= :limit AND $group IN ($bindCategories)";
+                FROM post, (select @rank := 0, @group := 0) AS vars where deleted_at is null
+                ORDER BY $order
+                ) AS category WHERE rank <= :limit AND $group IN ($bindCategories) AND deleted_at is null";
         
         if (null !== $language = $options['language']) {
             $bindLanguages = $this->bindParamArray('language', (array)$language, $bindValues);
@@ -281,10 +283,6 @@ class Entry extends BaseApi
             $bindStatus = $this->bindParamArray('status', (array)$status, $bindValues);
             $sql .= " AND status in ($bindStatus)";
         }
-        
-        $order = $options['order'];
-        
-        $sql .= " order by $order;";
 
         $rows = Yii::$app->db->createCommand($sql)->bindValues($bindValues)->queryAll();
         

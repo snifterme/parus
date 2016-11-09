@@ -15,11 +15,11 @@ use yii\widgets\ActiveForm;
             <li class="active"><a href="#tab-details" data-toggle="tab"><?= Html::icon('pencil') ?> <span class="hidden-xs"><?= Module::t('menu', 'Menu type') ?></span></a></li>
         </ul>
 
-        <?php $form = ActiveForm::begin([
-            'id' => $this->context->id . '-form',
-            'options' => ['class' => Toolbar::FORM_SELECTOR]
-        ]); ?>
         <div class="menu-type-form tab-content-area">
+            <?php $form = ActiveForm::begin([
+                'id' => $this->context->id . '-form',
+                'options' => ['class' => Toolbar::FORM_SELECTOR]
+            ]); ?>
             <div class="tab-content tab-content-form">
                 
                 <?= $form->errorSummary($model); ?>
@@ -39,11 +39,11 @@ use yii\widgets\ActiveForm;
 
                 </div>
             </div>
+            <?php ActiveForm::end(); ?>
             <div class="form-toolbar">
                 <?= $toolbar ?>
             </div>
         </div>
-        <?php ActiveForm::end(); ?>
     </div>
     <aside class="col-md-4">
         <div class="panel panel-default">
