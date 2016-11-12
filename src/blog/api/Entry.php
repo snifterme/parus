@@ -270,9 +270,7 @@ class Entry extends BaseApi
 
         $sql = "SELECT * FROM 
                 (select post.*, @rank := IF(@group=$group, @rank+1, 1) AS rank, @group := $group as grp
-                FROM post, (select @rank := 0, @group := 0) AS vars where deleted_at is null
-                ORDER BY $order
-                ) AS category WHERE rank <= :limit AND $group IN ($bindCategories) AND deleted_at is null";
+                FROM post, (select @rank := 0, @group := 0) AS vars where deleted_at is null";
         
         if (null !== $language = $options['language']) {
             $bindLanguages = $this->bindParamArray('language', (array)$language, $bindValues);
@@ -282,7 +280,10 @@ class Entry extends BaseApi
         if (null !== $status = $options['post_status']) {
             $bindStatus = $this->bindParamArray('status', (array)$status, $bindValues);
             $sql .= " AND status in ($bindStatus)";
-        }
+        }        
+                
+        $sql .= " ORDER BY $order
+                ) AS category WHERE rank <= :limit AND $group IN ($bindCategories) AND deleted_at is null";
 
         $rows = Yii::$app->db->createCommand($sql)->bindValues($bindValues)->queryAll();
         
