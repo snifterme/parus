@@ -18,7 +18,9 @@ class CategoryUrlRule implements UrlRuleInterface
     public static $map;
     public static $mapId;
 
-    public $adminPanelPath = 'admin';
+    public $excludePath = 'admin';
+    public $urlPath = 'c';
+    public $includePathToUrl = true;
 
     protected $categoryReadRepository;
 
@@ -32,7 +34,7 @@ class CategoryUrlRule implements UrlRuleInterface
             if ($slug === false) {
                 return 'category/show?id=' . $params['id'];
             }
-            return $slug;
+            return $this->includePathToUrl ? $this->urlPath . '/' . $slug : $slug;
         }
         return false;
     }
@@ -44,8 +46,11 @@ class CategoryUrlRule implements UrlRuleInterface
     {
         $pathInfo = $request->getPathInfo();
 
-        if (strpos($pathInfo, $this->adminPanelPath) !== 0) {
+        if (0 !== strpos($pathInfo, $this->excludePath)) {
             $pathSplit = explode('/', $pathInfo);
+            if ($this->includePathToUrl && 0 !== strpos($pathSplit[0], $this->urlPath)) {
+                return false;
+            }
             $slug = array_pop($pathSplit);
             if ($categoryId = $this->getIdBySlug($slug)) {
                 return ['entry/index', ['id' => $categoryId]];

@@ -18,7 +18,8 @@ class PageUrlRule implements UrlRuleInterface
     public static $mapId;
     public static $mapSlug;
 
-    public $adminPanelPath = 'admin';
+    public $excludePath = 'admin';
+    public $allowNestedUrl = false;
     
     protected $pageReadRepository;
 
@@ -42,7 +43,12 @@ class PageUrlRule implements UrlRuleInterface
     public function parseRequest($manager, $request)
     {
         $pathInfo = $request->getPathInfo();
-        if (strpos($pathInfo, '/') === false && strpos($pathInfo, $this->adminPanelPath) !== 0) {
+        
+        if (!$this->allowNestedUrl && false !== strpos($pathInfo, '/')) {
+            return false;
+        }
+        
+        if (0 !== strpos($pathInfo, $this->excludePath)) {
             if ($pageId = $this->getIdBySlug($pathInfo)) {
                 return ['page/view', ['id' => $pageId]];
             }
