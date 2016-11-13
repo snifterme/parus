@@ -18,7 +18,8 @@ class PostUrlRule implements UrlRuleInterface
     public static $mapId;
     public static $mapSlug;
 
-    public $adminPanelPath = 'admin';
+    public $excludePath = 'admin';
+    public $includePostIdToUrl = true;
 
     protected $postReadRepository;
 
@@ -28,11 +29,12 @@ class PostUrlRule implements UrlRuleInterface
     public function createUrl($manager, $route, $params)
     {
         if ($route === 'post/show' && isset($params['id'])) {
-            $slug = $this->getSlugById($params['id']);
+            $id = $params['id'];
+            $slug = $this->getSlugById($id);
             if ($slug === false) {
-                return 'post/show?id=' . $params['id'];
+                return 'post/show?id=' . $id;
             }
-            return $slug;
+            return $this->includePostIdToUrl ? $id . '-' . $slug : $slug;
         }
         return false;
     }
@@ -43,11 +45,22 @@ class PostUrlRule implements UrlRuleInterface
     public function parseRequest($manager, $request)
     {
         $pathInfo = $request->getPathInfo();
-        if (strpos($pathInfo, $this->adminPanelPath) !== 0) {
+        if (0 !== strpos($pathInfo, $this->excludePath)) {
             $pathSplit = explode('/', $pathInfo);
             $slug = array_pop($pathSplit);
-            if ($postId = $this->getIdBySlug($slug)) {
-                return ['entry/post', ['id' => $postId]];
+            if ($this->includePostIdToUrl) {
+                if (preg_match('/^(\d+)(\-(.*))?$/', $slug, $matches)) {
+                    $id = $matches[1];
+                    if ((int)$id === (int)$this->getIdBySlug($matches[3])) {
+                        return ['entry/post', ['id' => $id]];
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } elseif ($id = $this->getIdBySlug($slug)) {
+                return ['entry/post', ['id' => $id]];
             }
         }
         return false;
