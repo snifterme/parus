@@ -5,6 +5,7 @@ namespace rokorolov\parus\blog\api;
 use rokorolov\parus\admin\theme\widgets\statusaction\helpers\Status;
 use rokorolov\parus\admin\base\BaseApi;
 use rokorolov\parus\blog\models\Post;
+use rokorolov\parus\blog\models\Category;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -255,6 +256,7 @@ class Entry extends BaseApi
     public function bindParamArray($prefix, $values, &$bindArray)
     {
         $str = '';
+        $values = (array)$values;
         foreach($values as $index => $value){
             $str .= ':' . $prefix . $index . ',';
             $bindArray[$prefix . $index] = $value;
@@ -266,27 +268,38 @@ class Entry extends BaseApi
     {
         $bindValues = [':limit' => $options['limit']];
         $order = isset($options['order']) ? $group . ', ' . $options['order'] : $group;
+        $checkCategoryStatus = ($options['check_category_status'] && !empty($options['category_status']));
         $bindCategories = $this->bindParamArray($group, $groupIds, $bindValues);
 
-        $sql = "SELECT * FROM 
+        $sql = "SELECT post_group.* FROM 
                 (select post.*, @rank := IF(@group=$group, @rank+1, 1) AS rank, @group := $group as grp
-                FROM post, (select @rank := 0, @group := 0) AS vars where deleted_at is null";
+                FROM " . Post::tableName() . ", (select @rank := 0, @group := 0) AS vars WHERE deleted_at IS NULL";
         
         if (null !== $language = $options['language']) {
-            $bindLanguages = $this->bindParamArray('language', (array)$language, $bindValues);
-            $sql .= " AND language in ($bindLanguages)";
+            $bindLanguages = $this->bindParamArray('language', $language, $bindValues);
+            $sql .= " AND language IN ($bindLanguages)";
         }
         
         if (null !== $status = $options['post_status']) {
-            $bindStatus = $this->bindParamArray('status', (array)$status, $bindValues);
-            $sql .= " AND status in ($bindStatus)";
-        }        
-                
-        $sql .= " ORDER BY $order
-                ) AS category WHERE rank <= :limit AND $group IN ($bindCategories) AND deleted_at is null";
+            $bindStatus = $this->bindParamArray('status', $status, $bindValues);
+            $sql .= " AND status IN ($bindStatus)";
+        }
+        
+        $sql .= " ORDER BY $order ) AS post_group";
+
+        if ($checkCategoryStatus) {
+            $sql .= " LEFT JOIN " . Category::tableName() . " ON category.id=category_id";
+        }
+        
+        $sql .= " WHERE rank <= :limit AND $group IN ($bindCategories)";
+
+        if ($checkCategoryStatus) {
+            $bindCategoryStatus = $this->bindParamArray('category_status', $options['category_status'], $bindValues);
+            $sql .= " AND category.status IN ($bindCategoryStatus)";
+        }
 
         $rows = Yii::$app->db->createCommand($sql)->bindValues($bindValues)->queryAll();
-        
+
         $models = [];
         foreach ($rows as $row) {
             if ($model = $this->getPostReadRepository()->populate($row, false)) {
