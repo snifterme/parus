@@ -42,16 +42,13 @@ class m160905_122710_init_module_menu extends Migration
             'link' => $this->string(1024)->notNull(),
             'note' => $this->string(255)->notNull(),
             'menu_type_id' => $this->integer(10)->notNull(),
-            'language' => $this->string(7)->notNull(),
+            'language' => $this->integer(10)->notNull(),
             'depth' => $this->smallInteger(4)->notNull()->defaultValue('0'),
             'lft' => $this->integer(10)->notNull()->defaultValue('0'),
             'rgt' => $this->integer(10)->notNull()->defaultValue('0'),
         ], $tableOptions);
 
-//        $this->addForeignKey('fk__menu_menu_type_id__menu_type_id', models\Menu::tableName(), 'menu_type_id', models\MenuType::tableName(), 'id', 'CASCADE', 'NO ACTION');
-
-        $this->addForeignKey('fk__menu_language__language_lang_code', models\Menu::tableName(), 'language', Language::tableName(), 'lang_code', 'CASCADE', 'CASCADE');
-
+        $this->addForeignKey('fk__menu_language__language_id', models\Menu::tableName(), 'language', Language::tableName(), 'id', 'CASCADE', 'CASCADE');
 
         if ($this->settings->shouldInstallDefaults() === true) {
             $this->executeMenuSql();
@@ -79,8 +76,7 @@ class m160905_122710_init_module_menu extends Migration
 
     public function down()
     {
-        $this->dropForeignKey('fk__menu_language__language_lang_code', models\Menu::tableName());
-//        $this->dropForeignKey('fk__menu_menu_type_id__menu_type_id', models\Menu::tableName());
+        $this->dropForeignKey('fk__menu_language__language_id', models\Menu::tableName());
 
         $this->dropTable(models\Menu::tableName());
         $this->dropTable(models\MenuType::tableName());

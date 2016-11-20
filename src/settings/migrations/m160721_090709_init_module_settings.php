@@ -34,8 +34,8 @@ class m160721_090709_init_module_settings extends Migration
             'default' => $this->text()->notNull(),
             'type' => $this->string(128)->notNull(),
             'order' => $this->integer(10)->unsigned()->notNull()->defaultValue('0'),
-            'created_at' => $this->dateTime()->notNull()->defaultValue('0000-00-00 00:00:00'),
-            'modified_at' => $this->dateTime()->notNull()->defaultValue('0000-00-00 00:00:00'),
+            'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
         ], $tableOptions);
         
         $this->createIndex('param_idx', models\Settings::tableName(), 'param', true);
