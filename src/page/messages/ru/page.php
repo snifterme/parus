@@ -40,7 +40,7 @@ return [
     'Id' => 'Id',
     'Information' => 'Информация',
     'Language' => 'Язык',
-    'Last edited by' => 'Редоктровал',
+    'Last edited by' => 'Редактировал',
     'Last edited on' => 'Последнее редактирование',
     'Meta' => 'Мета',
     'Meta Description' => 'Мета описание',
