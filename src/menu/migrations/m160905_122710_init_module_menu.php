@@ -28,24 +28,24 @@ class m160905_122710_init_module_menu extends Migration
         }
 
         $this->createTable(models\MenuType::tableName(), [
-            'id' => $this->primaryKey(10),
-            'menu_type_aliase' => $this->string(128)->notNull(),
+            'id' => $this->primaryKey(10)->unsigned(),
+            'menu_type_alias' => $this->string(128)->notNull(),
             'title' => $this->string(128)->notNull(),
             'description' => $this->string(128)->notNull()
         ], $tableOptions);
 
         $this->createTable(models\Menu::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'status' => $this->smallInteger(2)->notNull(),
             'parent_id' => $this->integer(10)->unsigned()->notNull(),
             'title' => $this->string(128)->notNull(),
             'link' => $this->string(1024)->notNull(),
             'note' => $this->string(255)->notNull(),
-            'menu_type_id' => $this->integer(10)->notNull(),
-            'language' => $this->integer(10)->notNull(),
-            'depth' => $this->smallInteger(4)->notNull()->defaultValue('0'),
-            'lft' => $this->integer(10)->notNull()->defaultValue('0'),
-            'rgt' => $this->integer(10)->notNull()->defaultValue('0'),
+            'menu_type_id' => $this->integer(10)->notNull()->unsigned(),
+            'language' => $this->integer(10)->notNull()->unsigned(),
+            'depth' => $this->smallInteger(4)->notNull()->unsigned()->defaultValue('0'),
+            'lft' => $this->integer(10)->notNull()->unsigned()->defaultValue('0'),
+            'rgt' => $this->integer(10)->notNull()->unsigned()->defaultValue('0'),
         ], $tableOptions);
 
         $this->addForeignKey('fk__menu_language__language_id', models\Menu::tableName(), 'language', Language::tableName(), 'id', 'CASCADE', 'CASCADE');

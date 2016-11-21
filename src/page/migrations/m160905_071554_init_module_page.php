@@ -20,9 +20,9 @@ class m160905_071554_init_module_page extends Migration
         }
 
         $this->createTable(models\Page::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'status' => $this->smallInteger(2)->notNull(),
-            'language' => $this->integer(10)->notNull(),
+            'language' => $this->integer(10)->notNull()->unsigned(),
             'title' => $this->string(512)->notNull(),
             'slug' => $this->string(512)->notNull(),
             'content' => $this->text()->notNull(),
@@ -31,8 +31,8 @@ class m160905_071554_init_module_page extends Migration
             'view' => $this->string(128),
             'version' => $this->integer(10)->unsigned()->defaultValue('1'),
             'reference' => $this->string(),
-            'modified_by' => $this->integer(10)->notNull(),
-            'created_by' => $this->integer(10)->notNull(),
+            'modified_by' => $this->integer(10)->notNull()->unsigned(),
+            'created_by' => $this->integer(10)->notNull()->unsigned(),
             'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'meta_title' => $this->string(128)->defaultValue(null),

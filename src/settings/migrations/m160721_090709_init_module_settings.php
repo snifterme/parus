@@ -28,7 +28,7 @@ class m160721_090709_init_module_settings extends Migration
         }
         
         $this->createTable(models\Settings::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'param' => $this->string(128)->notNull(),
             'value' => $this->text()->notNull(),
             'default' => $this->text()->notNull(),
@@ -41,7 +41,7 @@ class m160721_090709_init_module_settings extends Migration
         $this->createIndex('param_idx', models\Settings::tableName(), 'param', true);
         
         $this->createTable(models\SettingsLang::tableName(), [
-            'settings_id' => $this->integer(10)->notNull(),
+            'settings_id' => $this->integer(10)->notNull()->unsigned(),
             'language' => $this->string(7)->notNull(),
             'label' => $this->string(255)->notNull(),
         ], $tableOptions);

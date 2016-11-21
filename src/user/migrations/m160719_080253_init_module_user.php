@@ -28,13 +28,13 @@ class m160719_080253_init_module_user extends Migration
         }
         
         $this->createTable(models\User::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'username' => $this->string()->notNull(),
             'auth_key' => $this->string(32)->notNull(),
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull(),
-            'role' => $this->string(255)->null()->defaultValue(null),
+            'role' => $this->string(255)->notNull(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
@@ -47,10 +47,10 @@ class m160719_080253_init_module_user extends Migration
         $this->createIndex('created_at_idx', models\User::tableName(), 'created_at');
         
         $this->createTable(models\Profile::tableName(), [
-            'user_id' => $this->integer(10)->notNull(),
+            'user_id' => $this->integer(10)->notNull()->unsigned(),
             'name' => $this->string(50)->notNull(),
             'surname' => $this->string(50)->notNull(),
-            'language' => $this->integer(10)->null()->defaultValue(null),
+            'language' => $this->integer(10)->null()->unsigned()->defaultValue(null),
             'avatar_url' => $this->string(64)->notNull(),
             'last_login_on' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'last_login_ip' => $this->string(50)->notNull()

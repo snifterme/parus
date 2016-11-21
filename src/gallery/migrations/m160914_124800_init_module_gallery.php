@@ -10,18 +10,19 @@ class m160914_124800_init_module_gallery extends Migration
     public function up()
     {
         $this->createTable(models\Album::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'status' => $this->string(32)->notNull(),
-            'album_aliase' => $this->string(128)->notNull(),
+            'album_alias' => $this->string(128)->notNull(),
+            'image' => $this->string(255)->defaultValue(null),
             'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
         ]);
         
         $this->createTable(models\AlbumLang::tableName(), [
-            'album_id' => $this->integer(10)->notNull(),
+            'album_id' => $this->integer(10)->notNull()->unsigned(),
             'name' => $this->string(128)->notNull(),
             'description' => $this->string(),
-            'language' => $this->integer(10)->notNull(),
+            'language' => $this->integer(10)->notNull()->unsigned(),
         ]);
         
         $this->addPrimaryKey('', models\AlbumLang::tableName(), ['album_id', 'language']);
@@ -29,10 +30,10 @@ class m160914_124800_init_module_gallery extends Migration
         $this->addForeignKey('fk__album_lang_language__language_id', models\AlbumLang::tableName(), 'language', Language::tableName(), 'id', 'CASCADE', 'CASCADE');
     
         $this->createTable(models\Photo::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'status' => $this->string(32)->notNull(),
-            'order' => $this->smallInteger(2)->notNull()->defaultValue(0),
-            'album_id' => $this->integer(10)->notNull(),
+            'order' => $this->smallInteger(2)->notNull()->unsigned()->defaultValue(0),
+            'album_id' => $this->integer(10)->notNull()->unsigned(),
             'photo_name' => $this->string(128)->notNull(),
             'photo_size' => $this->string(10)->notNull(),
             'photo_extension' => $this->string(128)->notNull(),
@@ -45,10 +46,10 @@ class m160914_124800_init_module_gallery extends Migration
         $this->addForeignKey('fk__photo_album_id__album_id', models\Photo::tableName(), 'album_id', models\Album::tableName(), 'id', 'NO ACTION', 'NO ACTION');
         
         $this->createTable(models\PhotoLang::tableName(), [
-            'photo_id' => $this->integer(10)->notNull(),
+            'photo_id' => $this->integer(10)->notNull()->unsigned(),
             'caption' => $this->string(512)->defaultValue(null),
             'description' => $this->string(512)->defaultValue(null),
-            'language' => $this->integer(10)->notNull(),
+            'language' => $this->integer(10)->notNull()->unsigned(),
         ]);
         
         $this->addPrimaryKey('', models\PhotoLang::tableName(), ['photo_id', 'language']);
