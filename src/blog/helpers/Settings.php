@@ -4,6 +4,7 @@ namespace rokorolov\parus\blog\helpers;
 
 use rokorolov\parus\blog\Module;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Settings
@@ -16,21 +17,26 @@ class Settings
     
     public static $defaultInstall;
 
-    public static function language()
-    {
-        return self::getConfig()['language'];
-    }
-    
     public static function languages()
     {
         return self::getConfig()['languages'];
     }
-    
+
+    public static function panelLanguage()
+    {
+        return self::getConfig()['panelLanguage'];
+    }
+        
     public static function defaultLanguage()
     {
         return self::getConfig()['defaultLanguage'];
     }
-                        
+    
+    public static function languageOptions()
+    {
+        return ArrayHelper::map(self::languages(), 'id', 'title');
+    }
+    
     public static function postIntroImageUploadPath()
     {
         return Yii::getAlias(self::postIntroImageConfig()['uploadPath']);

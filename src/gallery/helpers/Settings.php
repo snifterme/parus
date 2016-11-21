@@ -4,6 +4,7 @@ namespace rokorolov\parus\gallery\helpers;
 
 use rokorolov\parus\gallery\Module;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Settings
@@ -23,12 +24,27 @@ class Settings
     {
         return self::getConfig()['languages'];
     }
+
+    public static function panelLanguage()
+    {
+        return self::getConfig()['panelLanguage'];
+    }
     
     public static function defaultLanguage()
     {
         return self::getConfig()['defaultLanguage'];
     }
-        
+    
+    public static function languageOptions()
+    {
+        return ArrayHelper::map(self::languages(), 'id', 'title');
+    }
+      
+    public static function defaultLanguageTitle()
+    {
+        return ArrayHelper::getValue(self::languages(), self::defaultLanguage() . '.title');
+    }
+    
     public static function translatableConfig()
     {
         return self::getConfig()['translatableConfig'];
@@ -142,11 +158,6 @@ class Settings
     public static function photoManagePageSize()
     {
         return self::getConfig()['photo.managePageSize'];
-    }
-      
-    public static function defaultLanguageTitle()
-    {
-        return self::languages()[self::defaultLanguage()];
     }
       
     public static function uploadFilePath($key = null)

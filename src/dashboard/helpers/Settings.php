@@ -14,9 +14,9 @@ class Settings
 {
     public static $config;
 
-    public static function language()
+    public static function panelLanguage()
     {
-        return self::getConfig()['language'];
+        return self::getConfig()['panelLanguage'];
     }
 
     public static function popularPostLimit()

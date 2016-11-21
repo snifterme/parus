@@ -117,7 +117,7 @@ class LanguageHelper
      * 
      * @return array
      */
-    protected function getLanguages()
+    public function getLanguages()
     {
         if (null === self::$languages) {
             $cacheKey = static::class;

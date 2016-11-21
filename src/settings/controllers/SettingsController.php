@@ -67,7 +67,7 @@ class SettingsController extends Controller
      */
     public function actionIndex()
     {
-        $settings = $this->settingsReadRepository->findAllWithTranslation(Settings::language());
+        $settings = $this->settingsReadRepository->findAllWithTranslation(Settings::panelLanguage());
 
         $models = [];
         foreach($settings as $setting) {

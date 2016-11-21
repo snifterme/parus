@@ -27,10 +27,10 @@ class m160722_131746_init_module_language extends Migration
         }
         
         $this->createTable(models\Language::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'title' => $this->string(128)->notNull(),
             'status' => $this->smallInteger(2)->notNull(),
-            'order' => $this->integer(11)->notNull()->defaultValue(0),
+            'order' => $this->integer(11)->notNull()->unsigned()->defaultValue(0),
             'lang_code' => $this->string(7)->notNull(),
             'image' => $this->string(64)->notNull(),
             'date_format' => $this->string(32)->notNull()->defaultValue('Y-m-d'),

@@ -65,7 +65,7 @@ $translations = $model->getTranslationVariations();
                 <div id="tab-image" class="tab-pane">
                     <?= $form->field($model, 'imageFile')->widget(FileInput::classname(), [
                         'options' => ['accept' => 'image/*'],
-                        'language' => Settings::language(),
+                        'language' => Settings::panelLanguage(),
                         'pluginOptions' => [
                             'initialPreview' => [
                                 $model->getImageOriginal(),

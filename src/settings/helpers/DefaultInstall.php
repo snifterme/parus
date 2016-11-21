@@ -3,6 +3,7 @@
 namespace rokorolov\parus\settings\helpers;
 
 use rokorolov\parus\settings\contracts\DefaultInstallInterface;
+use Yii;
 
 /**
  * DefaultInstall

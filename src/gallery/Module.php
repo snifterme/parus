@@ -2,6 +2,7 @@
 
 namespace rokorolov\parus\gallery;
 
+use rokorolov\parus\gallery\helpers\Settings;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -85,6 +86,7 @@ class Module extends \yii\base\Module
         
         $this->config = array_replace(
             [
+                'panelLanguage' => 'en',
                 'language' => 'en',
                 'languages' => ['en' => 'English'],
                 'defaultLanguage' => 'en',
@@ -103,13 +105,15 @@ class Module extends \yii\base\Module
             $this->config
         );
 
+        $languageOptions = ArrayHelper::map($this->config['languages'], 'id', 'title');
+        
         Yii::$container->set('rokorolov\parus\admin\theme\widgets\translatable\TranslatableSwithButton', [
             'defaultLanguage' => $this->config['defaultLanguage'],
-            'languages' =>  $this->config['languages'],
+            'languages' => $languageOptions,
         ]);
 
         Yii::$container->set('rokorolov\parus\admin\theme\widgets\translatable\Translatable', [
-            'languages' => $this->config['languages'],
+            'languages' => $languageOptions,
         ]);
 
         $this->registerTranslation();

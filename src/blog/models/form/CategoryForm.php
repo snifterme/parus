@@ -187,7 +187,7 @@ class CategoryForm extends Model
 
     public function getLanguageOptions()
     {
-        return Settings::languages();
+        return Settings::languageOptions();
     }
 
     public function beforeValidate()

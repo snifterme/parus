@@ -54,7 +54,7 @@ class ViewHelper
         if ($assignRoot) {
             array_unshift($items, [
                 'id' => 1,
-                'title' => Module::t('blog', '(no parent)', [], Settings::language()),
+                'title' => Module::t('blog', '(no parent)', [], Settings::panelLanguage()),
                 'depth' => 0,
             ]);
         }
