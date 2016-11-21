@@ -23,7 +23,7 @@ class LanguageForm extends Model
     public $date_format;
     public $date_time_format;
     public $created_at;
-    public $modified_at;
+    public $updated_at;
 
     public $isNewRecord = true;
 
@@ -155,7 +155,7 @@ class LanguageForm extends Model
             $this->date_format = $this->wrappedObject->date_format;
             $this->date_time_format = $this->wrappedObject->date_time_format;
             $this->created_at = $this->wrappedObject->created_at;
-            $this->modified_at = $this->wrappedObject->modified_at;
+            $this->updated_at = $this->wrappedObject->updated_at;
         }
 
         if ($this->isNewRecord) {

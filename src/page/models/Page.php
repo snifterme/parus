@@ -19,8 +19,8 @@ use yii\db\ActiveRecord;
  * @property string $hits
  * @property integer $created_by
  * @property string $created_at
- * @property integer $modified_by
- * @property string $modified_at
+ * @property integer $updated_by
+ * @property string $updated_at
  */
 class Page extends ActiveRecord implements HasTagDependency
 {
@@ -55,8 +55,8 @@ class Page extends ActiveRecord implements HasTagDependency
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getModifiedBy()
+    public function getUpdatedBy()
     {
-        return $this->hasOne(User::className(), ['id' => 'modified_by']);
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
 }

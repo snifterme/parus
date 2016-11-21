@@ -103,24 +103,24 @@ class PageReadRepository extends BaseReadRepository
     {
         return [
             'createdBy' => self::RELATION_ONE,
-            'modifiedBy' => self::RELATION_ONE,
+            'updatedBy' => self::RELATION_ONE,
             'author' => self::RELATION_ONE,
         ];
     }
     
     protected function resolveCreatedBy($query)
     {
-        if (!in_array('modifiedBy', $this->resolvedRelations)) {
+        if (!in_array('updatedBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
                 ->leftJoin(User::tableName() . ' u', 'p.created_by = u.id');
         }
     }
     
-    protected function resolveModifiedBy($query)
+    protected function resolveUpdatedBy($query)
     {
         if (!in_array('createdBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
-                ->leftJoin(User::tableName() . ' u', 'p.modified_by = u.id');
+                ->leftJoin(User::tableName() . ' u', 'p.updated_by = u.id');
         }
     }
     
@@ -134,19 +134,19 @@ class PageReadRepository extends BaseReadRepository
     
     protected function populateCreatedBy($page, &$data)
     {
-        if (!in_array('modifiedBy', $this->populatedRelations)) {
+        if (!in_array('updatedBy', $this->populatedRelations)) {
             $page->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $page->createdBy = $this->getUserReadRepository()->findById($page->created_by);
         }
     }
     
-    protected function populateModifiedBy($page, &$data)
+    protected function populateUpdatedBy($page, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $page->modifiedBy = $this->getUserReadRepository()->parserResult($data);
+            $page->updatedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
-            $page->modifiedBy = $this->getUserReadRepository()->findById($page->modified_by);
+            $page->updatedBy = $this->getUserReadRepository()->findById($page->updated_by);
         }
     }
     
@@ -166,7 +166,7 @@ class PageReadRepository extends BaseReadRepository
     public function selectAttributesMap()
     {
         return 'p.id AS p_id, p.status AS p_status, p.hits AS p_hits, p.created_by AS p_created_by,'
-        . ' p.created_at AS p_created_at, p.modified_by AS p_modified_by, p.modified_at AS p_modified_at,'
+        . ' p.created_at AS p_created_at, p.updated_by AS p_updated_by, p.updated_at AS p_updated_at,'
         . ' p.home AS p_home, p.view AS p_view, p.version AS p_version, p.reference AS p_reference, p.deleted_at AS p_deleted_at, p.language AS p_language, p.title AS p_title,'
         . ' p.slug AS p_slug, p.content AS p_content, p.meta_title AS p_meta_title, p.meta_keywords AS p_meta_keywords,'
         . ' p.meta_description AS p_meta_description';

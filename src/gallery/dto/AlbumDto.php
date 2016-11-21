@@ -14,7 +14,7 @@ class AlbumDto
     public $album_alias;
     public $image;
     public $created_at;
-    public $modified_at;
+    public $updated_at;
     public $photos;
     public $translation;
     public $translations = [];

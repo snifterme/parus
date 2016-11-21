@@ -34,7 +34,7 @@ class m160721_090709_init_module_settings extends Migration
             'default' => $this->text()->notNull(),
             'type' => $this->string(128)->notNull(),
             'order' => $this->integer(10)->unsigned()->notNull()->defaultValue('0'),
-            'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
         ], $tableOptions);
         
@@ -65,7 +65,7 @@ class m160721_090709_init_module_settings extends Migration
             'type',
             'order',
             'created_at',
-            'modified_at',
+            'updated_at',
         ],
         $this->settings->getSettingParams()
         );

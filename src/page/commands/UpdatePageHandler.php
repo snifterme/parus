@@ -51,8 +51,8 @@ class UpdatePageHandler
         $page->meta_description = $this->textPurify($command->getMetaDescription());
         $page->language = $command->getLanguage();
         $page->version = $page->version + 1;
-        $page->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
-        $page->modified_by = Yii::$app->user->identity->id;
+        $page->updated_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
+        $page->updated_by = Yii::$app->user->identity->id;
             
         $transaction = Yii::$app->db->beginTransaction();
             

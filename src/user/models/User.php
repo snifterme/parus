@@ -50,7 +50,7 @@ class User extends ActiveRecord implements HasTagDependency
      */ 
     public function getPosts() 
     { 
-        return $this->hasMany(Post::className(), ['modified_by' => 'id']); 
+        return $this->hasMany(Post::className(), ['updated_by' => 'id']); 
     }
    
     /**

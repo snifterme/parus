@@ -53,7 +53,7 @@ class ViewHelper
             'date_format' => Module::t('language', 'Date Format'),
             'date_time_format' => Module::t('language', 'Date Time Format'),
             'created_at' => Module::t('language', 'Created on'),
-            'modified_at' => Module::t('language', 'Last edited on'),
+            'updated_at' => Module::t('language', 'Last edited on'),
         ];
     }
     

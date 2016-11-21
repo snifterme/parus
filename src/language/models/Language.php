@@ -22,8 +22,8 @@ use yii2tech\ar\position\PositionBehavior;
  * @property string $date_time_format
  * @property integer $created_by
  * @property string $created_at
- * @property integer $modified_by
- * @property string $modified_at
+ * @property integer $updated_by
+ * @property string $updated_at
  */
 class Language extends \yii\db\ActiveRecord implements HasTagDependency
 {

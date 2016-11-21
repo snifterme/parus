@@ -19,7 +19,7 @@ use rokorolov\parus\admin\traits\TagDependencyTrait;
  * @property string $type
  * @property string $order
  * @property string $created_at
- * @property string $modified_at
+ * @property string $updated_at
  *
  * @property SettingsLang[] $settingsLangs
  */

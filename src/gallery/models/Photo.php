@@ -20,7 +20,7 @@ use yii2tech\ar\position\PositionBehavior;
  * @property string $photo_mime
  * @property string $photo_path
  * @property string $created_at
- * @property string $modified_at
+ * @property string $updated_at
  *
  * @property Album $album
  * @property PhotoLang[] $photoLangs

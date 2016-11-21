@@ -33,7 +33,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'string',
                 'order' => 4,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 2,
@@ -43,7 +43,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'string',
                 'order' => 1,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 3,
@@ -53,7 +53,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'boolean',
                 'order' => 6,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 4,
@@ -63,7 +63,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'text',
                 'order' => 7,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 5,
@@ -73,7 +73,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'string',
                 'order' => 2,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 6,
@@ -83,7 +83,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'string',
                 'order' => 3,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 7,
@@ -93,7 +93,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'text',
                 'order' => 8,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 8,
@@ -103,7 +103,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'text',
                 'order' => 9,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 9,
@@ -113,7 +113,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'dropdown',
                 'order' => 5,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
         ];
     }

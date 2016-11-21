@@ -35,7 +35,7 @@ class m160722_131746_init_module_language extends Migration
             'image' => $this->string(64)->notNull(),
             'date_format' => $this->string(32)->notNull()->defaultValue('Y-m-d'),
             'date_time_format' => $this->string(32)->notNull()->defaultValue('Y-m-d H:i:s'),
-            'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
         ], $tableOptions);
         

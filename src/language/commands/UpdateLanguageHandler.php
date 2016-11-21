@@ -40,7 +40,7 @@ class UpdateLanguageHandler
         $language->image =$this->textPurify( $command->getImage());
         $language->date_format = $this->textPurify($command->getDateFormat());
         $language->date_time_format = $this->textPurify($command->getDateTimeFormat());
-        $language->modified_at = $datetime;
+        $language->updated_at = $datetime;
         
         $this->languageRepository->update($language);
         

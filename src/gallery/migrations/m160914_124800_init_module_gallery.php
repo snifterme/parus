@@ -14,7 +14,7 @@ class m160914_124800_init_module_gallery extends Migration
             'status' => $this->string(32)->notNull(),
             'album_alias' => $this->string(128)->notNull(),
             'image' => $this->string(255)->defaultValue(null),
-            'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
         ]);
         
@@ -39,7 +39,7 @@ class m160914_124800_init_module_gallery extends Migration
             'photo_extension' => $this->string(128)->notNull(),
             'photo_mime' => $this->string(50)->notNull(),
             'photo_path' => $this->string(),
-            'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
         ]);
         

@@ -35,7 +35,7 @@ class CreateAlbumHandler
         $album->status = $command->getStatus();
         $album->album_alias = $this->textPurify($command->getAlbumAlias());
         $album->created_at = $datetime;
-        $album->modified_at = $datetime;
+        $album->updated_at = $datetime;
         
         $newImage = false;
         $imageFile = $command->getImageFile();

@@ -35,7 +35,7 @@ class UpdateAlbumHandler
         
         $album->status = $command->getStatus();
         $album->album_alias = $this->textPurify($command->getAlbumAlias());
-        $album->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
+        $album->updated_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
         $oldImageName = $album->image;
         
         $newImage = false;

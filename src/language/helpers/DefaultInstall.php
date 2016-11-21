@@ -46,7 +46,7 @@ class DefaultInstall implements DefaultInstallInterface
             'date_format' => 'Y-m-d',
             'date_time_format' => 'Y-m-d H:i:s',
             'created_at' => $datetime,
-            'modified_at' => $datetime,
+            'updated_at' => $datetime,
         ];
     }
 }

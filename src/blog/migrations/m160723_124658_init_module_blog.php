@@ -46,9 +46,9 @@ class m160723_124658_init_module_blog extends Migration
             'rgt' => $this->integer(10)->notNull()->unsigned()->defaultValue('0'),
             'language' => $this->integer(10)->notNull()->unsigned(),
             'reference' => $this->string()->defaultValue(null),
-            'modified_by' => $this->integer(10)->notNull()->unsigned(),
+            'updated_by' => $this->integer(10)->notNull()->unsigned(),
             'created_by' => $this->integer(10)->notNull()->unsigned(),
-            'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'meta_title' => $this->string(128)->defaultValue(null),
             'meta_keywords' => $this->string(255)->defaultValue(null),
@@ -57,7 +57,7 @@ class m160723_124658_init_module_blog extends Migration
 
         $this->createIndex('slug_idx', models\Category::tableName(), 'slug');
         $this->addForeignKey('fk__category_created_by__user_id', models\Category::tableName(), 'created_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
-        $this->addForeignKey('fk__category_modified_by__user_id', models\Category::tableName(), 'modified_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
+        $this->addForeignKey('fk__category_updated_by__user_id', models\Category::tableName(), 'updated_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
         $this->addForeignKey('fk__category_language__language_id', models\Category::tableName(), 'language', Language::tableName(), 'id', 'CASCADE', 'CASCADE');
 
         $this->createTable(models\Post::tableName(), [
@@ -78,9 +78,9 @@ class m160723_124658_init_module_blog extends Migration
             'view' => $this->string(128),
             'version' => $this->integer(10)->unsigned()->defaultValue('1'),
             'reference' => $this->string(),
-            'modified_by' => $this->integer(10)->notNull()->unsigned(),
+            'updated_by' => $this->integer(10)->notNull()->unsigned(),
             'created_by' => $this->integer(10)->notNull()->unsigned(),
-            'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'meta_title' => $this->string(128)->defaultValue(null),
             'meta_keywords' => $this->string(255)->defaultValue(null),
@@ -91,7 +91,7 @@ class m160723_124658_init_module_blog extends Migration
         $this->createIndex('slug_idx', models\Post::tableName(), 'slug');
         $this->addForeignKey('fk__post_category_id__category_id', models\Post::tableName(), 'category_id', models\Category::tableName(), 'id', 'NO ACTION', 'NO ACTION');
         $this->addForeignKey('fk__post_created_by__user_id', models\Post::tableName(), 'created_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
-        $this->addForeignKey('fk__post_modified_by__user_id', models\Post::tableName(), 'modified_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
+        $this->addForeignKey('fk__post_updated_by__user_id', models\Post::tableName(), 'updated_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
         $this->addForeignKey('fk__post_language__language_id', models\Post::tableName(), 'language', Language::tableName(), 'id', 'CASCADE', 'CASCADE');
 
         if ($this->settings->shouldInstallDefaults() === true) {
@@ -111,8 +111,8 @@ class m160723_124658_init_module_blog extends Migration
             'description',
             'created_by',
             'created_at',
-            'modified_by',
-            'modified_at',
+            'updated_by',
+            'updated_at',
             'depth',
             'lft',
             'rgt',
@@ -132,11 +132,11 @@ class m160723_124658_init_module_blog extends Migration
         $this->dropIndex('slug_idx', models\Post::tableName());
         
         $this->dropForeignKey('fk__category_created_by__user_id', models\Category::tableName());
-        $this->dropForeignKey('fk__category_modified_by__user_id', models\Category::tableName());
+        $this->dropForeignKey('fk__category_updated_by__user_id', models\Category::tableName());
         $this->dropForeignKey('fk__category_language__language_id', models\Category::tableName());
         $this->dropForeignKey('fk__post_category_id__category_id', models\Post::tableName());
         $this->dropForeignKey('fk__post_created_by__user_id', models\Post::tableName());
-        $this->dropForeignKey('fk__post_modified_by__user_id', models\Post::tableName());
+        $this->dropForeignKey('fk__post_updated_by__user_id', models\Post::tableName());
         $this->dropForeignKey('fk__post_language__language_id', models\Post::tableName());
         
         $this->dropTable(models\Post::tableName());
