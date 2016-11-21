@@ -38,8 +38,8 @@ class DefaultInstall implements DefaultInstallInterface
             [
                 'id' => 2,
                 'param' => 'SITE.NAME',
-                'value' => '',
-                'default' => 'PageEasy',
+                'value' => 'Parus CMF',
+                'default' => '',
                 'type' => 'string',
                 'order' => 1,
                 'created_at' => $datetime,
@@ -88,7 +88,7 @@ class DefaultInstall implements DefaultInstallInterface
             [
                 'id' => 7,
                 'param' => 'META.DESCRIPTION',
-                'value' => '',
+                'value' => 'Parus is a Content Management Framework application powered by Yii 2.',
                 'default' => '',
                 'type' => 'text',
                 'order' => 8,
@@ -98,7 +98,7 @@ class DefaultInstall implements DefaultInstallInterface
             [
                 'id' => 8,
                 'param' => 'META.KEYWORDS',
-                'value' => '',
+                'value' => 'parus, cmf',
                 'default' => '',
                 'type' => 'text',
                 'order' => 9,
