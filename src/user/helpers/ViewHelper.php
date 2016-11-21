@@ -29,15 +29,6 @@ class ViewHelper
      * 
      * @return type
      */
-    public function getLanguageKeyCodes()
-    {
-        return $this->getLanguageHelper()->getKeyCodes();
-    }
-    
-    /**
-     * 
-     * @return type
-     */
     public function getRoleOptions()
     {
         return $this->getRbacService()->getOptions();
