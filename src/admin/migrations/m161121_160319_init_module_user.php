@@ -5,7 +5,7 @@ use rokorolov\parus\user\contracts\DefaultInstallInterface;
 use rokorolov\parus\language\models\Language;
 use yii\db\Migration;
 
-class m160719_080253_init_module_user extends Migration
+class m161121_160319_init_module_user extends Migration
 {
     public $settings;
     
@@ -92,3 +92,4 @@ class m160719_080253_init_module_user extends Migration
         $this->dropTable(models\User::tableName());
     }
 }
+

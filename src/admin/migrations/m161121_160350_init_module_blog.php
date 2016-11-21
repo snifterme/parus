@@ -6,12 +6,7 @@ use rokorolov\parus\user\models\User;
 use rokorolov\parus\language\models\Language;
 use yii\db\Migration;
 
-/**
- * m160723_124658_init_module_blog
- *
- * @author Roman Korolov <rokorolov@gmail.com>
- */
-class m160723_124658_init_module_blog extends Migration
+class m161121_160350_init_module_blog extends Migration
 {
     public $settings;
     
@@ -72,8 +67,8 @@ class m160723_124658_init_module_blog extends Migration
             'image' => $this->string(255)->defaultValue(null),
             'post_type' => $this->string(20)->defaultValue('post'),
             'published_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-            'publish_up' => $this->dateTime()->null()->defaultValue(null),
-            'publish_down' => $this->dateTime()->null()->defaultValue(null),
+            'publish_up' => $this->timestamp()->null()->defaultValue(null),
+            'publish_down' => $this->timestamp()->null()->defaultValue(null),
             'language' => $this->integer(10)->notNull()->unsigned(),
             'view' => $this->string(128),
             'version' => $this->integer(10)->unsigned()->defaultValue('1'),
@@ -144,3 +139,4 @@ class m160723_124658_init_module_blog extends Migration
     }
 
 }
+

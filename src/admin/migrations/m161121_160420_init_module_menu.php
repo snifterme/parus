@@ -5,7 +5,7 @@ use rokorolov\parus\menu\contracts\DefaultInstallInterface;
 use rokorolov\parus\language\models\Language;
 use yii\db\Migration;
 
-class m160905_122710_init_module_menu extends Migration
+class m161121_160420_init_module_menu extends Migration
 {
     public $settings;
 
@@ -83,3 +83,4 @@ class m160905_122710_init_module_menu extends Migration
     }
 
 }
+

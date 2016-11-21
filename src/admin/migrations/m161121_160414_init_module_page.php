@@ -5,12 +5,7 @@ use rokorolov\parus\user\models\User;
 use rokorolov\parus\language\models\Language;
 use yii\db\Migration;
 
-/**
- * m160905_071554_init_module_page
- *
- * @author Roman Korolov <rokorolov@gmail.com>
- */
-class m160905_071554_init_module_page extends Migration
+class m161121_160414_init_module_page extends Migration
 {
     public function up()
     {
@@ -58,3 +53,4 @@ class m160905_071554_init_module_page extends Migration
         $this->dropTable(models\Page::tableName());
     }
 }
+

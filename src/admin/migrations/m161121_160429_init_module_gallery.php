@@ -2,10 +2,9 @@
 
 use rokorolov\parus\gallery\models;
 use rokorolov\parus\language\models\Language;
-
 use yii\db\Migration;
 
-class m160914_124800_init_module_gallery extends Migration
+class m161121_160429_init_module_gallery extends Migration
 {
     public function up()
     {
@@ -71,3 +70,4 @@ class m160914_124800_init_module_gallery extends Migration
         $this->dropTable(models\PhotoLang::tableName());
     }
 }
+

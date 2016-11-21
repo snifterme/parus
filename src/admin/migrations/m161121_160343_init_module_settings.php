@@ -5,7 +5,7 @@ use rokorolov\parus\settings\models;
 use yii\db\Migration;
 use yii\console\Exception;
 
-class m160721_090709_init_module_settings extends Migration
+class m161121_160343_init_module_settings extends Migration
 {
     public $settings;
     

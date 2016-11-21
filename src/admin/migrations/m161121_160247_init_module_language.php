@@ -4,7 +4,7 @@ use rokorolov\parus\language\models;
 use rokorolov\parus\language\contracts\DefaultInstallInterface;
 use yii\db\Migration;
 
-class m160722_131746_init_module_language extends Migration
+class m161121_160247_init_module_language extends Migration
 {
     public $settings;
     
@@ -60,3 +60,4 @@ class m160722_131746_init_module_language extends Migration
         $this->dropTable(models\Language::tableName());
     }
 }
+
