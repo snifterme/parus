@@ -4,6 +4,7 @@ namespace rokorolov\parus\menu\helpers;
 
 use rokorolov\parus\menu\Module;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Settings
@@ -19,19 +20,24 @@ class Settings
     
     public static $defaultInstall;
 
-    public static function language()
-    {
-        return self::getConfig()['language'];
-    }
-    
     public static function languages()
     {
         return self::getConfig()['languages'];
     }
-    
+
+    public static function panelLanguage()
+    {
+        return self::getConfig()['panelLanguage'];
+    }
+        
     public static function defaultLanguage()
     {
         return self::getConfig()['defaultLanguage'];
+    }
+    
+    public static function languageOptions()
+    {
+        return ArrayHelper::map(self::languages(), 'id', 'title');
     }
     
     public static function menuStatuses()

@@ -166,8 +166,7 @@ class Entry extends BaseApi
                     ['parent.id' => new \yii\db\Expression('c.id')],
                     ['in', 'p.status',  Status::STATUS_PUBLISHED]
                 ])
-                ->groupBy('parent.id')
-                ->orderBy('node.lft');
+                ->groupBy('parent.id');
             
             $category->addSelect(['c_post_count' => $postCount]);
         }

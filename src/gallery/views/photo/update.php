@@ -1,6 +1,7 @@
 <?php
 
 use rokorolov\parus\admin\theme\widgets\toolbar\Toolbar;
+use rokorolov\parus\gallery\helpers\Settings;
 use kartik\file\FileInput;
 use rokorolov\parus\gallery\Module;
 use rokorolov\helpers\Html;
@@ -31,6 +32,7 @@ $toolbar = Toolbar::widget([
 <div class="upload-image-area">
     <?= FileInput::widget([
         'name' => 'imageFile',
+        'language' => Settings::panelLanguage(),
         'id' => 'images-upload-widget',
         'disabled' => !$accessControl->canCreatePhoto(),
         'options' => [

@@ -118,7 +118,7 @@ class PostReadRepository extends BaseReadRepository
     {
         return [
             'createdBy' => self::RELATION_ONE,
-            'modifiedBy' => self::RELATION_ONE,
+            'updatedBy' => self::RELATION_ONE,
             'author' => self::RELATION_ONE,
             'category' => self::RELATION_ONE
         ];
@@ -126,17 +126,17 @@ class PostReadRepository extends BaseReadRepository
 
     public function resolveCreatedBy($query)
     {
-        if (!in_array('modifiedBy', $this->resolvedRelations)) {
+        if (!in_array('updatedBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
                 ->leftJoin(User::tableName() . ' u', 'p.created_by = u.id');
         }
     }
 
-    public function resolveModifiedBy($query)
+    public function resolveUpdatedBy($query)
     {
         if (!in_array('createdBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
-                ->leftJoin(User::tableName() . ' u', 'p.modified_by = u.id');
+                ->leftJoin(User::tableName() . ' u', 'p.updated_by = u.id');
         }
     }
     
@@ -156,19 +156,19 @@ class PostReadRepository extends BaseReadRepository
 
     protected function populateCreatedBy($post, &$data)
     {
-        if (!in_array('modifiedBy', $this->populatedRelations)) {
+        if (!in_array('updatedBy', $this->populatedRelations)) {
             $post->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $post->createdBy = $this->getUserReadRepository()->findById($post->created_by);
         }
     }
 
-    protected function populateModifiedBy($post, &$data)
+    protected function populateUpdatedBy($post, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $post->modifiedBy = $this->getUserReadRepository()->parserResult($data);
+            $post->updatedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
-            $post->modifiedBy = $this->getUserReadRepository()->findById($post->modified_by);
+            $post->updatedBy = $this->getUserReadRepository()->findById($post->updated_by);
         }
     }
     
@@ -204,7 +204,7 @@ class PostReadRepository extends BaseReadRepository
         . ' p.published_at AS p_published_at, p.publish_up AS p_publish_up, p.publish_down AS p_publish_down, p.created_by AS p_created_by,'
         . ' p.language AS p_language, p.title AS p_title, p.slug AS p_slug, p.introtext AS p_introtext, p.fulltext AS p_fulltext,  p.view AS p_view,'
         . ' p.version AS p_version,  p.reference AS p_reference, p.meta_title AS p_meta_title, p.meta_keywords AS p_meta_keywords, p.meta_description AS p_meta_description,'
-        . ' p.created_at AS p_created_at, p.modified_by AS p_modified_by, p.modified_at AS p_modified_at, p.deleted_at AS p_deleted_at';
+        . ' p.created_at AS p_created_at, p.updated_by AS p_updated_by, p.updated_at AS p_updated_at, p.deleted_at AS p_deleted_at';
     }
 
     public function toPostDto(&$data, $prefix = true)

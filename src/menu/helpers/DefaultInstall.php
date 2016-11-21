@@ -37,7 +37,7 @@ class DefaultInstall implements DefaultInstallInterface
                 0,
                 '',
                 '',
-                Yii::createObject('rokorolov\parus\language\helpers\DefaultInstall')->getSystemCode(),
+                Yii::createObject('rokorolov\parus\language\helpers\DefaultInstall')->getSystemId(),
                 0,
                 1,
                 2,

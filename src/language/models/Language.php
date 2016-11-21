@@ -5,6 +5,7 @@ namespace rokorolov\parus\language\models;
 use rokorolov\parus\language\helpers\Settings;
 use rokorolov\parus\admin\traits\TagDependencyTrait;
 use rokorolov\parus\admin\contracts\HasTagDependency;
+use yii2tech\ar\position\PositionBehavior;
 
 /**
  * This is the model class for table "{{%language}}".
@@ -21,8 +22,8 @@ use rokorolov\parus\admin\contracts\HasTagDependency;
  * @property string $date_time_format
  * @property integer $created_by
  * @property string $created_at
- * @property integer $modified_by
- * @property string $modified_at
+ * @property integer $updated_by
+ * @property string $updated_at
  */
 class Language extends \yii\db\ActiveRecord implements HasTagDependency
 {
@@ -34,6 +35,19 @@ class Language extends \yii\db\ActiveRecord implements HasTagDependency
     public static function tableName()
     {
         return '{{%language}}';
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'positionBehavior' => [
+                'class' => PositionBehavior::className(),
+                'positionAttribute' => 'order',
+            ],
+        ];
     }
 
     public function getDependencyTagId()

@@ -162,7 +162,7 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id, ['category', 'createdBy', 'modifiedBy']);
+        $model = $this->findModel($id, ['category', 'createdBy', 'updatedBy']);
 
         return $this->render('view', [
             'model' => $model,
@@ -227,7 +227,7 @@ class PostController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id, ['createdBy', 'modifiedBy']);
+        $model = $this->findModel($id, ['createdBy', 'updatedBy']);
         $form = Yii::createObject('rokorolov\parus\blog\models\form\PostForm')->setData($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
 

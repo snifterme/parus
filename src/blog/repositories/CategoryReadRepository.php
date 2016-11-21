@@ -138,24 +138,24 @@ class CategoryReadRepository extends BaseReadRepository
     {
         return [
             'createdBy' => self::RELATION_ONE,
-            'modifiedBy' => self::RELATION_ONE,
+            'updatedBy' => self::RELATION_ONE,
             'author' => self::RELATION_ONE,
         ];
     }
     
     public function resolveCreatedBy($query)
     {
-        if (!in_array('modifiedBy', $this->resolvedRelations)) {
+        if (!in_array('updatedBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
                 ->leftJoin(User::tableName() . ' u', 'c.created_by = u.id');
         }
     }
     
-    public function resolveModifiedBy($query)
+    public function resolveUpdatedBy($query)
     {
         if (!in_array('createdBy', $this->resolvedRelations)) {
             $query->addSelect($this->getUserReadRepository()->selectAttributesMap())
-                ->leftJoin(User::tableName() . ' u', 'c.modified_by = u.id');
+                ->leftJoin(User::tableName() . ' u', 'c.updated_by = u.id');
         }
     }
     
@@ -169,19 +169,19 @@ class CategoryReadRepository extends BaseReadRepository
 
     protected function populateCreatedBy($category, &$data)
     {
-        if (!in_array('modifiedBy', $this->populatedRelations)) {
+        if (!in_array('updatedBy', $this->populatedRelations)) {
             $category->createdBy = $this->getUserReadRepository()->parserResult($data);
         } else {
             $category->createdBy = $this->getUserReadRepository()->findById($category->created_by);
         }
     }
     
-    protected function populateModifiedBy($category, &$data)
+    protected function populateUpdatedBy($category, &$data)
     {
         if (!in_array('createdBy', $this->populatedRelations)) {
-            $category->modifiedBy = $this->getUserReadRepository()->parserResult($data);
+            $category->updatedBy = $this->getUserReadRepository()->parserResult($data);
         } else {
-            $category->modifiedBy = $this->getUserReadRepository()->findById($category->modified_by);
+            $category->updatedBy = $this->getUserReadRepository()->findById($category->updated_by);
         }
     }
     
@@ -221,7 +221,7 @@ class CategoryReadRepository extends BaseReadRepository
     public function selectAttributesMap()
     {
         return 'c.id AS c_id, c.parent_id AS c_parent_id, c.status AS c_status, c.image AS c_image, c.created_by AS c_created_by, c.created_at AS c_created_at,'
-        . ' c.modified_by AS c_modified_by, c.modified_at AS c_modified_at, c.depth AS c_depth, c.lft AS c_lft, c.rgt AS c_rgt,'
+        . ' c.updated_by AS c_updated_by, c.updated_at AS c_updated_at, c.depth AS c_depth, c.lft AS c_lft, c.rgt AS c_rgt,'
         . 'c.language AS c_language, c.title AS c_title, c.slug AS c_slug, c.description AS c_description,'
         . ' c.meta_title AS c_meta_title, c.meta_keywords AS c_meta_keywords, c.meta_description AS c_meta_description';
     }

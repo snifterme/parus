@@ -5,7 +5,7 @@ use rokorolov\parus\menu\contracts\DefaultInstallInterface;
 use rokorolov\parus\language\models\Language;
 use yii\db\Migration;
 
-class m160905_122710_init_module_menu extends Migration
+class m161121_160420_init_module_menu extends Migration
 {
     public $settings;
 
@@ -28,30 +28,29 @@ class m160905_122710_init_module_menu extends Migration
         }
 
         $this->createTable(models\MenuType::tableName(), [
-            'id' => $this->primaryKey(10),
-            'menu_type_aliase' => $this->string(128)->notNull(),
+            'id' => $this->primaryKey(10)->unsigned(),
+            'menu_type_alias' => $this->string(128)->notNull(),
             'title' => $this->string(128)->notNull(),
             'description' => $this->string(128)->notNull()
         ], $tableOptions);
+        
+        $this->createIndex('menu_type_alias_idx', models\MenuType::tableName(), 'menu_type_alias');
 
         $this->createTable(models\Menu::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'status' => $this->smallInteger(2)->notNull(),
             'parent_id' => $this->integer(10)->unsigned()->notNull(),
             'title' => $this->string(128)->notNull(),
             'link' => $this->string(1024)->notNull(),
             'note' => $this->string(255)->notNull(),
-            'menu_type_id' => $this->integer(10)->notNull(),
-            'language' => $this->string(7)->notNull(),
-            'depth' => $this->smallInteger(4)->notNull()->defaultValue('0'),
-            'lft' => $this->integer(10)->notNull()->defaultValue('0'),
-            'rgt' => $this->integer(10)->notNull()->defaultValue('0'),
+            'menu_type_id' => $this->integer(10)->notNull()->unsigned(),
+            'language' => $this->integer(10)->notNull()->unsigned(),
+            'depth' => $this->smallInteger(4)->notNull()->unsigned()->defaultValue('0'),
+            'lft' => $this->integer(10)->notNull()->unsigned()->defaultValue('0'),
+            'rgt' => $this->integer(10)->notNull()->unsigned()->defaultValue('0'),
         ], $tableOptions);
 
-//        $this->addForeignKey('fk__menu_menu_type_id__menu_type_id', models\Menu::tableName(), 'menu_type_id', models\MenuType::tableName(), 'id', 'CASCADE', 'NO ACTION');
-
-        $this->addForeignKey('fk__menu_language__language_lang_code', models\Menu::tableName(), 'language', Language::tableName(), 'lang_code', 'CASCADE', 'CASCADE');
-
+        $this->addForeignKey('fk__menu_language__language_id', models\Menu::tableName(), 'language', Language::tableName(), 'id', 'CASCADE', 'CASCADE');
 
         if ($this->settings->shouldInstallDefaults() === true) {
             $this->executeMenuSql();
@@ -79,11 +78,13 @@ class m160905_122710_init_module_menu extends Migration
 
     public function down()
     {
-        $this->dropForeignKey('fk__menu_language__language_lang_code', models\Menu::tableName());
-//        $this->dropForeignKey('fk__menu_menu_type_id__menu_type_id', models\Menu::tableName());
+        $this->dropIndex('menu_type_alias_idx', models\MenuType::tableName());
+        
+        $this->dropForeignKey('fk__menu_language__language_id', models\Menu::tableName());
 
         $this->dropTable(models\Menu::tableName());
         $this->dropTable(models\MenuType::tableName());
     }
 
 }
+

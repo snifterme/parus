@@ -20,7 +20,7 @@ class SettingsUpdateForm extends Model
     public $type;
     public $order;
     public $created_at;
-    public $modified_at;
+    public $updated_at;
     
     public $isValueChanged = true;
 
@@ -129,7 +129,7 @@ class SettingsUpdateForm extends Model
             $this->type = $this->wrappedObject->type;
             $this->order = $this->wrappedObject->order;
             $this->created_at = $this->wrappedObject->created_at;
-            $this->modified_at = $this->wrappedObject->modified_at;
+            $this->updated_at = $this->wrappedObject->updated_at;
         }
         
         return $this;

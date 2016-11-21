@@ -25,7 +25,7 @@ class AlbumForm extends Model
     public $status;
     public $album_alias;
     public $created_at;
-    public $modified_at;
+    public $updated_at;
     public $imageFile;
     public $translations = [];
 
@@ -127,7 +127,7 @@ class AlbumForm extends Model
             return Module::t('gallery', 'album has not been saved yet.');
         }
         
-        return $this->wrappedObject->modified_at_medium_with_relative(true);
+        return $this->wrappedObject->updated_at_medium_with_relative(true);
     }
     
     public function getCreated_at()
@@ -135,9 +135,9 @@ class AlbumForm extends Model
         return $this->wrappedObject->created_at();
     }
     
-    public function getModified_at()
+    public function getUpdated_at()
     {
-        return $this->wrappedObject->modified_at();
+        return $this->wrappedObject->updated_at();
     }
 
     public function validateAlbumAlias($attribute)
@@ -196,7 +196,7 @@ class AlbumForm extends Model
             $this->status = $this->wrappedObject->status;
             $this->album_alias = $this->wrappedObject->album_alias;
             $this->created_at = $this->wrappedObject->created_at;
-            $this->modified_at = $this->wrappedObject->modified_at;
+            $this->updated_at = $this->wrappedObject->updated_at;
 
             foreach($this->wrappedObject->translations as $key => $translation) {
                 $formTranslation = $this->getTranslatableModel();

@@ -112,7 +112,7 @@ class PhotoReadRepository extends BaseReadRepository
     public function selectAttributesMap()
     {
         return 'p.id AS p_id, p.status AS p_status, p.order AS p_order, p.album_id AS p_album_id, p.photo_name AS p_photo_name, p.photo_size AS p_photo_size,'
-        . ' p.photo_extension AS p_photo_extension, p.photo_mime AS p_photo_mime, p.photo_path AS p_photo_path, p.created_at AS p_created_at, p.modified_at AS p_modified_at';
+        . ' p.photo_extension AS p_photo_extension, p.photo_mime AS p_photo_mime, p.photo_path AS p_photo_path, p.created_at AS p_created_at, p.updated_at AS p_updated_at';
     }
 
     public function selectPhotoLangAttributesMap()

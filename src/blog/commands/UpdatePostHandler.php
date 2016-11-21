@@ -48,8 +48,8 @@ class UpdatePostHandler
         $command->getPublishedAt() && $post->published_at = $this->formatDatetime($command->getPublishedAt());
         $post->publish_up = $this->formatDatetime($command->getPublishUp());
         $post->publish_down = $this->formatDatetime($command->getPublishDown());
-        $post->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
-        $post->modified_by = Yii::$app->user->identity->id;
+        $post->updated_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
+        $post->updated_by = Yii::$app->user->identity->id;
         
         $newImage = false;
         $imageFile = $command->getImageFile();

@@ -18,7 +18,7 @@ class LanguageDto
     public $date_format;
     public $date_time_format;
     public $created_at;
-    public $modified_at;
+    public $updated_at;
     
     public function __construct(array &$data, $prefix = null, $unset = true)
     {

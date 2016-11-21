@@ -39,7 +39,7 @@ class Module extends \yii\base\Module
     {
         $this->config = array_replace(
             [
-                'language' => 'en',
+                'panelLanguage' => 'en',
                 'enableIntl' => true,
                 'post.popularLimit' => 5,
                 'post.lastAddedLimit' => 5,

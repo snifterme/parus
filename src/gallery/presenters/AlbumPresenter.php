@@ -39,19 +39,19 @@ class AlbumPresenter extends BasePresenter
         return $created . "<span class='text-info'><small> (" . Yii::$app->formatter->asRelativeTime($this->wrappedObject->created_at) . ") </small></span>";
     }
     
-    public function modified_at_medium_with_relative($highlight = false)
+    public function updated_at_medium_with_relative($highlight = false)
     {
         if (!Settings::enableIntl()) {
-            return $this->modified_at();
+            return $this->updated_at();
         }
         
-        $modified = $highlight ? '<strong>' . Yii::$app->formatter->asDatetime($this->wrappedObject->modified_at, 'medium') . '</strong>' : Yii::$app->formatter->asDatetime($this->wrappedObject->modified_at, 'medium');
-        return $modified . "<span class='text-info'><small> (" . Yii::$app->formatter->asRelativeTime($this->wrappedObject->modified_at) . ") </small></span>";
+        $updated = $highlight ? '<strong>' . Yii::$app->formatter->asDatetime($this->wrappedObject->updated_at, 'medium') . '</strong>' : Yii::$app->formatter->asDatetime($this->wrappedObject->updated_at, 'medium');
+        return $updated . "<span class='text-info'><small> (" . Yii::$app->formatter->asRelativeTime($this->wrappedObject->updated_at) . ") </small></span>";
     }
 
-    public function modified_at()
+    public function updated_at()
     {
-        return Yii::$app->formatter->asDatetime($this->wrappedObject->modified_at);
+        return Yii::$app->formatter->asDatetime($this->wrappedObject->updated_at);
     }
     
     public function photo_count()
@@ -76,7 +76,7 @@ class AlbumPresenter extends BasePresenter
         $language === null && $language = Settings::language();
         
         foreach($this->wrappedObject->translations as $translation) {
-            if ($translation->language === $language) {
+            if ((string)$translation->language === (string)$language) {
                 return $translation;
             }
         }

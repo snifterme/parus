@@ -32,7 +32,7 @@ class CreateSettingHandler
         $settings->type = $command->getType();
         $settings->order = $command->getOrder();
         $settings->created_at = $datetime;
-        $settings->modified_at = $datetime;
+        $settings->updated_at = $datetime;
         
         $transaction = Yii::$app->db->beginTransaction();
         

@@ -196,7 +196,7 @@ class CategoryController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id, ['createdBy', 'modifiedBy']);
+        $model = $this->findModel($id, ['createdBy', 'updatedBy']);
 
         return $this->render('view', [
             'model' => $model,
@@ -254,7 +254,7 @@ class CategoryController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id, ['createdBy', 'modifiedBy']);
+        $model = $this->findModel($id, ['createdBy', 'updatedBy']);
         $form = Yii::createObject('rokorolov\parus\blog\models\form\CategoryForm')->setData($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {

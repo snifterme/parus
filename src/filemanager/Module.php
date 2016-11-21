@@ -31,7 +31,7 @@ class Module extends \yii\base\Module
     {
         $this->config = array_replace(
             [
-                'language' => 'en',
+                'panelLanguage' => 'en',
                 'responsiveFileManagerSrc' => null,
                 'privateKey' => null,
             ],
@@ -45,7 +45,7 @@ class Module extends \yii\base\Module
             }
 
             $url = Yii::getAlias($src);
-            $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . 'lang=' . $this->config['language'];
+            $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . 'lang=' . $this->config['panelLanguage'];
 
             if (null !== $privateKey = $this->config['privateKey']) {
                 $url .= '&akey=' . $privateKey;

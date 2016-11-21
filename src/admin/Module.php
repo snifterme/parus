@@ -192,26 +192,26 @@ class Module extends \yii\base\Module
             ]
         ], $this->config['additionalComponents']));
 
-        $language = Yii::$app->language;
+        $panelLanguage = Yii::$app->language;
         $languagesHelper = Yii::createObject('rokorolov\parus\language\helpers\LanguageHelper');
-        $languages = $languagesHelper->getOptions();
+        $languages = $languagesHelper->getLanguages();
         $defaultLanguage = Yii::$app->config->get('SITE.DEFAULT_LANGUAGE');
         $enableIntl = $this->config['enableIntl'];
         
         $contentLanguage = '';
         if (null !== Yii::$app->user->identity && null !== $userLocaleLanguage = Yii::$app->user->identity->language) {
             $contentLanguage = $userLocaleLanguage;
-        } elseif (null === $contentLanguage && $languagesHelper->hasLanguage($currentPanelLanguage = Yii::$app->language)) {
+        } elseif (null !== $currentPanelLanguage = $languagesHelper->getKeyByCode(Yii::$app->language)) {
             $contentLanguage = $currentPanelLanguage;
         } else {
             $contentLanguage = $defaultLanguage;
         }
-
+        
         $this->modules = array_replace([
             'blog' => [
                 'class' => 'rokorolov\parus\blog\Module',
                 'config' => array_replace([
-                    'language' => $language,
+                    'panelLanguage' => $panelLanguage,
                     'languages' => $languages,
                     'defaultLanguage' => $defaultLanguage,
                     'enableIntl' => $enableIntl,
@@ -232,10 +232,10 @@ class Module extends \yii\base\Module
             'settings' => [
                 'class' => 'rokorolov\parus\settings\Module',
                 'config' => array_replace_recursive([
-                    'language' => $language,
+                    'panelLanguage' => $panelLanguage,
                     'configuration' => [
                         'SITE.DEFAULT_LANGUAGE' => [
-                            'items' => $languages,
+                            'items' => $languagesHelper->getOptions(),
                         ]
                     ]
                 ], $this->settingsConfig),
@@ -261,7 +261,7 @@ class Module extends \yii\base\Module
             'page' => [
                 'class' => 'rokorolov\parus\page\Module',
                 'config' => array_replace([
-                    'language' => $language,
+                    'panelLanguage' => $panelLanguage,
                     'languages' => $languages,
                     'defaultLanguage' => $defaultLanguage,
                     'enableIntl' => $enableIntl,
@@ -277,7 +277,7 @@ class Module extends \yii\base\Module
             'menu' => [
                 'class' => 'rokorolov\parus\menu\Module',
                 'config' => array_replace([
-                    'language' => $language,
+                    'panelLanguage' => $panelLanguage,
                     'languages' => $languages,
                     'defaultLanguage' => $defaultLanguage,
                     'menu.statuses' => [
@@ -290,6 +290,7 @@ class Module extends \yii\base\Module
             'gallery' => [
                 'class' => 'rokorolov\parus\gallery\Module',
                 'config' => array_replace([
+                    'panelLanguage' => $panelLanguage,
                     'language' => $contentLanguage,
                     'languages' => $languages,
                     'defaultLanguage' => $defaultLanguage,
@@ -309,13 +310,13 @@ class Module extends \yii\base\Module
             'filemanager' => [
                 'class' => 'rokorolov\parus\filemanager\Module',
                 'config' => array_replace([
-                    'language' => $language,
+                    'panelLanguage' => $panelLanguage,
                 ], $this->fileManagerConfig),
             ],
             'dashboard' => [
                 'class' => 'rokorolov\parus\dashboard\Module',
                 'config' => array_replace([
-                    'language' => $language,
+                    'panelLanguage' => $panelLanguage,
                     'enableIntl' => $enableIntl,
                 ], $this->dashboardConfig),
             ],

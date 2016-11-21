@@ -32,7 +32,7 @@ class Module extends \yii\base\Module
     {
         $this->config = array_replace(
             [
-                'language' => 'en',
+                'panelLanguage' => 'en',
                 'configuration' => []
             ],
             $this->config

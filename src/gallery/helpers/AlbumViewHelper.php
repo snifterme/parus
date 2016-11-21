@@ -26,7 +26,7 @@ class AlbumViewHelper extends ViewHelper
             'id' => Module::t('gallery', 'ID'),
             'status' => Module::t('gallery', 'Status'),
             'created_at' => Module::t('gallery', 'Created on'),
-            'modified_at' => Module::t('gallery', 'Last edited on'),
+            'updated_at' => Module::t('gallery', 'Last edited on'),
             'photo_count' => Module::t('gallery', 'Photos'),
             'gallery_id' => Module::t('gallery', 'Gallery ID'),
             'name' => Module::t('gallery', 'Name'),

@@ -35,7 +35,7 @@ trait TranslatableFormTrait
     {
         $translationAtrribute = $this->translatableConfig['translationLanguageAttribute'];
         foreach($this->translations as $translation) {
-            if ($translation->{$translationAtrribute} === $language) {
+            if ((string)$translation->{$translationAtrribute} === (string)$language) {
                 return $translation;
             }
         }

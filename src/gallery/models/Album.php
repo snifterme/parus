@@ -12,7 +12,7 @@ use rokorolov\parus\admin\traits\TagDependencyTrait;
  * @property integer $id
  * @property string $status
  * @property string $created_at
- * @property string $modified_at
+ * @property string $updated_at
  *
  * @property AlbumLang[] $AlbumLangs
  * @property Language[] $languages

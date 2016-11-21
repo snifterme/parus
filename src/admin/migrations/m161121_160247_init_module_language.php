@@ -4,7 +4,7 @@ use rokorolov\parus\language\models;
 use rokorolov\parus\language\contracts\DefaultInstallInterface;
 use yii\db\Migration;
 
-class m160722_131746_init_module_language extends Migration
+class m161121_160247_init_module_language extends Migration
 {
     public $settings;
     
@@ -27,16 +27,16 @@ class m160722_131746_init_module_language extends Migration
         }
         
         $this->createTable(models\Language::tableName(), [
-            'id' => $this->primaryKey(10),
+            'id' => $this->primaryKey(10)->unsigned(),
             'title' => $this->string(128)->notNull(),
             'status' => $this->smallInteger(2)->notNull(),
-            'order' => $this->integer(11)->notNull()->defaultValue(0),
+            'order' => $this->integer(11)->notNull()->unsigned()->defaultValue(0),
             'lang_code' => $this->string(7)->notNull(),
             'image' => $this->string(64)->notNull(),
             'date_format' => $this->string(32)->notNull()->defaultValue('Y-m-d'),
             'date_time_format' => $this->string(32)->notNull()->defaultValue('Y-m-d H:i:s'),
-            'created_at' => $this->dateTime()->notNull()->defaultValue('0000-00-00 00:00:00'),
-            'modified_at' => $this->dateTime()->notNull()->defaultValue('0000-00-00 00:00:00'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
         ], $tableOptions);
         
         $this->createIndex('lang_code_idx', models\Language::tableName(), 'lang_code', true);
@@ -60,3 +60,4 @@ class m160722_131746_init_module_language extends Migration
         $this->dropTable(models\Language::tableName());
     }
 }
+

@@ -3,6 +3,7 @@
 namespace rokorolov\parus\settings\helpers;
 
 use rokorolov\parus\settings\contracts\DefaultInstallInterface;
+use Yii;
 
 /**
  * DefaultInstall
@@ -20,6 +21,7 @@ class DefaultInstall implements DefaultInstallInterface
     
     public function getSettingParams()
     {
+        $language = Yii::createObject('rokorolov\parus\language\helpers\DefaultInstall')->getSystemId();
         $datetime = (new \DateTime())->format('Y-m-d H:i:s');
         
         return [
@@ -31,17 +33,17 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'string',
                 'order' => 4,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 2,
                 'param' => 'SITE.NAME',
-                'value' => '',
-                'default' => 'PageEasy',
+                'value' => 'Parus CMF',
+                'default' => '',
                 'type' => 'string',
                 'order' => 1,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 3,
@@ -51,7 +53,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'boolean',
                 'order' => 6,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 4,
@@ -61,7 +63,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'text',
                 'order' => 7,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 5,
@@ -71,7 +73,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'string',
                 'order' => 2,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 6,
@@ -81,37 +83,37 @@ class DefaultInstall implements DefaultInstallInterface
                 'type' => 'string',
                 'order' => 3,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 7,
                 'param' => 'META.DESCRIPTION',
-                'value' => '',
+                'value' => 'Parus is a Content Management Framework application powered by Yii 2.',
                 'default' => '',
                 'type' => 'text',
                 'order' => 8,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 8,
                 'param' => 'META.KEYWORDS',
-                'value' => '',
+                'value' => 'parus, cmf',
                 'default' => '',
                 'type' => 'text',
                 'order' => 9,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
             [
                 'id' => 9,
                 'param' => 'SITE.DEFAULT_LANGUAGE',
-                'value' => 'en',
-                'default' => 'en',
+                'value' => $language,
+                'default' => $language,
                 'type' => 'dropdown',
                 'order' => 5,
                 'created_at' => $datetime,
-                'modified_at' => $datetime,
+                'updated_at' => $datetime,
             ],
         ];
     }

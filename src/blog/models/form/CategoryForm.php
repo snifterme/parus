@@ -162,7 +162,7 @@ class CategoryForm extends Model
             return Module::t('blog', 'post has not been saved yet.');
         }
 
-        return $this->wrappedObject->modified_at_medium_with_relative(true);
+        return $this->wrappedObject->updated_at_medium_with_relative(true);
     }
 
     public function getCreated_by()
@@ -170,9 +170,9 @@ class CategoryForm extends Model
         return $this->wrappedObject->createdBy->username;
     }
 
-    public function getModified_by()
+    public function getUpdated_by()
     {
-        return $this->wrappedObject->modifiedBy->username;
+        return $this->wrappedObject->updatedBy->username;
     }
 
     public function getCreated_at()
@@ -180,14 +180,14 @@ class CategoryForm extends Model
         return $this->wrappedObject->created_at();
     }
 
-    public function getModified_at()
+    public function getUpdated_at()
     {
-        return $this->wrappedObject->modified_at();
+        return $this->wrappedObject->updated_at();
     }
 
     public function getLanguageOptions()
     {
-        return Settings::languages();
+        return Settings::languageOptions();
     }
 
     public function beforeValidate()

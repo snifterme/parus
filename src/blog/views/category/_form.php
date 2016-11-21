@@ -67,7 +67,7 @@ use yii\helpers\Url;
                 <div id="tab-image" class="tab-pane">
                     <?= $form->field($model, 'imageFile')->widget(FileInput::classname(), [
                         'options' => ['accept' => 'image/*'],
-                        'language' => Settings::language(),
+                        'language' => Settings::panelLanguage(),
                         'pluginOptions' => [
                             'initialPreview' => [
                                 $model->getImageOriginal(),
@@ -166,10 +166,10 @@ use yii\helpers\Url;
                                     'format' => 'raw',
                                 ],
                                 [
-                                    'attribute' => 'modified_by',
+                                    'attribute' => 'updated_by',
                                 ],
                                 [
-                                    'attribute' => 'modified_at',
+                                    'attribute' => 'updated_at',
                                     'format' => 'raw',
                                 ],
                             ],

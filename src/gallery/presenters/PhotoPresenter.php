@@ -42,7 +42,7 @@ class PhotoPresenter extends BasePresenter
         $language === null && $language = Settings::language();
         
         foreach($this->wrappedObject->translations as $translation) {
-            if ($translation->language === $language) {
+            if ((string)$translation->language === (string)$language) {
                 return $translation;
             }
         }
