@@ -46,6 +46,8 @@ class m161121_160343_init_module_settings extends Migration
             'label' => $this->string(255)->notNull(),
         ], $tableOptions);
         
+        $this->createIndex('language_idx', models\SettingsLang::tableName(), 'language');
+        
         $this->addPrimaryKey('', models\SettingsLang::tableName(), ['settings_id', 'language']);
         $this->addForeignKey('fk__settings_lang_settings_id__settings_id', models\SettingsLang::tableName(), 'settings_id', models\Settings::tableName(), 'id', 'CASCADE', 'NO ACTION');
     
@@ -87,6 +89,7 @@ class m161121_160343_init_module_settings extends Migration
         $this->dropForeignKey('fk__settings_lang_settings_id__settings_id', models\SettingsLang::tableName());
         
         $this->dropIndex('param_idx', models\Settings::tableName());
+        $this->dropIndex('language_idx', models\SettingsLang::tableName());
         
         $this->dropTable(models\Settings::tableName());
         $this->dropTable(models\SettingsLang::tableName());

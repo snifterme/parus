@@ -33,6 +33,8 @@ class m161121_160420_init_module_menu extends Migration
             'title' => $this->string(128)->notNull(),
             'description' => $this->string(128)->notNull()
         ], $tableOptions);
+        
+        $this->createIndex('menu_type_alias_idx', models\MenuType::tableName(), 'menu_type_alias');
 
         $this->createTable(models\Menu::tableName(), [
             'id' => $this->primaryKey(10)->unsigned(),
@@ -76,6 +78,8 @@ class m161121_160420_init_module_menu extends Migration
 
     public function down()
     {
+        $this->dropIndex('menu_type_alias_idx', models\MenuType::tableName());
+        
         $this->dropForeignKey('fk__menu_language__language_id', models\Menu::tableName());
 
         $this->dropTable(models\Menu::tableName());

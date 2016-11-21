@@ -17,6 +17,8 @@ class m161121_160429_init_module_gallery extends Migration
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
         ]);
         
+        $this->createIndex('album_alias_idx', models\Album::tableName(), 'album_alias');
+        
         $this->createTable(models\AlbumLang::tableName(), [
             'album_id' => $this->integer(10)->notNull()->unsigned(),
             'name' => $this->string(128)->notNull(),
@@ -58,6 +60,8 @@ class m161121_160429_init_module_gallery extends Migration
 
     public function down()
     {
+        $this->dropIndex('album_alias_idx', models\Album::tableName());
+        
         $this->dropForeignKey('fk__photo_album_id__album_id', models\Photo::tableName());
         $this->dropForeignKey('fk__album_lang_album_id__album_id', models\AlbumLang::tableName());
         $this->dropForeignKey('fk__album_lang_language__language_id', models\AlbumLang::tableName());
