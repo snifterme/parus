@@ -20,6 +20,7 @@ class DefaultInstall implements DefaultInstallInterface
     
     public function getSettingParams()
     {
+        $language = Yii::createObject('rokorolov\parus\language\helpers\DefaultInstall')->getSystemId();
         $datetime = (new \DateTime())->format('Y-m-d H:i:s');
         
         return [
@@ -106,8 +107,8 @@ class DefaultInstall implements DefaultInstallInterface
             [
                 'id' => 9,
                 'param' => 'SITE.DEFAULT_LANGUAGE',
-                'value' => 'en',
-                'default' => 'en',
+                'value' => $language,
+                'default' => $language,
                 'type' => 'dropdown',
                 'order' => 5,
                 'created_at' => $datetime,

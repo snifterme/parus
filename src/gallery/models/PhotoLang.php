@@ -29,7 +29,7 @@ class PhotoLang extends \yii\db\ActiveRecord
      */
     public function getLanguage()
     {
-        return $this->hasOne(Language::className(), ['lang_code' => 'language']);
+        return $this->hasOne(Language::className(), ['id' => 'language']);
     }
 
     /**

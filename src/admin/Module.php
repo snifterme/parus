@@ -201,12 +201,12 @@ class Module extends \yii\base\Module
         $contentLanguage = '';
         if (null !== Yii::$app->user->identity && null !== $userLocaleLanguage = Yii::$app->user->identity->language) {
             $contentLanguage = $userLocaleLanguage;
-        } elseif (null === $contentLanguage && $languagesHelper->hasLanguage($currentPanelLanguage = Yii::$app->language)) {
+        } elseif (null !== $currentPanelLanguage = $languagesHelper->getKeyByCode(Yii::$app->language)) {
             $contentLanguage = $currentPanelLanguage;
         } else {
             $contentLanguage = $defaultLanguage;
         }
-
+        
         $this->modules = array_replace([
             'blog' => [
                 'class' => 'rokorolov\parus\blog\Module',

@@ -44,7 +44,7 @@ class UpdatePhotoHandler
                 $photoLanguage = null;
                 
                 foreach ($photo->translations as $translationRelation) {
-                    if ($translationRelation->language === $translation['language']) {
+                    if ((string)$translationRelation->language === (string)$translation['language']) {
                         $photoLanguage = $translationRelation;
                     }
                 }

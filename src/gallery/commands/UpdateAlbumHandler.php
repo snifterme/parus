@@ -62,7 +62,7 @@ class UpdateAlbumHandler
                 $albumLanguage = null;
                 
                 foreach ($album->translations as $translationRelation) {
-                    if ($translationRelation->language === $translation['language']) {
+                    if ((string)$translationRelation->language === (string)$translation['language']) {
                         $albumLanguage = $translationRelation;
                     }
                 }

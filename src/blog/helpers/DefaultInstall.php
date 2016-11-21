@@ -36,6 +36,7 @@ class DefaultInstall implements DefaultInstallInterface
     public function getCategoryParams()
     {
         $userId = Yii::createObject('rokorolov\parus\user\helpers\DefaultInstall')->getSystemId();
+        $language = Yii::createObject('rokorolov\parus\language\helpers\DefaultInstall')->getSystemId();
         $datetime = (new \DateTime());
         
         return [
@@ -54,7 +55,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'depth' => 0,
                 'lft' => 1,
                 'rgt' => 4,
-                'language' => Yii::createObject('rokorolov\parus\language\helpers\DefaultInstall')->getSystemCode(),
+                'language' => $language,
                 'reference'  => null,
                 'meta_title' => '',
                 'meta_keywords' => '',
@@ -75,7 +76,7 @@ class DefaultInstall implements DefaultInstallInterface
                 'depth' => 1,
                 'lft' => 2,
                 'rgt' => 3,
-                'language' => Yii::createObject('rokorolov\parus\language\helpers\DefaultInstall')->getSystemCode(),
+                'language' => $language,
                 'reference'  => null,
                 'meta_title' => '',
                 'meta_keywords' => '',

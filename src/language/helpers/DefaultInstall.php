@@ -41,7 +41,7 @@ class DefaultInstall implements DefaultInstallInterface
             'title' => 'English',
             'status' => 1,
             'order' => 1,
-            'lang_code' =>$this->systemCode,
+            'lang_code' => $this->systemCode,
             'image' => '',
             'date_format' => 'Y-m-d',
             'date_time_format' => 'Y-m-d H:i:s',
