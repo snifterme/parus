@@ -27,43 +27,39 @@ class LanguageHelper
     private static $languages;
     
     /**
-     * Get default language.
+     * Get language.
      * 
      * @return array
      */
-    public function getDefault($langCode)
+    public function getLanguage($key)
     {
-        return $this->getLanguages()[$langCode];
+        return ArrayHelper::getValue($this->getLanguages(), $key, null);
     }
     
     /**
-     * Get default language title.
+     * Get language title.
      * 
      * @return string
      */
-    public function getDefaultTitle($langCode)
+    public function getTitle($key)
     {
-        return $this->getLanguages()[$langCode]['title'];
+        if (null !== $language = $this->getLanguage($key)) {
+            return $language['title'];
+        }
+        return null;
     }
     
     /**
-     * Get default language code.
+     * Get language code.
      * 
      * @return string
      */
-    public function getDefaultCode($langCode)
+    public function getCode($key)
     {
-        return $this->getLanguages()[$langCode]['lang_code'];
-    }
-    
-    /**
-     * Get language titles.
-     * 
-     * @return array
-     */
-    public function getTitles()
-    {
-        return ArrayHelper::map($this->getLanguages(), 'lang_code', 'title');
+         if (null !== $language = $this->getLanguage($key)) {
+            return $language['lang_code'];
+        }
+        return null;
     }
 
     /**
@@ -73,7 +69,7 @@ class LanguageHelper
      */
     public function getOptions()
     {
-        return ArrayHelper::map($this->getLanguages(), 'lang_code', 'title');
+        return ArrayHelper::map($this->getLanguages(), 'id', 'title');
     }
     
     /**
@@ -81,20 +77,41 @@ class LanguageHelper
      * 
      * @return array
      */
-    public function getKeyCodes()
+    public function getCodes()
     {
-        return array_keys($this->getOptions());
+        return ArrayHelper::getColumn($this->getLanguages(), 'lang_code');
+    }
+    
+    /**
+     * Get language array key codes.
+     * 
+     * @return array
+     */
+    public function getKeyByCode($code)
+    {
+        $languages = ArrayHelper::index($this->getLanguages(), 'lang_code');
+        
+        return ArrayHelper::getValue($languages, $code . '.id', null);
     }
     
     /**
      * 
      * @param type $language
      */
-    public function hasLanguage($language)
+    public function hasLanguage($key)
     {
-        return array_key_exists($language, $this->getOptions());
+        return array_key_exists($key, $this->getOptions());
     }
-
+    
+    /**
+     * 
+     * @param type $language
+     */
+    public function hasLanguageByCode($code)
+    {
+        return in_array($code, $this->getCodes());
+    }
+    
     /**
      * Get languages.
      * 
@@ -109,6 +126,7 @@ class LanguageHelper
                 if (null === $languages = $languageRepository->getLanguagesAsArray()) {
                     throw new NotFoundHttpException;
                 }
+                $languages = ArrayHelper::index($languages, 'id');
                 Yii::$app->cache->set(
                     $cacheKey,
                     $languages,
