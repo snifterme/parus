@@ -42,9 +42,9 @@ class CreateCategoryHandler
         $category->meta_keywords = $this->textPurify($command->getMetaKeywords());
         $category->meta_description = $this->textPurify($command->getMetaDescription());
         $category->created_at = $datetime;
-        $category->modified_at = $datetime;
+        $category->updated_at = $datetime;
         $category->created_by = $userId;
-        $category->modified_by = $userId;
+        $category->updated_by = $userId;
         
         if (null === $parent = $this->categoryRepository->findById($category->parent_id)) {
             throw new LogicException('Parent category does not exist.');

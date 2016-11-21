@@ -28,8 +28,8 @@ class PostDto
     public $reference;
     public $created_by;
     public $created_at;
-    public $modified_by;
-    public $modified_at;
+    public $updated_by;
+    public $updated_at;
     public $meta_title;
     public $meta_keywords;
     public $meta_description;
@@ -37,7 +37,7 @@ class PostDto
     public $category;
     public $author;
     public $createdBy;
-    public $modifiedBy;
+    public $updatedBy;
     
     public function __construct(array &$data, $prefix = null, $unset = true)
     {

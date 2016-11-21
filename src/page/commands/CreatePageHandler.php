@@ -51,9 +51,9 @@ class CreatePageHandler
         $page->meta_description = $this->textPurify($command->getMetaDescription());
         $page->version = 1;
         $page->created_at = $datetime;
-        $page->modified_at = $datetime;
+        $page->updated_at = $datetime;
         $page->created_by = $userId;
-        $page->modified_by = $userId;
+        $page->updated_by = $userId;
         
         $transaction = Yii::$app->db->beginTransaction();
         

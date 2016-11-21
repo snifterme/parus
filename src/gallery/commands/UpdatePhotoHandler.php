@@ -32,7 +32,7 @@ class UpdatePhotoHandler
         }
 
         $config = Settings::uploadAlbumConfig($photo->album_id);
-        $photo->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
+        $photo->updated_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
         
         $transaction = Yii::$app->db->beginTransaction();
         

@@ -49,9 +49,9 @@ class CreatePostHandler
         $post->publish_up = $this->formatDatetime($command->getPublishUp());
         $post->publish_down = $this->formatDatetime($command->getPublishDown());
         $post->created_at = $datetime;
-        $post->modified_at = $datetime;
+        $post->updated_at = $datetime;
         $post->created_by = $userId;
-        $post->modified_by = $userId;
+        $post->updated_by = $userId;
 
         $newImage = false;
         $imageFile = $command->getImageFile();

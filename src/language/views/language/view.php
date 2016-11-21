@@ -120,10 +120,10 @@ $this->title = Module::t('language', 'View Language') . ': ' . $model->title;
                                         'label' => $viewHelper->getAttributeLabel('created_at')
                                     ],
                                     [
-                                        'attribute' => 'modified_at',
+                                        'attribute' => 'updated_at',
                                         'format' => 'raw',
-                                        'value' => $model->modified_at_medium_with_relative,
-                                        'label' => $viewHelper->getAttributeLabel('modified_at')
+                                        'value' => $model->updated_at_medium_with_relative,
+                                        'label' => $viewHelper->getAttributeLabel('updated_at')
                                     ],
                                 ],
                             ]) ?>

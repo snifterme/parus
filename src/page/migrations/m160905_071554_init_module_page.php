@@ -31,9 +31,9 @@ class m160905_071554_init_module_page extends Migration
             'view' => $this->string(128),
             'version' => $this->integer(10)->unsigned()->defaultValue('1'),
             'reference' => $this->string(),
-            'modified_by' => $this->integer(10)->notNull()->unsigned(),
+            'updated_by' => $this->integer(10)->notNull()->unsigned(),
             'created_by' => $this->integer(10)->notNull()->unsigned(),
-            'modified_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'meta_title' => $this->string(128)->defaultValue(null),
             'meta_keywords' => $this->string(255)->defaultValue(null),
@@ -43,7 +43,7 @@ class m160905_071554_init_module_page extends Migration
 
         $this->createIndex('slug_idx', models\Page::tableName(), 'slug');
         $this->addForeignKey('fk__page_created_by__user_id', models\Page::tableName(), 'created_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
-        $this->addForeignKey('fk__page_modified_by__user_id', models\Page::tableName(), 'modified_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
+        $this->addForeignKey('fk__page_updated_by__user_id', models\Page::tableName(), 'updated_by', User::tableName(), 'id', 'NO ACTION', 'NO ACTION');
         $this->addForeignKey('fk__page_language__language_id', models\Page::tableName(), 'language', Language::tableName(), 'id', 'CASCADE', 'CASCADE');
     }
     
@@ -52,7 +52,7 @@ class m160905_071554_init_module_page extends Migration
         $this->dropIndex('slug_idx', models\Page::tableName());
         
         $this->dropForeignKey('fk__page_created_by__user_id', models\Page::tableName());
-        $this->dropForeignKey('fk__page_modified_by__user_id', models\Page::tableName());
+        $this->dropForeignKey('fk__page_updated_by__user_id', models\Page::tableName());
         $this->dropForeignKey('fk__page_language__language_id', models\Page::tableName());
         
         $this->dropTable(models\Page::tableName());

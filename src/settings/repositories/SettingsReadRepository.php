@@ -91,7 +91,7 @@ class SettingsReadRepository extends BaseReadRepository
     public function selectAttributesMap()
     {
         return 's.id AS s_id, s.param AS s_param, s.value AS s_value, s.default AS s_default, s.type AS s_type, s.order AS s_order,'
-        . ' s.created_at AS s_created_at, s.modified_at AS s_modified_at';
+        . ' s.created_at AS s_created_at, s.updated_at AS s_updated_at';
     }
 
     public function selectSettingsLangAttributesMap()

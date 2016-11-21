@@ -16,7 +16,7 @@ class SettingsDto
     public $type;
     public $order;
     public $created_at;
-    public $modified_at;
+    public $updated_at;
     public $translation;
     public $translations;
     

@@ -40,8 +40,8 @@ class UpdateCategoryHandler
         $category->meta_title = $this->textPurify($command->getMetaTitle());
         $category->meta_keywords = $this->textPurify($command->getMetaKeywords());
         $category->meta_description = $this->textPurify($command->getMetaDescription());
-        $category->modified_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
-        $category->modified_by = Yii::$app->user->identity->id;
+        $category->updated_at = Yii::$app->formatter->asDatetime('now', 'php:Y-m-d H:i:s');
+        $category->updated_by = Yii::$app->user->identity->id;
 
         if ((int)$category->parent_id !== $newParentId = (int)$command->getParentId()) {
         

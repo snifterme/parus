@@ -19,7 +19,7 @@ class PhotoDto
     public $photo_mime;
     public $photo_path;
     public $created_at;
-    public $modified_at;
+    public $updated_at;
     public $translation;
     public $translations = [];
     

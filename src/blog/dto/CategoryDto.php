@@ -25,13 +25,13 @@ class CategoryDto
     public $meta_description;
     public $created_by;
     public $created_at;
-    public $modified_by;
-    public $modified_at;
+    public $updated_by;
+    public $updated_at;
     public $author;
     public $posts = [];
     public $post_count;
     public $createdBy;
-    public $modifiedBy;
+    public $updatedBy;
     
     public function __construct(array &$data, $prefix = null, $unset = true)
     {

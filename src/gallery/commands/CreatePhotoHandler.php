@@ -32,7 +32,7 @@ class CreatePhotoHandler
         $photo->album_id = $command->getAlbumId();
         $photo->order = $command->getOrder();
         $photo->created_at = $datetime;
-        $photo->modified_at = $datetime;
+        $photo->updated_at = $datetime;
         
         $imageFile = $command->getImageFile();
         

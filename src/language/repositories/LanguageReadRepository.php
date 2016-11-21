@@ -70,7 +70,7 @@ class LanguageReadRepository extends BaseReadRepository
     public function selectAttributesMap()
     {
         return 'l.id AS l_id, l.title AS l_title, l.status AS l_status, l.order AS l_order, l.lang_code AS l_lang_code, l.image AS l_image,'
-        . ' l.date_format AS l_date_format, l.date_time_format AS l_date_time_format, l.created_at AS l_created_at, l.modified_at AS l_modified_at';
+        . ' l.date_format AS l_date_format, l.date_time_format AS l_date_time_format, l.created_at AS l_created_at, l.updated_at AS l_updated_at';
     }
 
     public function toLanguageDto(&$data, $prefix = true)

@@ -32,7 +32,7 @@ class PhotoViewHelper extends ViewHelper
             'photo_mime' => Module::t('gallery', 'Photo Mime'),
             'photo_path' => Module::t('gallery', 'Photo Path'),
             'created_at' => Module::t('gallery', 'Created on'),
-            'modified_at' => Module::t('gallery', 'Last edited on'),
+            'updated_at' => Module::t('gallery', 'Last edited on'),
             'photo_id' => Module::t('gallery', 'Photo ID'),
             'caption' => Module::t('gallery', 'Caption'),
             'language' => Module::t('gallery', 'Language'),

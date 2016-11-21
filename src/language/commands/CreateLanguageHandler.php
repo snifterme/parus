@@ -38,7 +38,7 @@ class CreateLanguageHandler
         $language->date_format = $this->textPurify($command->getDateFormat());
         $language->date_time_format = $this->textPurify($command->getDateTimeFormat());
         $language->created_at = $datetime;
-        $language->modified_at = $datetime;
+        $language->updated_at = $datetime;
         
         $this->languageRepository->add($language);
         

@@ -150,7 +150,7 @@ $translations = $model->getTranslationVariations();
                                 'format' => 'raw',
                             ],
                             [
-                                'attribute' => 'modified_at',
+                                'attribute' => 'updated_at',
                                 'format' => 'raw',
                             ],
                         ],

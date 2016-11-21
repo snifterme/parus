@@ -122,7 +122,7 @@ class AlbumReadRepository extends BaseReadRepository
     
     public function selectAttributesMap()
     {
-        return 'a.id AS a_id, a.status AS a_status, a.album_alias AS a_album_alias, a.image AS a_image, a.created_at AS a_created_at, a.modified_at AS a_modified_at';
+        return 'a.id AS a_id, a.status AS a_status, a.album_alias AS a_album_alias, a.image AS a_image, a.created_at AS a_created_at, a.updated_at AS a_updated_at';
     }
 
     public function selectAlbumLangAttributesMap()

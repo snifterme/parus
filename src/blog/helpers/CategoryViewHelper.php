@@ -35,9 +35,9 @@ class CategoryViewHelper extends ViewHelper
             'meta_keywords' => Module::t('blog', 'Meta Keywords'),
             'meta_description' => Module::t('blog', 'Meta Description'),
             'created_by' => Module::t('blog', 'Author'),
-            'modified_by' => Module::t('blog', 'Last edited by'),
+            'updated_by' => Module::t('blog', 'Last edited by'),
             'created_at' => Module::t('blog', 'Created on'),
-            'modified_at' => Module::t('blog', 'Last edited on'),
+            'updated_at' => Module::t('blog', 'Last edited on'),
             'category_title' => Module::t('blog', 'Category'),
         ];
     }
