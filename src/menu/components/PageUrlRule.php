@@ -28,9 +28,9 @@ class PageUrlRule implements UrlRuleInterface
      */
     public function createUrl($manager, $route, $params)
     {
-        if ($route === 'page/show' && isset($params['id'])) {
+        if ($route === 'page/view' && isset($params['id'])) {
             if (false === $slug = $this->getSlugById($params['id'])) {
-                return 'page/show?id=' . $params['id'];
+                return 'page/view?id=' . $params['id'];
             }
             return $slug !== '/' ? $slug : '';
         }
