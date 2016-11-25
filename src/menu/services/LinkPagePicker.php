@@ -19,7 +19,7 @@ class LinkPagePicker implements LinkPickerInterface
     const LINK_NAME = 'page';
     
     public $viewPath = '@rokorolov/parus/menu/views/menu/_linkItemForm';
-    public $linkFormat = 'page/show?id=';
+    public $linkFormat = 'page/view?id=';
     
     private $link;
     private $pageReadRepository;
