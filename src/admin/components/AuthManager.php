@@ -21,12 +21,13 @@ class AuthManager extends PhpManager
      */
     public function getAssignments($userId)
     {
-        if ($user = $this->getUser($userId)) {
+        if ($userId && $user = $this->getUser($userId)) {
             $assignment = new Assignment();
             $assignment->userId = (int)$userId;
             $assignment->roleName = $user->role;
             return [$assignment->roleName => $assignment];
         }
+        return [];
     }
 
     /**
@@ -34,7 +35,7 @@ class AuthManager extends PhpManager
      */
     public function getAssignment($roleName, $userId)
     {
-        if ($user = $this->getUser($userId)) {
+        if ($userId && $user = $this->getUser($userId)) {
             if ($user->role === $roleName) {
                 $assignment = new Assignment();
                 $assignment->userId = $userId;
@@ -42,7 +43,7 @@ class AuthManager extends PhpManager
                 return $assignment;                
             }
         }
-        return null;
+        return new Assignment();
     }
     
     /**
