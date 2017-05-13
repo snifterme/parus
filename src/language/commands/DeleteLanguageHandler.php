@@ -27,14 +27,14 @@ class DeleteLanguageHandler
             throw new LogicException('Language does not exist.');
         }
         
-        $this->guardDefaultLanguage($language->lang_code);
+        $this->guardDefaultLanguage($language);
         
         $this->languageRepository->remove($language);
     }
     
-    private function guardDefaultLanguage($langCode)
+    private function guardDefaultLanguage($language)
     {
-        if (strcmp($langCode, Settings::defaultAppLanguage()) === 0) {
+        if ((int)$language->id === (int)Settings::defaultAppLanguage()) {
             throw new LogicException("You can't delete default language.");
         }
     }

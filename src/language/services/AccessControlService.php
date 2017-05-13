@@ -35,7 +35,7 @@ class AccessControlService extends BaseAccessControl
     
     public function canDeleteLanguage($params)
     {
-        if (!empty($params) && (strcmp($params->lang_code, Settings::defaultAppLanguage()) !== 0)) {
+        if (!empty($params) && (int)$params->id !== (int)Settings::defaultAppLanguage()) {
             return Yii::$app->user->can('deleteLanguage');
         }
         return false;
