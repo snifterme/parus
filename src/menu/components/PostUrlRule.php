@@ -13,58 +13,14 @@ use yii\caching\TagDependency;
  *
  * @author Roman Korolov <rokorolov@gmail.com>
  */
-class PostUrlRule implements UrlRuleInterface
+class PostUrlRule extends BaseUrlRule
 {
-    public static $mapId;
-    public static $mapSlug;
+    private static $mapId;
+    private static $mapSlug;
 
-    public $excludePath = 'admin';
-    public $includePostIdToUrl = true;
+    public $route = 'post/show';
 
     protected $postReadRepository;
-
-    /**
-     * @inheritdoc
-     */
-    public function createUrl($manager, $route, $params)
-    {
-        if ($route === 'post/show' && isset($params['id'])) {
-            $id = $params['id'];
-            $slug = $this->getSlugById($id);
-            if ($slug === false) {
-                return 'post/show?id=' . $id;
-            }
-            return $this->includePostIdToUrl ? $id . '-' . $slug : $slug;
-        }
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function parseRequest($manager, $request)
-    {
-        $pathInfo = $request->getPathInfo();
-        if (0 !== strpos($pathInfo, $this->excludePath)) {
-            $pathSplit = explode('/', $pathInfo);
-            $slug = array_pop($pathSplit);
-            if ($this->includePostIdToUrl) {
-                if (preg_match('/^(\d+)(\-(.*))?$/', $slug, $matches)) {
-                    $id = $matches[1];
-                    if ((int)$id === (int)$this->getIdBySlug($matches[3])) {
-                        return ['entry/post', ['id' => $id]];
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            } elseif ($id = $this->getIdBySlug($slug)) {
-                return ['entry/post', ['id' => $id]];
-            }
-        }
-        return false;
-    }
 
     public function getSlugById($id)
     {
@@ -96,7 +52,6 @@ class PostUrlRule implements UrlRuleInterface
         $mapKey = $slug;
         if (!isset(static::$mapId[$mapKey])) {
             $cacheKey = static::class . ':' . $mapKey;
-
             if (false === $id = Yii::$app->cache->get($cacheKey)) {
                 $id = $this->postReadRepository()->getIdByPostSlug($slug);
                 if ($id) {
