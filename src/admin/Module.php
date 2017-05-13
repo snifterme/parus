@@ -197,8 +197,7 @@ class Module extends \yii\base\Module
         $languages = $languagesHelper->getLanguages();
         $defaultLanguage = Yii::$app->config->get('SITE.DEFAULT_LANGUAGE');
         $enableIntl = $this->config['enableIntl'];
-        
-        $contentLanguage = '';
+
         if (null !== Yii::$app->user->identity && null !== $userLocaleLanguage = Yii::$app->user->identity->language) {
             $contentLanguage = $userLocaleLanguage;
         } elseif (null !== $currentPanelLanguage = $languagesHelper->getKeyByCode(Yii::$app->language)) {
