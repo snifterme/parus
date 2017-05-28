@@ -1,12 +1,15 @@
 <?php
 
+use rokorolov\parus\admin\base\BaseMigration;
 use rokorolov\parus\user\models;
 use rokorolov\parus\user\contracts\DefaultInstallInterface;
 use rokorolov\parus\language\models\Language;
-use yii\db\Migration;
 
-class m161121_160319_init_module_user extends Migration
+class m161121_160319_init_module_user extends BaseMigration
 {
+    /**
+     * @var DefaultInstallInterface
+     */
     public $settings;
     
     public function init()
@@ -14,7 +17,7 @@ class m161121_160319_init_module_user extends Migration
         $this->settings = Yii::createObject('rokorolov\parus\user\helpers\DefaultInstall');
         
         if (!$this->settings instanceof DefaultInstallInterface) {
-            throw new Exception("Migration failed. Class rokorolov\parus\user\helpers\DefaultInstall must be an instance of rokorolov\parus\user\contracts\DefaultInstallInterface");
+            throw new Exception('Migration failed. Class rokorolov\parus\user\helpers\DefaultInstall must be an instance of rokorolov\parus\user\contracts\DefaultInstallInterface');
         }
 
         parent::init();
@@ -22,10 +25,7 @@ class m161121_160319_init_module_user extends Migration
     
     public function up()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
+        $tableOptions = $this->tableOptions;
         
         $this->createTable(models\User::tableName(), [
             'id' => $this->primaryKey(10)->unsigned(),

@@ -1,13 +1,15 @@
 <?php
 
+use rokorolov\parus\admin\base\BaseMigration;
 use rokorolov\parus\gallery\models;
 use rokorolov\parus\language\models\Language;
-use yii\db\Migration;
 
-class m161121_160429_init_module_gallery extends Migration
+class m161121_160429_init_module_gallery extends BaseMigration
 {
     public function up()
     {
+        $tableOptions = $this->tableOptions;
+
         $this->createTable(models\Album::tableName(), [
             'id' => $this->primaryKey(10)->unsigned(),
             'status' => $this->string(32)->notNull(),
@@ -15,7 +17,7 @@ class m161121_160429_init_module_gallery extends Migration
             'image' => $this->string(255)->defaultValue(null),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
-        ]);
+        ], $tableOptions);
         
         $this->createIndex('album_alias_idx', models\Album::tableName(), 'album_alias');
         
@@ -24,7 +26,7 @@ class m161121_160429_init_module_gallery extends Migration
             'name' => $this->string(128)->notNull(),
             'description' => $this->string(),
             'language' => $this->integer(10)->notNull()->unsigned(),
-        ]);
+        ], $tableOptions);
         
         $this->addPrimaryKey('', models\AlbumLang::tableName(), ['album_id', 'language']);
         $this->addForeignKey('fk__album_lang_album_id__album_id', models\AlbumLang::tableName(), 'album_id', models\Album::tableName(), 'id', 'CASCADE', 'NO ACTION');
@@ -42,7 +44,7 @@ class m161121_160429_init_module_gallery extends Migration
             'photo_path' => $this->string(),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
-        ]);
+        ], $tableOptions);
         
         $this->addForeignKey('fk__photo_album_id__album_id', models\Photo::tableName(), 'album_id', models\Album::tableName(), 'id', 'NO ACTION', 'NO ACTION');
         
@@ -51,7 +53,7 @@ class m161121_160429_init_module_gallery extends Migration
             'caption' => $this->string(512)->defaultValue(null),
             'description' => $this->string(512)->defaultValue(null),
             'language' => $this->integer(10)->notNull()->unsigned(),
-        ]);
+        ], $tableOptions);
         
         $this->addPrimaryKey('', models\PhotoLang::tableName(), ['photo_id', 'language']);
         $this->addForeignKey('fk__photo_lang_photo_id__photo_id', models\PhotoLang::tableName(), 'photo_id', models\Photo::tableName(), 'id', 'CASCADE', 'NO ACTION');

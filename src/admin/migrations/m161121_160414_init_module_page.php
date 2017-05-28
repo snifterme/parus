@@ -3,16 +3,12 @@
 use rokorolov\parus\page\models;
 use rokorolov\parus\user\models\User;
 use rokorolov\parus\language\models\Language;
-use yii\db\Migration;
 
-class m161121_160414_init_module_page extends Migration
+class m161121_160414_init_module_page extends \rokorolov\parus\admin\base\BaseMigration
 {
     public function up()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
+        $tableOptions = $this->tableOptions;
 
         $this->createTable(models\Page::tableName(), [
             'id' => $this->primaryKey(10)->unsigned(),

@@ -1,11 +1,14 @@
 <?php
 
+use rokorolov\parus\admin\base\BaseMigration;
 use rokorolov\parus\language\models;
 use rokorolov\parus\language\contracts\DefaultInstallInterface;
-use yii\db\Migration;
 
-class m161121_160247_init_module_language extends Migration
+class m161121_160247_init_module_language extends BaseMigration
 {
+    /**
+     * @var DefaultInstallInterface
+     */
     public $settings;
     
     public function init()
@@ -13,7 +16,7 @@ class m161121_160247_init_module_language extends Migration
         $this->settings = Yii::createObject('rokorolov\parus\language\helpers\DefaultInstall');
         
         if (!$this->settings instanceof DefaultInstallInterface) {
-            throw new Exception("Migration failed. Class rokorolov\parus\language\helpers\DefaultInstall must be an instance of rokorolov\parus\language\contracts\DefaultInstallInterface");
+            throw new Exception('Migration failed. Class rokorolov\parus\language\helpers\DefaultInstall must be an instance of rokorolov\parus\language\contracts\DefaultInstallInterface');
         }
 
         parent::init();
@@ -21,10 +24,7 @@ class m161121_160247_init_module_language extends Migration
     
     public function up()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
+        $tableOptions = $this->tableOptions;
         
         $this->createTable(models\Language::tableName(), [
             'id' => $this->primaryKey(10)->unsigned(),
@@ -48,8 +48,6 @@ class m161121_160247_init_module_language extends Migration
     
     private function executeLanguageSql()
     {
-        $datetime = (new \DateTime())->format('Y-m-d H:i:s');
-        
         $this->insert(models\Language::tableName(), $this->settings->getLanguageParams());
     }
     
