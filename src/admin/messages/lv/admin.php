@@ -17,5 +17,5 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Cache has been successfully cleared!' => 'Kešatmiņa ir veiksmīgi iIztīrīta!',
+    'Cache has been successfully cleared!' => 'Kešatmiņa ir veiksmīgi iztīrīta!',
 ];
